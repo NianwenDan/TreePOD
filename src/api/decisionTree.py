@@ -44,7 +44,7 @@ class decisionTree:
             self._status['code'] = 2
             self._status['msg'] = f'AN ERROR OCCURRED DURING THE TRAINING: {e}'
         
-        # time.sleep(10) # Async Testing
+        # time.sleep(10000) # Async Testing
         
         self._status['code'] = 0
         self._status['msg'] = 'TRAINING COMPLETED'

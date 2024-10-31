@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, make_response, send_file
 from decisionTree import decisionTree
 import threading
 import uuid
+from functools import wraps
+from config import SECRET_TOKEN
 
 app = Flask(__name__)
 
@@ -9,8 +11,18 @@ app = Flask(__name__)
 # def index():
 #     return redirect("https://google.com")
 
-# dt = decisionTree(dataset_path='./diabetes.csv')
 db = {}
+
+def token_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        token = request.headers.get("Authorization")  # get the token from the header
+        # check if token exists and matches the secret token
+        if not token or token.split(" ")[1] != SECRET_TOKEN:
+            return jsonify({'code' : 401, "msg": "INVALID OR MISSING TOKEN"}), 401
+
+        return f(*args, **kwargs)
+    return decorated_function
 
 def is_user_exists(request):
     uuid4 = request.cookies.get('uuid')
@@ -23,10 +35,12 @@ def get_user_model(request):
     return db[uuid4]['model']
 
 @app.errorhandler(404)
+@token_required
 def page_not_found(error):
     return make_response(jsonify({'code' : 404, 'msg' : 'API NOT FOUND'}), 404)
 
 @app.route('/api/v1/system/status', methods=['GET'])
+@token_required
 def get_system_status():
     if not is_user_exists(request):
         response = make_response(jsonify({'code' : 200, 'userId': None, 'msg' : 'SYSTEM NORMAL'}), 200)
@@ -36,6 +50,7 @@ def get_system_status():
     return make_response(jsonify({'code' : 200, 'userId': uuid4, 'msg' : 'SYSTEM NORMAL'}), 200)
 
 @app.route('/api/v1/system/set-userId', methods=['GET'])
+@token_required
 def set_userId():
     # Set a cookie in the response object
     uuid4 = str(uuid.uuid4())
@@ -47,6 +62,7 @@ def set_userId():
     return response
 
 @app.route('/api/v1/system/get-userId', methods=['GET'])
+@token_required
 def get_userId():
     if is_user_exists(request):
         return make_response(jsonify({'code' : 200, 'userId': request.cookies.get('uuid'), 'msg' : 'OK'}), 200)
@@ -56,6 +72,7 @@ def get_userId():
         return response
 
 @app.route('/api/v1/model/train-status', methods=['GET'])
+@token_required
 def get_model_status():
     if not is_user_exists(request):
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
@@ -69,6 +86,7 @@ def get_model_status():
     return make_response(jsonify(data), data['code'])
 
 @app.route('/api/v1/model/train-start', methods=['GET'])
+@token_required
 def get_model_train():
     if not is_user_exists(request):
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
@@ -83,6 +101,7 @@ def get_model_train():
     return make_response(jsonify(data), data['code'])
 
 @app.route('/api/v1/model/predict', methods=['GET'])
+@token_required
 def get_model_predict():
     if not is_user_exists(request):
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
@@ -100,6 +119,7 @@ def get_model_predict():
     return make_response(jsonify(data), data['code'])
 
 @app.route('/api/v1/tree/structure', methods=['GET'])
+@token_required
 def get_tree_structure():
     if not is_user_exists(request):
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
@@ -113,6 +133,7 @@ def get_tree_structure():
     return make_response(jsonify(data), data['code'])
 
 @app.route('/api/v1/tree/image', methods=['GET'])
+@token_required
 def get_tree_image():
     if not is_user_exists(request):
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)

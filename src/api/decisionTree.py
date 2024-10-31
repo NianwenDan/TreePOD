@@ -50,6 +50,9 @@ class decisionTree:
         self._status['msg'] = 'TRAINING COMPLETED'
 
     def predict(self):
+        # train not started/finished
+        if self._status['code'] != 0:
+            return None
         # no prediction yet, calculate one
         if not self._predict_data:
             dtree_y_pred = self._clf.predict(self._X_test)

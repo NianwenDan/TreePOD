@@ -4,7 +4,9 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import _tree
 from sklearn import tree
 from sklearn import metrics
+import matplotlib.pyplot as plt
 import time
+from io import BytesIO
 
 class decisionTree:
     def __init__(self, dataset_path: str):
@@ -70,6 +72,9 @@ class decisionTree:
         return self._predict_data
 
     def tree_structure(self):
+        # train not started/finished
+        if self._status['code'] != 0:
+            return None
         tree_ = self._clf.tree_
         feature_names = self._clf.feature_names_in_
 
@@ -103,4 +108,27 @@ class decisionTree:
         
         # Start recursion from the root (node 0)
         return dfs(0)
+    
+    def tree_img(self, length, width, dpi):
+        # train not started/finished
+        if self._status['code'] != 0:
+            return None
+        feature_names = self._clf.feature_names_in_
+        if not length:
+            length = 12
+        if not width:
+            width = 8
+        if not dpi:
+            dpi = 150
+
+        img_io = BytesIO() # create the in-memory bytes buffer
+        # plot the decision tree
+        plt.figure(figsize=(length, width))
+        tree.plot_tree(self._clf, filled=True, feature_names=feature_names)
+        # save the plot to the in-memory buffer, not to a file
+        plt.savefig(img_io, format='png', dpi=dpi)
+        plt.close()  # close the plot to free memory
+        # move the cursor of the BytesIO object to the start
+        img_io.seek(0)
+        return img_io
 

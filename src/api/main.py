@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, make_response, abort, redirect, render_template_string
+from flask import Flask, request, jsonify, make_response, send_file
 from decisionTree import decisionTree
 import threading
 import uuid
@@ -111,6 +111,25 @@ def get_tree_structure():
         'data': model.tree_structure()
     }
     return make_response(jsonify(data), data['code'])
+
+@app.route('/api/v1/tree/image', methods=['GET'])
+def get_tree_image():
+    if not is_user_exists(request):
+        return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
+    length = request.args.get('length', type = int)
+    width = request.args.get('width', type = int)
+    dpi = request.args.get('dpi', type = int)
+    model = get_user_model(request)
+    img = model.tree_img(length, width, dpi)
+    if not img:
+        data = {
+            'code' : 404,
+            'userId': request.cookies.get('uuid'),
+            'msg' : 'TRAINING PROCEDURE NOT STARTED OR INCOMPLETE, USE /train-status TO CHECK CURRENT TRAINING STATUS',
+            'data': img
+        }
+        return make_response(jsonify(data), data['code'])
+    return send_file(img, mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5500, debug=True)

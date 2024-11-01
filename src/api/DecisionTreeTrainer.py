@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import time
 from io import BytesIO
 
-class decisionTree:
+class DecisionTreeTrainer:
     def __init__(self, dataset_path: str):
         self._status = {
             'code' : -1,
@@ -39,7 +39,12 @@ class decisionTree:
             # Split dataset into training set and test set
             self._X_train, self._X_test, self._y_train, self._y_test = train_test_split(X, y, test_size=test_size, random_state=1)
             # create a decision tree classifier
-            self._clf = DecisionTreeClassifier(criterion='entropy', random_state=100, max_depth=3, min_samples_split=5)
+            self._clf = DecisionTreeClassifier(
+                criterion='entropy', 
+                random_state=100, 
+                max_depth=3, 
+                min_samples_split=5
+            )
             # train and fit decision tree classifer
             self._clf = self._clf.fit(self._X_train, self._y_train)
         except Exception as e:

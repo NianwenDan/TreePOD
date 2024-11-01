@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, make_response, send_file
-from decisionTree import decisionTree
+from api.DecisionTreeTrainer import decisionTree
 import threading
 import uuid
 from functools import wraps

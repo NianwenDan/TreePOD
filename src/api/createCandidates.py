@@ -2,10 +2,10 @@ import random
 import numpy as np
 import pandas as pd
 import json
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import f1_score
-from decisionTreeTrainer import decisionTreeTrainer
+
+from decisionTreeCandidateGenerator import decisionTreeCandidateGenerator
+
 
 # Module 1: Configuration and Parameters
 class DecisionTreeConfig:
@@ -33,75 +33,6 @@ class DecisionTreeConfig:
             'ccp_alpha': ccp_alpha # TODO: add another input to activate/deactivate pruning
         }
 
-class DecisionTreeCandidateGenerator:
-    def __init__(self, X_train, y_train, X_test, y_test, config=None):
-        self.X_train = X_train
-        self.y_train = y_train
-        self.X_test = X_test
-        self.y_test = y_test
-        self.config = config if config is not None else DecisionTreeConfig()
-        self.num_candidates = self.config.total_samples
-
-    def generate_tree(self):
-        candidates = []
-        total_features = self.X_train.shape[1]
-        for i in range(self.num_candidates):
-            params = self.config.sample_parameters(total_features)
-            feature_subset = self.sample_feature_subset(params['nr_of_nodes'])
-            tree = decisionTreeTrainer(tree_id = i, 
-                                        X_train=self.X_train, 
-                                        y_train=self.y_train, 
-                                        X_test=self.X_test,
-                                        y_test=self.y_test,
-                                        feature_subset=feature_subset
-                                        )
-            tree.train(
-                criterion=params['criterion'],
-                max_depth=params['max_depth'],
-                min_samples_split=params['min_samples_split'],
-                random_state=params['random_state'],
-                ccp_alpha=params['ccp_alpha']
-                )
-            candidates.append((tree, feature_subset))
-        return candidates
-
-    def sample_feature_subset(self, subset_size):
-        total_features = self.X_train.shape[1]
-        return random.sample(range(total_features), subset_size)
-
-class DecisionTreeOutput:
-    def __init__(self, candidates):
-        self.candidates = candidates
-
-    def generate_output(self):
-        candidate_info = []
-        for tree, feature_subset in self.candidates:
-            candidate_info.append({
-                'tree_id': tree.id(),
-                'params': tree.train_params(),
-                'predicted': tree.predict(),
-                'number_of_nodes': tree.tree_number_of_nodes()
-            })
-
-        output = {
-            'total_candidates_before_pruning': len(self.candidates),
-            'total_candidates_after_pruning': len([tree for (tree, _) in self.candidates if tree.tree_number_of_nodes() > 1]),
-            # 'grouped_by_number_of_nodes': self.group_candidates_by_nodes(candidate_info),
-            'candidates': candidate_info
-        }
-
-        with open('decision_tree_candidates.json', 'w') as json_file:
-            json.dump(output, json_file, indent=4)
-
-    # def group_candidates_by_nodes(self, candidate_info):
-    #     grouped = {}
-    #     for candidate in candidate_info:
-    #         num_nodes = candidate['number_of_nodes']
-    #         if num_nodes not in grouped:
-    #             grouped[num_nodes] = []
-    #         grouped[num_nodes].append(candidate)
-    #     return grouped
-
 # Main
 if __name__ == "__main__":
     # Data loading
@@ -114,9 +45,8 @@ if __name__ == "__main__":
     user_config = DecisionTreeConfig(max_depth_range=range(1, 7), random_state_range=range(50, 51), total_samples=300)
 
     # Generate decision tree candidates
-    generator = DecisionTreeCandidateGenerator(X_train, y_train, X_test, y_test, config=user_config)
-    candidates = generator.generate_tree()
+    generator = decisionTreeCandidateGenerator(X_train, y_train, X_test, y_test, config=user_config)
+    generator.train()
 
-    # Output to json. Vis will load json data
-    output = DecisionTreeOutput(candidates, X_test, y_test)
-    output.generate_output()
+    with open('decision_tree_candidates.json', 'w') as json_file:
+        json.dump(generator.candidates(is_grouped_by_nodes=True), json_file, indent=4)

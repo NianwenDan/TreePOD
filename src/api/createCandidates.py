@@ -49,4 +49,4 @@ if __name__ == "__main__":
     generator.train()
 
     with open('decision_tree_candidates.json', 'w') as json_file:
-        json.dump(generator.candidates(is_grouped_by_nodes=True), json_file, indent=4)
+        json.dump(generator.trees_info(is_grouped_by_nodes=True), json_file, indent=4)

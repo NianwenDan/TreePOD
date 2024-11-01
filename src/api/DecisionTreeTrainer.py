@@ -10,10 +10,6 @@ from io import BytesIO
 
 class decisionTreeTrainer:
     def __init__(self, tree_id, X_train, y_train, X_test, y_test, feature_subset=None):
-        self._status = {
-            'code' : -1,
-            'msg' : 'NOT TRAINED'
-        }
         self._tree_id = tree_id
         self._X_train = X_train
         self._X_test = X_test
@@ -27,43 +23,27 @@ class decisionTreeTrainer:
 
         self._predict_data = None
 
-    def status(self):
-        # print(self.status)
-        return self._status
-
     def id(self):
         return self._tree_id
 
     def train(self, criterion: str = 'entropy', max_depth: int = 3, min_samples_split: int = 5, random_state: int = 3, ccp_alpha: int = 3) -> None:
-        # update status
-        self._status['code'] = 1
-        self._status['msg'] = 'TRAINING IN PROGRESS'
-        try:
-            # create a decision tree classifier
-            self._tree = DecisionTreeClassifier(
-                criterion=criterion,
-                max_depth = max_depth,
-                min_samples_split = min_samples_split,
-                random_state = random_state,
-                ccp_alpha = ccp_alpha
-            )
-            # train and fit decision tree classifer
-            self._tree = self._tree.fit(self._X_train, self._y_train)
-        except Exception as e:
-            self._status['code'] = 2
-            self._status['msg'] = f'AN ERROR OCCURRED DURING THE TRAINING: {e}'
-        
-        # time.sleep(10000) # Async Testing
-        
-        self._status['code'] = 0
-        self._status['msg'] = 'TRAINING COMPLETED'
+        # create a decision tree classifier
+        self._tree = DecisionTreeClassifier(
+            criterion=criterion,
+            max_depth = max_depth,
+            min_samples_split = min_samples_split,
+            random_state = random_state,
+            ccp_alpha = ccp_alpha
+        )
+        # train and fit decision tree classifer
+        self._tree = self._tree.fit(self._X_train, self._y_train)
 
     def train_params(self):
         return self._tree.get_params()
 
     def predict(self):
         # train not started/finished
-        if self._status['code'] != 0:
+        if not self._tree:
             return None
         # no prediction yet, calculate one
         if not self._predict_data:
@@ -82,11 +62,14 @@ class decisionTreeTrainer:
         return self._predict_data
 
     def tree_number_of_nodes(self):
+        # train not started/finished
+        if not self._tree:
+            return None
         return self._tree.tree_.node_count
 
     def tree_structure(self):
         # train not started/finished
-        if self._status['code'] != 0:
+        if not self._tree:
             return None
         tree_ = self._tree.tree_
         feature_names = self._tree.feature_names_in_
@@ -124,7 +107,7 @@ class decisionTreeTrainer:
     
     def tree_img(self, length, width, dpi):
         # train not started/finished
-        if self._status['code'] != 0:
+        if not self._tree:
             return None
         feature_names = self._tree.feature_names_in_
         if not length:

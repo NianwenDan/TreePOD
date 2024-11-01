@@ -12,11 +12,32 @@ class decisionTreeCandidateGenerator:
         self.num_candidates = self.config.total_samples
         self._candidates = None
 
+        self._status = {
+            'code' : -1,
+            'msg' : 'NOT TRAINED',
+            'total_number_of_samples' : self.num_candidates,
+            'number_of_samples_trained' : 0
+        }
+
     def _sample_feature_subset(self, subset_size):
         total_features = self.X_train.shape[1]
         return random.sample(range(total_features), subset_size)
+    
+    def status(self):
+        return self._status
+    
+    def check_tree_status(self, tree_id):
+        if not self._candidates:
+            return (403, 'START TRAINING FIRST')
+        if not tree_id:
+            return (403, 'TREE ID IS REQUIRED')
+        if tree_id not in self._candidates:
+            return (403, f'FAIL TO FIND THE TREE ID: {tree_id}')
+        return (200, 'OK')
 
     def train(self):
+        self._status['code'] = 1
+        self._status['msg'] = 'TRAIN START'
         candidates = {}
         total_features = self.X_train.shape[1]
         for i in range(self.num_candidates):
@@ -42,9 +63,15 @@ class decisionTreeCandidateGenerator:
                 'tree_object' : tree,
                 'feature_subset' : feature_subset
             }
+            self._status['number_of_samples_trained'] = i + 1  # keep update current status
+        
+        self._status['code'] = 0
+        self._status['msg'] = 'TRAIN COMPLETED'
         self._candidates = candidates
 
-    def candidates(self, is_grouped_by_nodes: False):
+    def trees_info(self, is_grouped_by_nodes: False):
+        if not self._candidates:
+            return (403, 'START TRAINING FIRST')
         candidate_info = []
         for t in self._candidates.values():
             tree = t['tree_object']
@@ -63,7 +90,7 @@ class decisionTreeCandidateGenerator:
                 if num_nodes not in grouped:
                     grouped[num_nodes] = []
                 grouped[num_nodes].append(candidate)
-            grouped = {k: grouped[k] for k in sorted(grouped)}
+            grouped = {k: grouped[k] for k in sorted(grouped)} # Sort the dic based on key
             return grouped
         
         output = {
@@ -75,5 +102,16 @@ class decisionTreeCandidateGenerator:
             output['candidates'] = group_candidates_by_nodes()
         return output
 
+    def tree_structure(self, tree_id):
+        ck = self.check_tree_status(tree_id=tree_id)
+        if ck[0] != 200:
+            return ck
+        return self._candidates[tree_id]['tree_object'].tree_structure()
+    
+    def tree_image(self, tree_id, length, width, dpi):
+        ck = self.check_tree_status(tree_id=tree_id)
+        if ck[0] != 'OK':
+            return ck
+        return self._candidates[tree_id]['tree_object'].tree_img(length, width, dpi)
 
     

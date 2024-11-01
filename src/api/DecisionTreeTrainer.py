@@ -9,17 +9,21 @@ import time
 from io import BytesIO
 
 class decisionTreeTrainer:
-    def __init__(self, dataset_path: str):
+    def __init__(self, tree_id, X_train, y_train, X_test, y_test, feature_subset=None):
         self._status = {
             'code' : -1,
             'msg' : 'NOT TRAINED'
         }
-        self._df = pd.read_csv(dataset_path)
-        self._X_train = None
-        self._X_test = None
-        self._y_train = None
-        self._y_test = None
-        self._clf = None
+        self._tree_id = tree_id
+        self._X_train = X_train
+        self._X_test = X_test
+        self._y_train = y_train
+        self._y_test = y_test
+        self._tree = None
+        # Only use feature_subset
+        if feature_subset:
+            self._X_train = self._X_train[:, feature_subset]
+            self._X_test = self._X_test[:, feature_subset]
 
         self._predict_data = None
 
@@ -27,26 +31,24 @@ class decisionTreeTrainer:
         # print(self.status)
         return self._status
 
-    def train(self, target_column_name: str, test_size: float) -> None:
+    def id(self):
+        return self._tree_id
+
+    def train(self, criterion: str = 'entropy', max_depth: int = 3, min_samples_split: int = 5, random_state: int = 3, ccp_alpha: int = 3) -> None:
         # update status
         self._status['code'] = 1
         self._status['msg'] = 'TRAINING IN PROGRESS'
         try:
-            # features (all coloums except target)
-            X = self._df.drop(target_column_name, axis=1)
-            # target coloum/variable
-            y = self._df[target_column_name]
-            # Split dataset into training set and test set
-            self._X_train, self._X_test, self._y_train, self._y_test = train_test_split(X, y, test_size=test_size, random_state=1)
             # create a decision tree classifier
-            self._clf = DecisionTreeClassifier(
-                criterion='entropy', 
-                random_state=100, 
-                max_depth=3, 
-                min_samples_split=5
+            self._tree = DecisionTreeClassifier(
+                criterion=criterion,
+                max_depth = max_depth,
+                min_samples_split = min_samples_split,
+                random_state = random_state,
+                ccp_alpha = ccp_alpha
             )
             # train and fit decision tree classifer
-            self._clf = self._clf.fit(self._X_train, self._y_train)
+            self._tree = self._tree.fit(self._X_train, self._y_train)
         except Exception as e:
             self._status['code'] = 2
             self._status['msg'] = f'AN ERROR OCCURRED DURING THE TRAINING: {e}'
@@ -56,15 +58,18 @@ class decisionTreeTrainer:
         self._status['code'] = 0
         self._status['msg'] = 'TRAINING COMPLETED'
 
+    def train_params(self):
+        return self._tree.get_params()
+
     def predict(self):
         # train not started/finished
         if self._status['code'] != 0:
             return None
         # no prediction yet, calculate one
         if not self._predict_data:
-            dtree_y_pred = self._clf.predict(self._X_test)
+            dtree_y_pred = self._tree.predict(self._X_test)
             accuracy = metrics.accuracy_score(self._y_test, dtree_y_pred)
-            precision = metrics.precision_score(self._y_test, dtree_y_pred, average='weighted')
+            precision = metrics.precision_score(self._y_test, dtree_y_pred, average='weighted', zero_division=0)
             recall = metrics.recall_score(self._y_test, dtree_y_pred, average='weighted')
             f1_score = metrics.f1_score(self._y_test, dtree_y_pred, average='weighted')
             # update predition data
@@ -76,12 +81,15 @@ class decisionTreeTrainer:
             }        
         return self._predict_data
 
+    def tree_number_of_nodes(self):
+        return self._tree.tree_.node_count
+
     def tree_structure(self):
         # train not started/finished
         if self._status['code'] != 0:
             return None
-        tree_ = self._clf.tree_
-        feature_names = self._clf.feature_names_in_
+        tree_ = self._tree.tree_
+        feature_names = self._tree.feature_names_in_
 
         def dfs(node):
             # get necessary value
@@ -118,7 +126,7 @@ class decisionTreeTrainer:
         # train not started/finished
         if self._status['code'] != 0:
             return None
-        feature_names = self._clf.feature_names_in_
+        feature_names = self._tree.feature_names_in_
         if not length:
             length = 12
         if not width:
@@ -129,7 +137,7 @@ class decisionTreeTrainer:
         img_io = BytesIO() # create the in-memory bytes buffer
         # plot the decision tree
         plt.figure(figsize=(length, width))
-        tree.plot_tree(self._clf, filled=True, feature_names=feature_names)
+        tree.plot_tree(self._tree, filled=True, feature_names=feature_names)
         # save the plot to the in-memory buffer, not to a file
         plt.savefig(img_io, format='png', dpi=dpi)
         plt.close()  # close the plot to free memory

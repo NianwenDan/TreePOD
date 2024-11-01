@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import time
 from io import BytesIO
 
-class DecisionTreeTrainer:
+class decisionTreeTrainer:
     def __init__(self, dataset_path: str):
         self._status = {
             'code' : -1,

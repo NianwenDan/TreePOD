@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, make_response, send_file
-from api.DecisionTreeTrainer import decisionTree
+from decisionTreeTrainer import decisionTreeTrainer
 import threading
 import uuid
 from functools import wraps
@@ -55,7 +55,7 @@ def set_userId():
     # Set a cookie in the response object
     uuid4 = str(uuid.uuid4())
     db[uuid4] = {'id' : uuid4,
-                 'model' : decisionTree(dataset_path='./diabetes.csv')
+                 'model' : decisionTreeTrainer(dataset_path='./diabetes.csv')
                 }
     response = make_response(jsonify({'code' : 200, 'userId': uuid4, 'msg' : 'NEW USER CREATED'}), 200) # create a response object
     response.set_cookie('uuid', uuid4, max_age=60*60*2)  # cookie valid for 2 hours

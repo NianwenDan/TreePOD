@@ -4,50 +4,53 @@ import random
 
 class decisionTreeCandidateGenerator:
     def __init__(self, X_train, y_train, X_test, y_test, config):
-        self.X_train = X_train
-        self.y_train = y_train
-        self.X_test = X_test
-        self.y_test = y_test
-        self.config = config
-        self.num_candidates = self.config.total_samples
+        self._X_train = X_train
+        self._y_train = y_train
+        self._X_test = X_test
+        self._y_test = y_test
+        self._config = config
+        self._num_candidates = self._config.total_samples
         self._candidates = None
 
         self._status = {
             'code' : -1,
             'msg' : 'NOT TRAINED',
-            'total_number_of_samples' : self.num_candidates,
+            'total_number_of_samples' : self._num_candidates,
             'number_of_samples_trained' : 0
         }
 
+
     def _sample_feature_subset(self, subset_size):
-        total_features = self.X_train.shape[1]
+        total_features = self._X_train.shape[1]
         return random.sample(range(total_features), subset_size)
     
     def status(self):
+        '''
+        Return the status of the training process
+        
+        @return: dict: status of the training process
+        '''
         return self._status
-    
-    def check_tree_status(self, tree_id):
-        if not self._candidates:
-            return (403, 'START TRAINING FIRST')
-        if not tree_id:
-            return (403, 'TREE ID IS REQUIRED')
-        if tree_id not in self._candidates:
-            return (403, f'FAIL TO FIND THE TREE ID: {tree_id}')
-        return (200, 'OK')
+
 
     def train(self):
+        '''
+        Train the decision tree candidates
+        
+        @return: None
+        '''
         self._status['code'] = 1
         self._status['msg'] = 'TRAIN START'
         candidates = {}
-        total_features = self.X_train.shape[1]
-        for i in range(self.num_candidates):
-            params = self.config.sample_parameters(total_features)
+        total_features = self._X_train.shape[1]
+        for i in range(self._num_candidates):
+            params = self._config.sample_parameters(total_features)
             feature_subset = self._sample_feature_subset(params['nr_of_nodes'])
             tree = decisionTreeTrainer(tree_id = i + 1, 
-                                        X_train=self.X_train, 
-                                        y_train=self.y_train, 
-                                        X_test=self.X_test,
-                                        y_test=self.y_test,
+                                        X_train=self._X_train, 
+                                        y_train=self._y_train, 
+                                        X_test=self._X_test,
+                                        y_test=self._y_test,
                                         feature_subset=feature_subset
                                         )
             tree.train(
@@ -69,9 +72,15 @@ class decisionTreeCandidateGenerator:
         self._status['msg'] = 'TRAIN COMPLETED'
         self._candidates = candidates
 
+
     def trees_info(self, is_grouped_by_nodes: False):
+        '''
+        Return the information of the decision tree candidates
+        
+        @return: dict: information of the decision tree candidates
+        '''
         if not self._candidates:
-            return (403, 'START TRAINING FIRST')
+            return None
         candidate_info = []
         for t in self._candidates.values():
             tree = t['tree_object']
@@ -100,18 +109,35 @@ class decisionTreeCandidateGenerator:
         }
         if is_grouped_by_nodes:
             output['candidates'] = group_candidates_by_nodes()
-        return (200, output)
+        return output
 
-    def tree_structure(self, tree_id):
-        ck = self.check_tree_status(tree_id=tree_id)
-        if ck[0] != 200:
-            return ck
-        return (200, self._candidates[tree_id]['tree_object'].tree_structure())
+
+    def tree_structure(self, tree_id: int) -> dict:
+        '''
+        Return the structure of the decision tree with the given id
+        
+        @param tree_id: int: the id of the decision tree
+        
+        @return: dict: the structure of the decision tree
+        '''
+        if not self._candidates:
+            return None
+        return self._candidates[tree_id]['tree_object'].tree_structure()
     
-    def tree_image(self, tree_id, length, width, dpi):
-        # ck = self.check_tree_status(tree_id=tree_id)
-        # if ck[0] != 'OK':
-        #     return ck
+    
+    def tree_image(self, tree_id: int, length: int, width: int, dpi: int) -> bytes:
+        '''
+        Return the image of the decision tree
+        
+        @param tree_id: int: the id of the decision tree
+        @param length: int: the length of the image
+        @param width: int: the width of the image
+        @param dpi: int: the dpi of the image
+        
+        @return: bytes: the image of the decision tree
+        '''
+        if not self._candidates:
+            return None
         return self._candidates[tree_id]['tree_object'].tree_img(length, width, dpi)
 
     

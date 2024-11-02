@@ -10,6 +10,7 @@ class decisionTreeConfig:
         self.ccp_alpha_range = ccp_alpha_range if ccp_alpha_range is not None else np.linspace(0.0, 0.05, 10)
         self.total_samples = total_samples
 
+
     def sample_parameters(self, total_features):
         criterion = random.choice(self.criterion_options)
         max_depth = random.choice(self.max_depth_range)

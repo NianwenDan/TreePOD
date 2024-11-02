@@ -23,10 +23,28 @@ class decisionTreeTrainer:
 
         self._predict_data = None
 
-    def id(self):
+
+    def id(self) -> int:
+        '''
+        Return the id of the decision tree
+        
+        @return: int: the id of the decision tree
+        '''
         return self._tree_id
 
+
     def train(self, criterion: str = 'entropy', max_depth: int = 3, min_samples_split: int = 5, random_state: int = 3, ccp_alpha: int = 3) -> None:
+        '''
+        Train the decision tree classifier
+        
+        @param criterion: str: the function to measure the quality of a split
+        @param max_depth: int: the maximum depth of the tree
+        @param min_samples_split: int: the minimum number of samples required to split an internal node
+        @param random_state: int: the seed used by the random number generator
+        @param ccp_alpha: int: complexity parameter used for Minimal Cost-Complexity Pruning
+        
+        @return: None
+        '''
         # create a decision tree classifier
         self._tree = DecisionTreeClassifier(
             criterion=criterion,
@@ -38,10 +56,22 @@ class decisionTreeTrainer:
         # train and fit decision tree classifer
         self._tree = self._tree.fit(self._X_train, self._y_train)
 
-    def train_params(self):
+
+    def train_params(self) -> dict:
+        '''
+        Return the parameters of the decision tree classifier
+        
+        @return: dict: the parameters of the decision tree classifier
+        '''
         return self._tree.get_params()
 
-    def predict(self):
+
+    def predict(self) -> dict:
+        '''
+        Return the prediction of the decision tree classifier
+        
+        @return: dict: the prediction of the decision tree classifier
+        '''
         # train not started/finished
         if not self._tree:
             return None
@@ -61,13 +91,25 @@ class decisionTreeTrainer:
             }        
         return self._predict_data
 
-    def tree_number_of_nodes(self):
+
+    def tree_number_of_nodes(self) -> int:
+        '''
+        Return the number of nodes in the decision tree
+        
+        @return: int: the number of nodes in the decision tree
+        '''
         # train not started/finished
         if not self._tree:
             return None
         return self._tree.tree_.node_count
 
-    def tree_structure(self):
+
+    def tree_structure(self) -> dict:
+        '''
+        Return the structure of the decision tree
+        
+        @return: dict: the structure of the decision tree
+        '''
         # train not started/finished
         if not self._tree:
             return None
@@ -106,13 +148,21 @@ class decisionTreeTrainer:
         # Start recursion from the root (node 0)
         return dfs(0)
     
-    def tree_img(self, length, width, dpi):
+
+    def tree_img(self, length, width, dpi) -> BytesIO:
+        '''
+        Return the image of the decision tree
+        
+        @param length: int: the length of the image
+        @param width: int: the width of the image
+        @param dpi: int: the dpi of the image
+        
+        @return: BytesIO: the image of the decision tree
+        '''
         # train not started/finished
         if not self._tree:
             return None
         feature_names = self._tree.feature_names_in_
-        # tree_ = self._tree.tree_
-        # feature_names = getattr(self._tree, 'feature_names_in_', [f'feature_{i}' for i in range(tree_.n_features)])
 
         if not length:
             length = 12
@@ -131,4 +181,3 @@ class decisionTreeTrainer:
         # move the cursor of the BytesIO object to the start
         img_io.seek(0)
         return img_io
-

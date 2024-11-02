@@ -4,7 +4,6 @@ from decisionTreeConfig import decisionTreeConfig
 import threading
 import uuid
 from functools import wraps
-from config import SECRET_TOKEN
 
 from sklearn.model_selection import train_test_split
 import pandas as pd
@@ -46,8 +45,6 @@ def set_userId():
     uuid4 = str(uuid.uuid4())
     # TODO: Load Data Here to Train Data For Now, Find a Way So User Can Upload Dataset
     df = pd.read_csv('diabetes.csv')
-    # X = df.drop('Outcome', axis=1).values
-    # y = df['Outcome'].values
     X = df.drop('Outcome', axis=1)
     y = df['Outcome']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
@@ -121,12 +118,20 @@ def get_candidate_trees():
     
     is_grouped_by_nodes = request.args.get('isGrouped', type = bool)
     model = get_user_model(request)
-    trees_info = model.trees_info(is_grouped_by_nodes=is_grouped_by_nodes)
+    trees_info = model.trees_info(is_grouped_by_nodes)
+    if not trees_info:
+        data = {
+            'code': 404,
+            'userId': request.cookies.get('uuid'),
+            'msg': 'TRAINING PROCEDURE NOT STARTED OR INCOMPLETE, USE /train-status TO CHECK CURRENT TRAINING STATUS',
+            'data': None
+        }
+        return make_response(jsonify(data), data['code'])
     data = {
-        'code': trees_info[0] if trees_info[0] != 200 else 200,
+        'code': 200,
         'userId': request.cookies.get('uuid'),
-        'msg': trees_info[1] if trees_info[0] != 200 else 'OK',
-        'data': None if trees_info[0] != 200 else trees_info[1]
+        'msg': 'OK',
+        'data': trees_info
     }
     return make_response(jsonify(data), data['code'])
 
@@ -135,15 +140,24 @@ def get_tree_structure():
     if not is_user_exists(request):
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
     
+    data = {
+        'code': 200,
+        'userId': request.cookies.get('uuid'),
+        'msg': '',
+        'data': None
+    }
     tree_id = request.args.get('treeId', type = int)
+    if not tree_id:
+        data['code'] = 403
+        data['msg'] = 'MISSING TREE ID'
+        return make_response(jsonify(data), data['code'])
     model = get_user_model(request)
     trees_structure = model.tree_structure(tree_id=tree_id)
-    data = {
-        'code': trees_structure[0] if trees_structure[0] != 200 else 200,
-        'userId': request.cookies.get('uuid'),
-        'msg': trees_structure[1] if trees_structure[0] != 200 else 'OK',
-        'data': None if trees_structure[0] != 200 else trees_structure[1]
-    }
+    if not trees_structure:
+        data['code'] = 404
+        data['msg'] = 'TRAINING PROCEDURE NOT STARTED OR INCOMPLETE, USE /train-status TO CHECK CURRENT TRAINING STATUS'
+        return make_response(jsonify(data), data['code'])
+    data['data'] = trees_structure
     return make_response(jsonify(data), data['code'])
 
 @app.route('/api/v1/tree/image', methods=['GET'])
@@ -156,16 +170,22 @@ def get_tree_image():
     width = request.args.get('width', type = int)
     dpi = request.args.get('dpi', type = int)
     model = get_user_model(request)
-    img = model.tree_image(tree_id, length, width, dpi)
-
+    data = {
+        'code': 200,
+        'userId': request.cookies.get('uuid'),
+        'msg': '',
+        'data': None
+    }
     if not tree_id:
-        data = {
-            'code': 403,
-            'userId': request.cookies.get('uuid'),
-            'msg': 'TREE ID REQURIED',
-            'data': None
-        }
+        data['code'] = 403
+        data['msg'] = 'MISSING TREE ID'
         return make_response(jsonify(data), data['code'])
+    img = model.tree_image(tree_id, length, width, dpi)
+    if not img:
+        data['code'] = 404
+        data['msg'] = 'TRAINING PROCEDURE NOT STARTED OR INCOMPLETE, USE /train-status TO CHECK CURRENT TRAINING STATUS'
+        return make_response(jsonify(data), data['code'])
+    
     return send_file(img, mimetype='image/png')
 
 if __name__ == '__main__':

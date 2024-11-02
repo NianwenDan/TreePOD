@@ -1,6 +1,7 @@
 import random
+import numpy as np
 
-class DecisionTreeConfig:
+class decisionTreeConfig:
     def __init__(self, criterion_options=None, max_depth_range=None, min_samples_split_range=None, random_state_range=None, ccp_alpha_range=None, total_samples=100):
         self.criterion_options = criterion_options if criterion_options is not None else ['gini', 'entropy', 'log_loss']
         self.max_depth_range = max_depth_range if max_depth_range is not None else range(1, 11)

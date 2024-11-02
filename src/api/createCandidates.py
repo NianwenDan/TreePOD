@@ -5,7 +5,7 @@ import json
 from sklearn.model_selection import train_test_split
 
 from decisionTreeCandidateGenerator import decisionTreeCandidateGenerator
-from decisionTreeConfig import DecisionTreeConfig
+from decisionTreeConfig import decisionTreeConfig
 
 # Main
 if __name__ == "__main__":
@@ -16,7 +16,7 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
 
     # User-defined config
-    user_config = DecisionTreeConfig(max_depth_range=range(1, 7), random_state_range=range(50, 51), total_samples=300)
+    user_config = decisionTreeConfig(max_depth_range=range(1, 7), random_state_range=range(50, 51), total_samples=300)
 
     # Generate decision tree candidates
     generator = decisionTreeCandidateGenerator(X_train, y_train, X_test, y_test, config=user_config)

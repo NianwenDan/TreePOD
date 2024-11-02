@@ -18,8 +18,8 @@ class decisionTreeTrainer:
         self._tree = None
         # Only use feature_subset
         if feature_subset:
-            self._X_train = self._X_train[:, feature_subset]
-            self._X_test = self._X_test[:, feature_subset]
+            self._X_train = self._X_train.iloc[:, feature_subset]
+            self._X_test = self._X_test.iloc[:, feature_subset]
 
         self._predict_data = None
 
@@ -73,6 +73,7 @@ class decisionTreeTrainer:
             return None
         tree_ = self._tree.tree_
         feature_names = self._tree.feature_names_in_
+        # feature_names = getattr(self._tree, 'feature_names_in_', [f'feature_{i}' for i in range(tree_.n_features)])
 
         def dfs(node):
             # get necessary value
@@ -110,6 +111,9 @@ class decisionTreeTrainer:
         if not self._tree:
             return None
         feature_names = self._tree.feature_names_in_
+        # tree_ = self._tree.tree_
+        # feature_names = getattr(self._tree, 'feature_names_in_', [f'feature_{i}' for i in range(tree_.n_features)])
+
         if not length:
             length = 12
         if not width:

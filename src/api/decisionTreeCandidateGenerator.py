@@ -43,7 +43,7 @@ class decisionTreeCandidateGenerator:
         for i in range(self.num_candidates):
             params = self.config.sample_parameters(total_features)
             feature_subset = self._sample_feature_subset(params['nr_of_nodes'])
-            tree = decisionTreeTrainer(tree_id = i, 
+            tree = decisionTreeTrainer(tree_id = i + 1, 
                                         X_train=self.X_train, 
                                         y_train=self.y_train, 
                                         X_test=self.X_test,
@@ -100,18 +100,18 @@ class decisionTreeCandidateGenerator:
         }
         if is_grouped_by_nodes:
             output['candidates'] = group_candidates_by_nodes()
-        return output
+        return (200, output)
 
     def tree_structure(self, tree_id):
         ck = self.check_tree_status(tree_id=tree_id)
         if ck[0] != 200:
             return ck
-        return self._candidates[tree_id]['tree_object'].tree_structure()
+        return (200, self._candidates[tree_id]['tree_object'].tree_structure())
     
     def tree_image(self, tree_id, length, width, dpi):
-        ck = self.check_tree_status(tree_id=tree_id)
-        if ck[0] != 'OK':
-            return ck
+        # ck = self.check_tree_status(tree_id=tree_id)
+        # if ck[0] != 'OK':
+        #     return ck
         return self._candidates[tree_id]['tree_object'].tree_img(length, width, dpi)
 
     

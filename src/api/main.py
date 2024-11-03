@@ -147,15 +147,11 @@ def get_tree_structure():
         'data': None
     }
     tree_id = request.args.get('treeId', type = int)
-    if not tree_id:
-        data['code'] = 403
-        data['msg'] = 'MISSING TREE ID'
-        return make_response(jsonify(data), data['code'])
     model = get_user_model(request)
     trees_structure = model.tree_structure(tree_id=tree_id)
     if not trees_structure:
         data['code'] = 404
-        data['msg'] = 'TRAINING PROCEDURE NOT STARTED OR INCOMPLETE, USE /train-status TO CHECK CURRENT TRAINING STATUS'
+        data['msg'] = 'TREE ID DOES NOT EXISTS, YOU TRAINING MAY NOT STARTED OR TREE ID IS INVAILD'
         return make_response(jsonify(data), data['code'])
     data['data'] = trees_structure
     return make_response(jsonify(data), data['code'])

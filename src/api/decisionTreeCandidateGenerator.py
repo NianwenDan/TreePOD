@@ -46,7 +46,8 @@ class decisionTreeCandidateGenerator:
         for i in range(self._num_candidates):
             params = self._config.sample_parameters(total_features)
             feature_subset = self._sample_feature_subset(params['nr_of_nodes'])
-            tree = decisionTreeTrainer(tree_id = i + 1, 
+            tree_id = i + 1
+            tree = decisionTreeTrainer(tree_id = tree_id, 
                                         X_train=self._X_train, 
                                         y_train=self._y_train, 
                                         X_test=self._X_test,
@@ -61,8 +62,7 @@ class decisionTreeCandidateGenerator:
                 ccp_alpha=params['ccp_alpha']
                 )
             # save as dict, key = tree id
-            candidates[i] = (tree, feature_subset)
-            candidates[i] = {
+            candidates[tree_id] = {
                 'tree_object' : tree,
                 'feature_subset' : feature_subset
             }
@@ -120,7 +120,7 @@ class decisionTreeCandidateGenerator:
         
         @return: dict: the structure of the decision tree
         '''
-        if not self._candidates:
+        if not tree_id or tree_id not in self._candidates:
             return None
         return self._candidates[tree_id]['tree_object'].tree_structure()
     

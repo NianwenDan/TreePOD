@@ -1,0 +1,741 @@
+{
+    "code": 200,
+    "data": {
+        "data": {
+            "feature": "Glucose",
+            "impurity": 0.4492993352267407,
+            "threshold": 129.5,
+            "training_samples_reached": 537,
+            "value": [
+                [
+                    0.659217877094972,
+                    0.3407821229050279
+                ]
+            ]
+        },
+        "left": {
+            "data": {
+                "feature": "BMI",
+                "impurity": 0.3286334141499737,
+                "threshold": 26.300000190734863,
+                "training_samples_reached": 357,
+                "value": [
+                    [
+                        0.7927170868347339,
+                        0.20728291316526612
+                    ]
+                ]
+            },
+            "left": {
+                "data": {
+                    "feature": "BMI",
+                    "impurity": 0.059942608141141496,
+                    "threshold": 9.100000381469727,
+                    "training_samples_reached": 97,
+                    "value": [
+                        [
+                            0.9690721649484536,
+                            0.030927835051546393
+                        ]
+                    ]
+                },
+                "left": {
+                    "data": {
+                        "feature": "Glucose",
+                        "impurity": 0.4444444444444444,
+                        "threshold": 114.5,
+                        "training_samples_reached": 6,
+                        "value": [
+                            [
+                                0.6666666666666666,
+                                0.3333333333333333
+                            ]
+                        ]
+                    },
+                    "left": {
+                        "data": {
+                            "feature": "Pregnancies",
+                            "impurity": 0.0,
+                            "threshold": -2.0,
+                            "training_samples_reached": 4,
+                            "value": [
+                                [
+                                    1.0,
+                                    0.0
+                                ]
+                            ]
+                        },
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "data": {
+                            "feature": "Pregnancies",
+                            "impurity": 0.0,
+                            "threshold": -2.0,
+                            "training_samples_reached": 2,
+                            "value": [
+                                [
+                                    0.0,
+                                    1.0
+                                ]
+                            ]
+                        },
+                        "left": null,
+                        "right": null
+                    }
+                },
+                "right": {
+                    "data": {
+                        "feature": "DiabetesPedigreeFunction",
+                        "impurity": 0.021736505252988758,
+                        "threshold": 0.6689999997615814,
+                        "training_samples_reached": 91,
+                        "value": [
+                            [
+                                0.989010989010989,
+                                0.01098901098901099
+                            ]
+                        ]
+                    },
+                    "left": {
+                        "data": {
+                            "feature": "Pregnancies",
+                            "impurity": 0.0,
+                            "threshold": -2.0,
+                            "training_samples_reached": 76,
+                            "value": [
+                                [
+                                    1.0,
+                                    0.0
+                                ]
+                            ]
+                        },
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "data": {
+                            "feature": "DiabetesPedigreeFunction",
+                            "impurity": 0.12444444444444447,
+                            "threshold": 0.7054999768733978,
+                            "training_samples_reached": 15,
+                            "value": [
+                                [
+                                    0.9333333333333333,
+                                    0.06666666666666667
+                                ]
+                            ]
+                        },
+                        "left": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.0,
+                                "threshold": -2.0,
+                                "training_samples_reached": 1,
+                                "value": [
+                                    [
+                                        0.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        },
+                        "right": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.0,
+                                "threshold": -2.0,
+                                "training_samples_reached": 14,
+                                "value": [
+                                    [
+                                        1.0,
+                                        0.0
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        }
+                    }
+                }
+            },
+            "right": {
+                "data": {
+                    "feature": "Age",
+                    "impurity": 0.3970118343195266,
+                    "threshold": 27.5,
+                    "training_samples_reached": 260,
+                    "value": [
+                        [
+                            0.7269230769230769,
+                            0.27307692307692305
+                        ]
+                    ]
+                },
+                "left": {
+                    "data": {
+                        "feature": "BMI",
+                        "impurity": 0.2431944444444445,
+                        "threshold": 45.39999961853027,
+                        "training_samples_reached": 120,
+                        "value": [
+                            [
+                                0.8583333333333333,
+                                0.14166666666666666
+                            ]
+                        ]
+                    },
+                    "left": {
+                        "data": {
+                            "feature": "Pregnancies",
+                            "impurity": 0.21224732461355533,
+                            "threshold": 7.0,
+                            "training_samples_reached": 116,
+                            "value": [
+                                [
+                                    0.8793103448275862,
+                                    0.1206896551724138
+                                ]
+                            ]
+                        },
+                        "left": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.20052930056710772,
+                                "threshold": -2.0,
+                                "training_samples_reached": 115,
+                                "value": [
+                                    [
+                                        0.8869565217391304,
+                                        0.11304347826086956
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        },
+                        "right": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.0,
+                                "threshold": -2.0,
+                                "training_samples_reached": 1,
+                                "value": [
+                                    [
+                                        0.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        }
+                    },
+                    "right": {
+                        "data": {
+                            "feature": "Pregnancies",
+                            "impurity": 0.375,
+                            "threshold": -2.0,
+                            "training_samples_reached": 4,
+                            "value": [
+                                [
+                                    0.25,
+                                    0.75
+                                ]
+                            ]
+                        },
+                        "left": null,
+                        "right": null
+                    }
+                },
+                "right": {
+                    "data": {
+                        "feature": "DiabetesPedigreeFunction",
+                        "impurity": 0.4738775510204082,
+                        "threshold": 0.5629999935626984,
+                        "training_samples_reached": 140,
+                        "value": [
+                            [
+                                0.6142857142857143,
+                                0.38571428571428573
+                            ]
+                        ]
+                    },
+                    "left": {
+                        "data": {
+                            "feature": "Glucose",
+                            "impurity": 0.40816326530612246,
+                            "threshold": 101.5,
+                            "training_samples_reached": 98,
+                            "value": [
+                                [
+                                    0.7142857142857143,
+                                    0.2857142857142857
+                                ]
+                            ]
+                        },
+                        "left": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.2076124567474048,
+                                "threshold": -2.0,
+                                "training_samples_reached": 34,
+                                "value": [
+                                    [
+                                        0.8823529411764706,
+                                        0.11764705882352941
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        },
+                        "right": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.46875,
+                                "threshold": -2.0,
+                                "training_samples_reached": 64,
+                                "value": [
+                                    [
+                                        0.625,
+                                        0.375
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        }
+                    },
+                    "right": {
+                        "data": {
+                            "feature": "Pregnancies",
+                            "impurity": 0.47165532879818595,
+                            "threshold": 8.5,
+                            "training_samples_reached": 42,
+                            "value": [
+                                [
+                                    0.38095238095238093,
+                                    0.6190476190476191
+                                ]
+                            ]
+                        },
+                        "left": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.4995408631772268,
+                                "threshold": -2.0,
+                                "training_samples_reached": 33,
+                                "value": [
+                                    [
+                                        0.48484848484848486,
+                                        0.5151515151515151
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        },
+                        "right": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.0,
+                                "threshold": -2.0,
+                                "training_samples_reached": 9,
+                                "value": [
+                                    [
+                                        0.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        }
+                    }
+                }
+            }
+        },
+        "right": {
+            "data": {
+                "feature": "BMI",
+                "impurity": 0.47771604938271606,
+                "threshold": 27.850000381469727,
+                "training_samples_reached": 180,
+                "value": [
+                    [
+                        0.39444444444444443,
+                        0.6055555555555555
+                    ]
+                ]
+            },
+            "left": {
+                "data": {
+                    "feature": "Glucose",
+                    "impurity": 0.375,
+                    "threshold": 145.5,
+                    "training_samples_reached": 36,
+                    "value": [
+                        [
+                            0.75,
+                            0.25
+                        ]
+                    ]
+                },
+                "left": {
+                    "data": {
+                        "feature": "Age",
+                        "impurity": 0.09972299168975074,
+                        "threshold": 59.5,
+                        "training_samples_reached": 19,
+                        "value": [
+                            [
+                                0.9473684210526315,
+                                0.05263157894736842
+                            ]
+                        ]
+                    },
+                    "left": {
+                        "data": {
+                            "feature": "Pregnancies",
+                            "impurity": 0.0,
+                            "threshold": -2.0,
+                            "training_samples_reached": 16,
+                            "value": [
+                                [
+                                    1.0,
+                                    0.0
+                                ]
+                            ]
+                        },
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "data": {
+                            "feature": "Pregnancies",
+                            "impurity": 0.4444444444444444,
+                            "threshold": -2.0,
+                            "training_samples_reached": 3,
+                            "value": [
+                                [
+                                    0.6666666666666666,
+                                    0.3333333333333333
+                                ]
+                            ]
+                        },
+                        "left": null,
+                        "right": null
+                    }
+                },
+                "right": {
+                    "data": {
+                        "feature": "BMI",
+                        "impurity": 0.4982698961937716,
+                        "threshold": 23.09999942779541,
+                        "training_samples_reached": 17,
+                        "value": [
+                            [
+                                0.5294117647058824,
+                                0.47058823529411764
+                            ]
+                        ]
+                    },
+                    "left": {
+                        "data": {
+                            "feature": "Pregnancies",
+                            "impurity": 0.0,
+                            "threshold": -2.0,
+                            "training_samples_reached": 3,
+                            "value": [
+                                [
+                                    1.0,
+                                    0.0
+                                ]
+                            ]
+                        },
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "data": {
+                            "feature": "BMI",
+                            "impurity": 0.4897959183673469,
+                            "threshold": 25.550000190734863,
+                            "training_samples_reached": 14,
+                            "value": [
+                                [
+                                    0.42857142857142855,
+                                    0.5714285714285714
+                                ]
+                            ]
+                        },
+                        "left": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.0,
+                                "threshold": -2.0,
+                                "training_samples_reached": 6,
+                                "value": [
+                                    [
+                                        0.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        },
+                        "right": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.375,
+                                "threshold": -2.0,
+                                "training_samples_reached": 8,
+                                "value": [
+                                    [
+                                        0.75,
+                                        0.25
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        }
+                    }
+                }
+            },
+            "right": {
+                "data": {
+                    "feature": "Glucose",
+                    "impurity": 0.4243827160493827,
+                    "threshold": 158.5,
+                    "training_samples_reached": 144,
+                    "value": [
+                        [
+                            0.3055555555555556,
+                            0.6944444444444444
+                        ]
+                    ]
+                },
+                "left": {
+                    "data": {
+                        "feature": "Age",
+                        "impurity": 0.48734504132231404,
+                        "threshold": 30.5,
+                        "training_samples_reached": 88,
+                        "value": [
+                            [
+                                0.42045454545454547,
+                                0.5795454545454546
+                            ]
+                        ]
+                    },
+                    "left": {
+                        "data": {
+                            "feature": "BloodPressure",
+                            "impurity": 0.4897959183673469,
+                            "threshold": 23.0,
+                            "training_samples_reached": 42,
+                            "value": [
+                                [
+                                    0.5714285714285714,
+                                    0.42857142857142855
+                                ]
+                            ]
+                        },
+                        "left": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.0,
+                                "threshold": -2.0,
+                                "training_samples_reached": 4,
+                                "value": [
+                                    [
+                                        0.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        },
+                        "right": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.46537396121883656,
+                                "threshold": -2.0,
+                                "training_samples_reached": 38,
+                                "value": [
+                                    [
+                                        0.631578947368421,
+                                        0.3684210526315789
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        }
+                    },
+                    "right": {
+                        "data": {
+                            "feature": "BMI",
+                            "impurity": 0.4054820415879017,
+                            "threshold": 34.05000114440918,
+                            "training_samples_reached": 46,
+                            "value": [
+                                [
+                                    0.2826086956521739,
+                                    0.717391304347826
+                                ]
+                            ]
+                        },
+                        "left": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.4897959183673469,
+                                "threshold": -2.0,
+                                "training_samples_reached": 21,
+                                "value": [
+                                    [
+                                        0.42857142857142855,
+                                        0.5714285714285714
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        },
+                        "right": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.26880000000000004,
+                                "threshold": -2.0,
+                                "training_samples_reached": 25,
+                                "value": [
+                                    [
+                                        0.16,
+                                        0.84
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        }
+                    }
+                },
+                "right": {
+                    "data": {
+                        "feature": "DiabetesPedigreeFunction",
+                        "impurity": 0.21875,
+                        "threshold": 1.1565000414848328,
+                        "training_samples_reached": 56,
+                        "value": [
+                            [
+                                0.125,
+                                0.875
+                            ]
+                        ]
+                    },
+                    "left": {
+                        "data": {
+                            "feature": "DiabetesPedigreeFunction",
+                            "impurity": 0.1472,
+                            "threshold": 0.34299999475479126,
+                            "training_samples_reached": 50,
+                            "value": [
+                                [
+                                    0.08,
+                                    0.92
+                                ]
+                            ]
+                        },
+                        "left": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.332409972299169,
+                                "threshold": -2.0,
+                                "training_samples_reached": 19,
+                                "value": [
+                                    [
+                                        0.21052631578947367,
+                                        0.7894736842105263
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        },
+                        "right": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.0,
+                                "threshold": -2.0,
+                                "training_samples_reached": 31,
+                                "value": [
+                                    [
+                                        0.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        }
+                    },
+                    "right": {
+                        "data": {
+                            "feature": "BMI",
+                            "impurity": 0.5,
+                            "threshold": 40.39999961853027,
+                            "training_samples_reached": 6,
+                            "value": [
+                                [
+                                    0.5,
+                                    0.5
+                                ]
+                            ]
+                        },
+                        "left": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.375,
+                                "threshold": -2.0,
+                                "training_samples_reached": 4,
+                                "value": [
+                                    [
+                                        0.25,
+                                        0.75
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        },
+                        "right": {
+                            "data": {
+                                "feature": "Pregnancies",
+                                "impurity": 0.0,
+                                "threshold": -2.0,
+                                "training_samples_reached": 2,
+                                "value": [
+                                    [
+                                        1.0,
+                                        0.0
+                                    ]
+                                ]
+                            },
+                            "left": null,
+                            "right": null
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "msg": "",
+    "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
+}

@@ -1,0 +1,11 @@
+{
+    "code": 200,
+    "data": {
+        "code": 0,
+        "msg": "TRAIN COMPLETED",
+        "number_of_samples_trained": 300,
+        "total_number_of_samples": 300
+    },
+    "msg": "OK",
+    "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
+}

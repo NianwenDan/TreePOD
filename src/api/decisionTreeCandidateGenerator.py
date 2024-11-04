@@ -62,16 +62,11 @@ class decisionTreeCandidateGenerator:
                 ccp_alpha=params['ccp_alpha']
                 )
             
-            predictions = tree.predict() # assuming predict will return pred for xtest
-            conf_matrix = confusion_matrix(self._y_test, predictions)
-
-
             # save as dict, key = tree id
-            candidates[i] = (tree, feature_subset,confusion_matrix)  #added one more key conf_matr in candidateto store for each dt
+            candidates[i] = (tree, feature_subset)  
             candidates[i] = {
                 'tree_object' : tree,
                 'feature_subset' : feature_subset,
-                'confusion_matrix': conf_matrix
             }
             self._status['number_of_samples_trained'] = i + 1  # keep update current status
         
@@ -147,15 +142,14 @@ class decisionTreeCandidateGenerator:
             return None
         return self._candidates[tree_id]['tree_object'].tree_img(length, width, dpi)
 
-    import numpy as np
-    def get_confusion_matrix(self, tree_id: int) -> np.ndarray:
+    def get_confusion_matrix(self, tree_id: int) -> dict:
         '''
-        Get the confusion matrix for a specific decision tree by its ID
+        Return the confusion matrix for the decision tree with the given id
         
-        @param tree_id: int: the ID of the decision tree
+        @param tree_id: int: the id of the decision tree
         
-        @return: np.ndarray: the confusion matrix of the decision tree
+        @return: dict: the confusion matrix of the decision tree
         '''
         if not self._candidates or tree_id not in self._candidates:
             return None
-        return self._candidates[tree_id]['confusion_matrix']
+        return self._candidates[tree_id]['tree_object'].confusion_matrix()

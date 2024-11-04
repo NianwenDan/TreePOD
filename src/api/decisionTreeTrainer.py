@@ -13,7 +13,7 @@ class decisionTreeTrainer:
         self._tree_id = tree_id
         self._X_train = X_train
         self._X_test = X_test
-        self._y_train = y_train
+        self._y_train = y_train 
         self._y_test = y_test
         self._tree = None
         # Only use feature_subset
@@ -181,3 +181,21 @@ class decisionTreeTrainer:
         # move the cursor of the BytesIO object to the start
         img_io.seek(0)
         return img_io
+
+
+    def confusion_matrix(self) -> dict:
+        '''
+        Return the confusion matrix of the decision tree classifier
+        
+        @return: dict: the confusion matrix
+        '''
+        if not self._tree:
+            return None
+        y_pred = self._tree.predict(self._X_test)
+        cm = metrics.confusion_matrix(self._y_test, y_pred)
+        return {
+            'confusion_matrix': cm.tolist(),  # Convert to list for JSON serialization if needed
+            'labels': list(self._tree.classes_)  # Add labels for the matrix /eg-class labels 0(first row 1st col) , 1(for second r and sec col etc)
+        }
+    
+    

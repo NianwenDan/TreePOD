@@ -1,6 +1,6 @@
 from decisionTreeTrainer import decisionTreeTrainer
 import random
-
+from sklearn.metrics import confusion_matrix
 
 class decisionTreeCandidateGenerator:
     def __init__(self, X_train, y_train, X_test, y_test, config):
@@ -61,10 +61,12 @@ class decisionTreeCandidateGenerator:
                 random_state=params['random_state'],
                 ccp_alpha=params['ccp_alpha']
                 )
+            
             # save as dict, key = tree id
-            candidates[tree_id] = {
+            candidates[i] = (tree, feature_subset)  
+            candidates[i] = {
                 'tree_object' : tree,
-                'feature_subset' : feature_subset
+                'feature_subset' : feature_subset,
             }
             self._status['number_of_samples_trained'] = i + 1  # keep update current status
         
@@ -140,4 +142,14 @@ class decisionTreeCandidateGenerator:
             return None
         return self._candidates[tree_id]['tree_object'].tree_img(length, width, dpi)
 
-    
+    def get_confusion_matrix(self, tree_id: int) -> dict:
+        '''
+        Return the confusion matrix for the decision tree with the given id
+        
+        @param tree_id: int: the id of the decision tree
+        
+        @return: dict: the confusion matrix of the decision tree
+        '''
+        if not self._candidates or tree_id not in self._candidates:
+            return None
+        return self._candidates[tree_id]['tree_object'].confusion_matrix()

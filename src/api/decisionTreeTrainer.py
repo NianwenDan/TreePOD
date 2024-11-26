@@ -7,6 +7,8 @@ from sklearn import metrics
 import matplotlib.pyplot as plt
 import time
 from io import BytesIO
+from collections import Counter
+import numpy as np
 
 class decisionTreeTrainer:
     def __init__(self, tree_id, X_train, y_train, X_test, y_test, feature_subset=None):
@@ -18,8 +20,8 @@ class decisionTreeTrainer:
         self._tree = None
         # Only use feature_subset
         if feature_subset:
-            self._X_train = self._X_train.iloc[:, feature_subset]
-            self._X_test = self._X_test.iloc[:, feature_subset]
+            self._X_train = self._X_train[feature_subset]
+            self._X_test = self._X_test[feature_subset]
 
         self._predict_data = None
 
@@ -197,5 +199,75 @@ class decisionTreeTrainer:
             'confusion_matrix': cm.tolist(),  # Convert to list for JSON serialization if needed
             'labels': list(self._tree.classes_)  # Add labels for the matrix /eg-class labels 0(first row 1st col) , 1(for second r and sec col etc)
         }
-    
-    
+
+    # Track data flow through the tree (as in the previous implementation)
+    def get_node_data(self):
+        """
+        Track data distribution at each tree node.
+
+        Parameters:
+        - tree: Trained decision tree.
+        - X: Input features.
+        - original_df: Original dataframe (for categorical values).
+        - categorical_columns: List of categorical column names from original_df.
+
+        Returns:
+        - node_data: Dictionary with data distributions for each node.
+        """
+        # Apply the tree to the dataset
+        leaf_indices = self._tree.apply(self._X_test)
+
+        #leaf_classes = [np.argmax(Counter(self.y_test[leaf_indices == leaf]).values()) for leaf in np.unique(leaf_indices)]
+            
+        # Get proportions of samples in each leaf
+        leaf_counts = Counter(leaf_indices)
+        total_samples = sum(leaf_counts.values())
+        proportions = [leaf_counts[leaf] / total_samples for leaf in np.unique(leaf_indices)]
+        
+        # Get class distributions for each leaf
+        class_distributions = []
+        for leaf in np.unique(leaf_indices):
+            class_count = Counter(self._y_test[leaf_indices == leaf])
+            total = sum(class_count.values())
+            class_distributions.append({cls: class_count.get(cls, 0) / total for cls in range(self._tree.n_classes_)})
+        
+        return proportions, class_distributions
+
+        '''
+        # Get the tree structure
+        tree_ = tree.tree_
+        n_nodes = tree_.node_count
+
+        # Prepare a dictionary to store data at each node
+        node_data = {i: {'total_count': 0, 'categorical_distribution': {col: {} for col in self.categorical_columns}} for i in range(n_nodes)}
+        print ('node_data: ', node_indices)
+        
+        # Iterate over each data point
+        for i, node_index in enumerate(node_indices):
+            node_data[node_index]['total_count'] += 1
+
+            # Update categorical distribution using the original DataFrame
+            for col in self.categorical_columns:
+                value = original_df.iloc[i][col]
+                if value not in node_data[node_index]['categorical_distribution'][col]:
+                    node_data[node_index]['categorical_distribution'][col][value] = 0
+                node_data[node_index]['categorical_distribution'][col][value] += 1
+
+        return node_data    '''    
+
+
+    def generate_hierarchy(self):
+        # TODO: remove hard-coded class_mapping
+        class_mapping = {"Married": 0, "Never married": 1, "Divorced or Separated": 2, "Widowed": 3}
+
+        proportions, distributions = self.get_node_data()
+        hierarchy = {"name": "Tree", "children": []}
+        for i, (prop, dist) in enumerate(zip(proportions, distributions)):
+            mapped_class_distribution = {key: round(dist[value], 2) for key, value in class_mapping.items() if value in dist}
+            leaf = {
+                "name": f"Leaf {i + 1}",
+                "value": prop * 100,  # Scale proportion to a meaningful value
+                "classDistribution": mapped_class_distribution
+            }
+            hierarchy["children"].append(leaf)
+        return hierarchy

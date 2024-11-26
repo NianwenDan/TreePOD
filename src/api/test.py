@@ -15,7 +15,7 @@ dt_generator = decisionTreeCandidateGenerator(X_train, y_train, X_test, y_test, 
 
 dt_generator.train()
 
-output = dt_generator.trees_info(is_grouped_by_nodes=False)
+output = dt_generator.trees_info()
 
 
 # project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))

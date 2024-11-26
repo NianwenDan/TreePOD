@@ -96,35 +96,50 @@ class ParetoAnalysis:
         self.pareto_front = {}
 
     def find_pareto_optimal(self, attribute1, attribute2):
-        # Extract the two attributes from each candidate to create a 2D dataset
-        data_points = np.array([[candidate[attribute2], candidate[attribute1], candidate['tree_id']] for candidate in self.candidates])
-        # Check if attribute needs maximization and invert it if needed
-        '''if attribute1 in self.maximize_attributes:
-            data_points[:, 0] = -data_points[:, 0]
-        if attribute2 in self.maximize_attributes:
-            data_points[:, 1] = -data_points[:, 1]
-        '''
-        # Compute convex hull to find Pareto-optimal points
-        #hull = ConvexHull(data_points)
-        #pareto_indices = hull.vertices
+        """
+        Finds Pareto-optimal tree IDs based on two attributes.
+        If an attribute is in `self.max_list`, it will be maximized.
+        
+        Args:
+            attribute1: First attribute to optimize.
+            attribute2: Second attribute to optimize.
 
-        # implementation 2
+        Returns:
+            List of Pareto-optimal tree IDs.
+        """
+        # Extract the two attributes and tree IDs
+        data_points = np.array([
+            [
+                round(-candidate[attribute1],3) if attribute1 in self.maximize_attributes else candidate[attribute1],
+                round(-candidate[attribute2],3) if attribute2 in self.maximize_attributes else candidate[attribute2],
+                candidate['tree_id']
+            ] 
+            for candidate in self.candidates
+        ])
+        
+        # Prepare the Pareto front
         pareto_front = []
-        max_y = -np.inf
-        # minimize both attributes
-        #data_points = data_points[np.lexsort((data_points[:, 1], data_points[:, 0]))]
-        data_points = data_points[np.lexsort((data_points[:, 1], data_points[:, 0]))]
-        print ('data points: ', data_points)
-        for data_point in data_points:
-            if data_point[1] > max_y:
-                pareto_front.append(data_point)
-                max_y = data_point[1]
+        seen = set()
+        for point in data_points:
+            # Check if the point is dominated
+            is_dominated = False
+            for other_point in data_points:
+                if (
+                    (other_point[0] <= point[0] and other_point[1] <= point[1])  # Other point is better or equal in all dimensions
+                    and (other_point[0] < point[0] or other_point[1] < point[1])  # Strictly better in at least one dimension
+                ):
+                    is_dominated = True
+                    break
+            if not is_dominated:
+                if (point[0], point[1]) not in seen:
+                    seen.add((point[0], point[1]))
+                    pareto_front.append(point)
         print ('pareto_front: ', pareto_front)
-
-        # Return Pareto-optimal tree IDs
-        #pareto_optimal_ids = [self.candidates[i]['tree_id'] for i in pareto_indices]
-        pareto_optimal_ids = [int(i[2]) for i in pareto_front]
+        # Extract the Pareto-optimal tree IDs
+        pareto_optimal_ids = [int(p[2]) for p in pareto_front]
         return pareto_optimal_ids
+
+
 
     def pareto_analysis(self, attribute_pairs):
         normalized_pairs = set(tuple(sorted(pair)) for pair in attribute_pairs)

@@ -1,7 +1,7 @@
 // Assuming that you have the JSON data loaded in as "data"
 // and the JSON file is called "tree_candidates.json"
 
-d3.json("trees.3.json").then(function(data) {
+d3.json("trees.4.json").then(function(data) {
     const margin = {top: 20, right: 20, bottom: 40, left: 60};
     const scatterPlotDiv = d3.select("#scatter-plot");
     const scatterPlotWidth = parseInt(scatterPlotDiv.style("width")) - margin.left - margin.right;
@@ -262,11 +262,11 @@ d3.json("trees.3.json").then(function(data) {
     function getAttributeValue(d, attribute) {
         switch (attribute) {
             case "Accuracy [F1 score]":
-                return d["Accuracy [F1 score]"];
+                return d["f1_score"];
             case "Nr. of Leaves":
                 return d.params.max_leaf_nodes || 0; // Assuming "max_leaf_nodes" is available in params
             case "Nr. of Nodes":
-                return d["Nr. of Nodes"];
+                return d["number_of_nodes"];
             case "Nr. of Used Attributes":
                 return Object.keys(d.params.attributes).length;
             case "Depth":

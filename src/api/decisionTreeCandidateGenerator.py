@@ -1,9 +1,9 @@
 from decisionTreeTrainer import decisionTreeTrainer
+from paretoAnalysis import paretoAnalysis
 import random
-from sklearn.metrics import confusion_matrix
 
 class decisionTreeCandidateGenerator:
-    def __init__(self, X_train, y_train, X_test, y_test, config):
+    def __init__(self, X_train, y_train, X_test, y_test, column_mapping, config):
         self._X_train = X_train
         self._y_train = y_train
         self._X_test = X_test
@@ -11,6 +11,8 @@ class decisionTreeCandidateGenerator:
         self._config = config
         self._num_candidates = self._config.total_samples
         self._candidates = None
+        self._column_mapping = column_mapping
+        self._pareto_front = None
 
         self._status = {
             'code' : -1,
@@ -21,7 +23,7 @@ class decisionTreeCandidateGenerator:
 
 
     def _sample_feature_subset(self, subset_size):
-        total_features = self._X_train.shape[1]
+        total_features = len(self._column_mapping)
         return random.sample(range(total_features), subset_size)
     
     def status(self):
@@ -42,17 +44,21 @@ class decisionTreeCandidateGenerator:
         self._status['code'] = 1
         self._status['msg'] = 'TRAIN START'
         candidates = {}
-        total_features = self._X_train.shape[1]
+        total_features = len(self._column_mapping)
         for i in range(self._num_candidates):
             params = self._config.sample_parameters(total_features)
-            feature_subset = self._sample_feature_subset(params['nr_of_nodes'])
+            feature_subset_index = self._sample_feature_subset(params['nr_of_nodes'])
+            feature_subset = [list(self._column_mapping.keys())[ii] for ii in feature_subset_index]
+            feature_subset_mapped = []
+            for ii in feature_subset:
+                feature_subset_mapped += self._column_mapping[ii]
             tree_id = i + 1
             tree = decisionTreeTrainer(tree_id = tree_id, 
                                         X_train=self._X_train, 
                                         y_train=self._y_train, 
                                         X_test=self._X_test,
                                         y_test=self._y_test,
-                                        feature_subset=feature_subset
+                                        feature_subset=feature_subset_mapped
                                         )
             tree.train(
                 criterion=params['criterion'],
@@ -63,10 +69,11 @@ class decisionTreeCandidateGenerator:
                 )
             
             # save as dict, key = tree id
-            candidates[i] = (tree, feature_subset)  
+            #candidates[i] = (tree, feature_subset)  
             candidates[i] = {
                 'tree_object' : tree,
                 'feature_subset' : feature_subset,
+                'feature_subset_mapped' : feature_subset_mapped
             }
             self._status['number_of_samples_trained'] = i + 1  # keep update current status
         
@@ -74,8 +81,7 @@ class decisionTreeCandidateGenerator:
         self._status['msg'] = 'TRAIN COMPLETED'
         self._candidates = candidates
 
-
-    def trees_info(self, is_grouped_by_nodes: False):
+    def trees_info(self):
         '''
         Return the information of the decision tree candidates
         
@@ -90,27 +96,20 @@ class decisionTreeCandidateGenerator:
                 'tree_id': tree.id(),
                 'params': tree.train_params(),
                 'predicted': tree.predict(),
-                'number_of_nodes': tree.tree_number_of_nodes()
+                'number_of_nodes': tree.tree_number_of_nodes(),
+                'hierarchy_data': tree.generate_hierarchy()
             }
             candidate_info.append(tree_info)
-        
-        def group_candidates_by_nodes():
-            grouped = {}
-            for candidate in candidate_info:
-                num_nodes = candidate['number_of_nodes']
-                if num_nodes not in grouped:
-                    grouped[num_nodes] = []
-                grouped[num_nodes].append(candidate)
-            grouped = {k: grouped[k] for k in sorted(grouped)} # Sort the dic based on key
-            return grouped
-        
+
+        pareto_front = paretoAnalysis(candidate_info)
+        pareto_front.pareto_analysis()
+
         output = {
             'total_candidates_before_pruning': len(candidate_info),
-            'total_candidates_after_pruning': len([info for info in candidate_info if info['number_of_nodes'] > 1]),
+            'total_candidates_after_pruning': len([info for info in candidate_info if info['number_of_nodes'] > 1]),    # TODO: correct the pruning logic
+            'pareto_front': pareto_front.pareto_front,
             'candidates': candidate_info
         }
-        if is_grouped_by_nodes:
-            output['candidates'] = group_candidates_by_nodes()
         return output
 
 

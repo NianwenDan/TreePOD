@@ -1,127 +1,132 @@
 {
+    "code": 200,
     "data": {
-        "feature": "age",
-        "threshold": 28.5,
-        "training_samples_reached": 22792,
-        "testing_samples_reached": 9769,
-        "value": [
-            [
-                0.4762636012636013,
-                0.32585995085995084,
-                0.16597929097929098,
-                0.0318971568971569
-            ]
-        ],
-        "impurity": 1.625400208571358
-    },
-    "left": {
         "data": {
             "feature": "age",
-            "threshold": 23.5,
-            "training_samples_reached": 6241,
-            "testing_samples_reached": 2657,
+            "threshold": 28.5,
+            "training_samples_reached": 22792,
+            "testing_samples_reached": 9769,
             "value": [
                 [
-                    0.18234257330556,
-                    0.7633392084601827,
-                    0.05287614164396731,
-                    0.0014420765902900176
+                    0.4762636012636013,
+                    0.32585995085995084,
+                    0.16597929097929098,
+                    0.0318971568971569
                 ]
             ],
-            "impurity": 0.982971482112317
+            "impurity": 1.625400208571358
         },
         "left": {
             "data": {
-                "feature": null,
-                "threshold": null,
-                "training_samples_reached": 3341,
-                "testing_samples_reached": 1431,
+                "feature": "age",
+                "threshold": 23.5,
+                "training_samples_reached": 6241,
+                "testing_samples_reached": 2657,
                 "value": [
                     [
-                        0.07003891050583658,
-                        0.9063154744088596,
-                        0.022747680335228972,
-                        0.0008979347500748278
+                        0.18234257330556,
+                        0.7633392084601827,
+                        0.05287614164396731,
+                        0.0014420765902900176
                     ]
                 ],
-                "impurity": 0.5305158151999244
+                "impurity": 0.982971482112317
             },
-            "left": null,
-            "right": null
+            "left": {
+                "data": {
+                    "feature": null,
+                    "threshold": null,
+                    "training_samples_reached": 3341,
+                    "testing_samples_reached": 1431,
+                    "value": [
+                        [
+                            0.07003891050583658,
+                            0.9063154744088596,
+                            0.022747680335228972,
+                            0.0008979347500748278
+                        ]
+                    ],
+                    "impurity": 0.5305158151999244
+                },
+                "left": null,
+                "right": null
+            },
+            "right": {
+                "data": {
+                    "feature": null,
+                    "threshold": null,
+                    "training_samples_reached": 2900,
+                    "testing_samples_reached": 1226,
+                    "value": [
+                        [
+                            0.3117241379310345,
+                            0.5986206896551725,
+                            0.08758620689655172,
+                            0.0020689655172413794
+                        ]
+                    ],
+                    "impurity": 1.2935163549052613
+                },
+                "left": null,
+                "right": null
+            }
         },
         "right": {
             "data": {
-                "feature": null,
-                "threshold": null,
-                "training_samples_reached": 2900,
-                "testing_samples_reached": 1226,
+                "feature": "age",
+                "threshold": 44.5,
+                "training_samples_reached": 16551,
+                "testing_samples_reached": 7112,
                 "value": [
                     [
-                        0.3117241379310345,
-                        0.5986206896551725,
-                        0.08758620689655172,
-                        0.0020689655172413794
+                        0.5870944353815479,
+                        0.16089662256057036,
+                        0.2086278774696393,
+                        0.0433810645882424
                     ]
                 ],
-                "impurity": 1.2935163549052613
+                "impurity": 1.5432596928747404
             },
-            "left": null,
-            "right": null
+            "left": {
+                "data": {
+                    "feature": null,
+                    "threshold": null,
+                    "training_samples_reached": 9274,
+                    "testing_samples_reached": 4028,
+                    "value": [
+                        [
+                            0.5520810869096399,
+                            0.22967435842139314,
+                            0.20983394436057795,
+                            0.008410610308389044
+                        ]
+                    ],
+                    "impurity": 1.4912745278798403
+                },
+                "left": null,
+                "right": null
+            },
+            "right": {
+                "data": {
+                    "feature": null,
+                    "threshold": null,
+                    "training_samples_reached": 7277,
+                    "testing_samples_reached": 3084,
+                    "value": [
+                        [
+                            0.6317163666346022,
+                            0.07324446887453621,
+                            0.20709083413494572,
+                            0.0879483303559159
+                        ]
+                    ],
+                    "impurity": 1.473715712494924
+                },
+                "left": null,
+                "right": null
+            }
         }
     },
-    "right": {
-        "data": {
-            "feature": "age",
-            "threshold": 44.5,
-            "training_samples_reached": 16551,
-            "testing_samples_reached": 7112,
-            "value": [
-                [
-                    0.5870944353815479,
-                    0.16089662256057036,
-                    0.2086278774696393,
-                    0.0433810645882424
-                ]
-            ],
-            "impurity": 1.5432596928747404
-        },
-        "left": {
-            "data": {
-                "feature": null,
-                "threshold": null,
-                "training_samples_reached": 9274,
-                "testing_samples_reached": 4028,
-                "value": [
-                    [
-                        0.5520810869096399,
-                        0.22967435842139314,
-                        0.20983394436057795,
-                        0.008410610308389044
-                    ]
-                ],
-                "impurity": 1.4912745278798403
-            },
-            "left": null,
-            "right": null
-        },
-        "right": {
-            "data": {
-                "feature": null,
-                "threshold": null,
-                "training_samples_reached": 7277,
-                "testing_samples_reached": 3084,
-                "value": [
-                    [
-                        0.6317163666346022,
-                        0.07324446887453621,
-                        0.20709083413494572,
-                        0.0879483303559159
-                    ]
-                ],
-                "impurity": 1.473715712494924
-            },
-            "left": null,
-            "right": null
-        }
-    }
+    "msg": "",
+    "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
 }

@@ -24,6 +24,9 @@ class decisionTreeTrainer:
             self._X_test = self._X_test[feature_subset]
 
         self._predict_data = None
+        # TODO: remove hard-coded class_mapping
+        self.class_mapping = {"Married": 0, "Never married": 1, "Divorced or Separated": 2, "Widowed": 3}
+
 
 
     def id(self) -> int:
@@ -117,13 +120,17 @@ class decisionTreeTrainer:
             return None
         tree_ = self._tree.tree_
         feature_names = self._tree.feature_names_in_
-        # feature_names = getattr(self._tree, 'feature_names_in_', [f'feature_{i}' for i in range(tree_.n_features)])
 
         def dfs(node):
-            # get necessary value
-            feature_name = feature_names[tree_.feature[node]]
-            threshold = float(tree_.threshold[node])
+            if tree_.feature[node] != _tree.TREE_UNDEFINED:  # non-leaf node
+                feature_name = feature_names[tree_.feature[node]]
+                threshold = float(tree_.threshold[node])
+            else:  # Leaf node
+                feature_name = None
+                threshold = None
+
             training_samples_reached = int(tree_.n_node_samples[node])
+            testing_samples_reached = len(np.where(self._tree.decision_path(self._X_test).toarray()[:, node] == 1)[0])
             value = tree_.value[node].tolist()
             impurity = float(tree_.impurity[node])
             res = {
@@ -131,18 +138,19 @@ class decisionTreeTrainer:
                     "feature": feature_name,
                     "threshold": threshold,
                     "training_samples_reached": training_samples_reached,
-                    "value": value,
+                    "testing_samples_reached": testing_samples_reached,
+                    "value": value, # % of each class at this node
                     "impurity": impurity
                 },
                 "left": None,
                 "right": None
             }
-            
-            # base case: If this is a leaf node
+
+            # Base case: if this is a leaf node
             if tree_.feature[node] == _tree.TREE_UNDEFINED:
-                return res 
-            # recursive case: Not a leaf node
-            # create the node dictionary with feature, threshold, and recursive children
+                return res
+
+            # Recursive case: Not a leaf node            
             res['left'] = dfs(tree_.children_left[node])
             res['right'] = dfs(tree_.children_right[node])
             return res
@@ -200,25 +208,17 @@ class decisionTreeTrainer:
             'labels': list(self._tree.classes_)  # Add labels for the matrix /eg-class labels 0(first row 1st col) , 1(for second r and sec col etc)
         }
 
-    # Track data flow through the tree (as in the previous implementation)
     def get_node_data(self):
         """
-        Track data distribution at each tree node.
+        Track data distribution at each leaf node.
 
-        Parameters:
-        - tree: Trained decision tree.
-        - X: Input features.
-        - original_df: Original dataframe (for categorical values).
-        - categorical_columns: List of categorical column names from original_df.
-
-        Returns:
-        - node_data: Dictionary with data distributions for each node.
+        @return: 
+        proportions: samples at each leaf node / all samples
+        class_distributions: % of each class at each leaf node
         """
         # Apply the tree to the dataset
         leaf_indices = self._tree.apply(self._X_test)
 
-        #leaf_classes = [np.argmax(Counter(self.y_test[leaf_indices == leaf]).values()) for leaf in np.unique(leaf_indices)]
-            
         # Get proportions of samples in each leaf
         leaf_counts = Counter(leaf_indices)
         total_samples = sum(leaf_counts.values())
@@ -233,40 +233,17 @@ class decisionTreeTrainer:
         
         return proportions, class_distributions
 
+    def generate_hierarchy(self) -> dict:
         '''
-        # Get the tree structure
-        tree_ = tree.tree_
-        n_nodes = tree_.node_count
-
-        # Prepare a dictionary to store data at each node
-        node_data = {i: {'total_count': 0, 'categorical_distribution': {col: {} for col in self.categorical_columns}} for i in range(n_nodes)}
-        print ('node_data: ', node_indices)
-        
-        # Iterate over each data point
-        for i, node_index in enumerate(node_indices):
-            node_data[node_index]['total_count'] += 1
-
-            # Update categorical distribution using the original DataFrame
-            for col in self.categorical_columns:
-                value = original_df.iloc[i][col]
-                if value not in node_data[node_index]['categorical_distribution'][col]:
-                    node_data[node_index]['categorical_distribution'][col][value] = 0
-                node_data[node_index]['categorical_distribution'][col][value] += 1
-
-        return node_data    '''    
-
-
-    def generate_hierarchy(self):
-        # TODO: remove hard-coded class_mapping
-        class_mapping = {"Married": 0, "Never married": 1, "Divorced or Separated": 2, "Widowed": 3}
-
+        @return: hierarchy: a dict with proper format for d3 visualization of treemaps
+        '''
         proportions, distributions = self.get_node_data()
         hierarchy = {"name": "Tree", "children": []}
         for i, (prop, dist) in enumerate(zip(proportions, distributions)):
-            mapped_class_distribution = {key: round(dist[value], 2) for key, value in class_mapping.items() if value in dist}
+            mapped_class_distribution = {key: round(dist[value], 2) for key, value in self.class_mapping.items() if value in dist}
             leaf = {
                 "name": f"Leaf {i + 1}",
-                "value": prop * 100,  # Scale proportion to a meaningful value
+                "value": prop,
                 "classDistribution": mapped_class_distribution
             }
             hierarchy["children"].append(leaf)

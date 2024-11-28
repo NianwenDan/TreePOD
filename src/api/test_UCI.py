@@ -54,9 +54,13 @@ user_config = decisionTreeConfig(max_depth_range=range(1, 7), random_state_range
 # Generate decision tree candidates
 generator = decisionTreeCandidateGenerator(X_train, y_train, X_test, y_test, column_mapping, config=user_config)
 generator.train()
-candidates = generator._candidates
 
 # Output to json. Vis will load json data
 output = generator.trees_info()
-with open('example/api/model/trees.4.json', 'w') as json_file:
+with open('example/api/model/trees.5.json', 'w') as json_file:
     json.dump(output, json_file, indent=4)
+
+# Output the last Pareto-optimal tree
+tree_output = generator.tree_structure(int(output['pareto_front']['f1_score_number_of_nodes'][-1]))
+with open('example/api/tree/structure.2.json', 'w') as json_file:
+    json.dump(tree_output, json_file, indent=4)

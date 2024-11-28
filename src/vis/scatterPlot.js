@@ -138,10 +138,11 @@ d3.json("trees.4.json").then(function(data) {
         const points = svg.selectAll("circle").data(candidates);
 
         // Pareto-front
-        const sortedParetoKey = `${xAttr}_${yAttr}`.split('_').sort().join('_');
+        const sortedParetoKey = [getAttributeName(xAttr), getAttributeName(yAttr)].sort().join('_');
         const paretoFront = data.pareto_front[sortedParetoKey];
         //const paretoFront = data.pareto_front[`${xAttr}_${yAttr}`];
-        console.log('key: ', sortedParetoKey)
+        console.log('key: ', sortedParetoKey);
+        console.log('pareto_front: ', paretoFront);
         points.enter()
             .append("circle")
             .merge(points)
@@ -161,7 +162,7 @@ d3.json("trees.4.json").then(function(data) {
             .x(d => xScale(getAttributeValue(d, xAttr)))
             .y(d => yScale(getAttributeValue(d, yAttr)))
             .curve(d3.curveMonotoneX); // Smooth line
-
+        
         svg.append("path")
             .datum(paretoCandidates)
             .attr("fill", "none")
@@ -170,7 +171,7 @@ d3.json("trees.4.json").then(function(data) {
             .attr("d", line);
         
         //paretoCandidates.slice(0, 8).forEach(d => createTreeMap(d));
-        const paretoTreemap = paretoCandidates.filter(d => d["Nr. of Nodes"]>1);
+        const paretoTreemap = paretoCandidates.filter(d => d["number_of_nodes"]>1);
         console.log('paretoCandidates: ', paretoTreemap.slice(0, 8))
         paretoTreemap.slice(0, 8).forEach(d => {
             // Create a container <div> for each treemap with margin
@@ -262,7 +263,7 @@ d3.json("trees.4.json").then(function(data) {
     function getAttributeValue(d, attribute) {
         switch (attribute) {
             case "Accuracy [F1 score]":
-                return d["f1_score"];
+                return d["predicted"]["f1_score"];
             case "Nr. of Leaves":
                 return d.params.max_leaf_nodes || 0; // Assuming "max_leaf_nodes" is available in params
             case "Nr. of Nodes":
@@ -275,4 +276,22 @@ d3.json("trees.4.json").then(function(data) {
                 return 0;
         }
     }
+
+    // Helper function to get the attribute value from the candidate data
+    function getAttributeName(attribute) {
+        switch (attribute) {
+            case "Accuracy [F1 score]":
+                return "f1_score";
+            //case "Nr. of Leaves":
+            //    return d.params.max_leaf_nodes || 0; // Assuming "max_leaf_nodes" is available in params
+            case "Nr. of Nodes":
+                return "number_of_nodes";
+            //case "Nr. of Used Attributes":
+            //    return Object.keys(d.params.attributes).length;
+            //case "Depth":
+            //    return d.params.max_depth || 0;
+            default:
+                return 0;
+        }
+    }    
 });

@@ -91,15 +91,33 @@ generator.train()
 # It's ok just override the original file, too many old files make it harder to understand what are they doing.
 # Output to json. Vis will load json data
 output = generator.trees_info()
+output = {
+    "code": 200,
+    "data": output,
+    "msg": "OK",
+    "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
+}
 with open('example/api/model/trees.json', 'w') as json_file:
     json.dump(output, json_file, indent=4)
 
 # Output the last Pareto-optimal tree
-tree_output = generator.tree_structure(int(output['pareto_front']['f1_score_number_of_nodes'][-1]))
+tree_output = generator.tree_structure(int(output['data']['pareto_front']['f1_score_number_of_nodes'][-1]))
+tree_output = {
+    "code": 200,
+    "data": tree_output,
+    "msg": "OK",
+    "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
+}
 with open('example/api/tree/structure.json', 'w') as json_file:
     json.dump(tree_output, json_file, indent=4)
 
 # Output the last Pareto-optimal tree confusion matrix
-tree_confusion_matrix = generator.get_confusion_matrix(int(output['pareto_front']['f1_score_number_of_nodes'][-1]))
+tree_confusion_matrix = generator.get_confusion_matrix(int(output['data']['pareto_front']['f1_score_number_of_nodes'][-1]))
+tree_confusion_matrix = {
+    "code": 200,
+    "data": tree_confusion_matrix,
+    "msg": "OK",
+    "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
+}
 with open('example/api/tree/confusion-matrix.json', 'w') as json_file:
-    json.dump(tree_output, json_file, indent=4)
+    json.dump(tree_confusion_matrix, json_file, indent=4)

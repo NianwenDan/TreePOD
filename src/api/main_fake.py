@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, make_response, send_file
+from flask import Flask, request, jsonify, make_response, send_from_directory
 from decisionTreeCandidateGenerator import decisionTreeCandidateGenerator
 from decisionTreeConfig import decisionTreeConfig
 import threading
@@ -9,11 +9,22 @@ import json
 from sklearn.model_selection import train_test_split
 import pandas as pd
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../vis/')
 
-# @app.route('/')
-# def index():
-#     return redirect("https://google.com")
+@app.route('/')
+def index():
+    # Serve index.html for the root URL
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/dashboard')
+def dashboard():
+    # Serve dashboard.html when accessing /dashboard
+    return send_from_directory(app.static_folder, 'dashboard.html')
+
+@app.route('/<path:filename>')
+def serve_static_file(filename):
+    # Serve any file in the static folder or its subdirectories
+    return send_from_directory(app.static_folder, filename)
 
 db = {}
 
@@ -63,6 +74,10 @@ def get_userId():
         response = make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND'}), 404)
         response.set_cookie('uuid', '', max_age=0) # expire the cookie now
         return response
+    
+@app.route('/api/v1/dataset/list', methods=['GET'])
+def get_dataset_list():
+    return make_response(jsonify({'code' : 200, 'msg' : 'OK', 'data': ['UCI Dataset']}), 200)
 
 @app.route('/api/v1/model/train-status', methods=['GET'])
 def get_model_status():

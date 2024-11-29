@@ -23,10 +23,6 @@ def is_user_exists(request):
         return True
     return False
 
-def get_user_model(request):
-    uuid4 = request.cookies.get('uuid')
-    return db[uuid4]['model']
-
 def read_json_file(path):
     try:
         with open(f'../../example/api/{path}', 'r') as file:
@@ -87,11 +83,7 @@ def get_candidate_trees():
     if not is_user_exists(request):
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
     
-    is_grouped_by_nodes = request.args.get('isGrouped', type = bool)
-    if is_grouped_by_nodes:
-        data = read_json_file('model/trees.2.json') # load ordered by nbr of nodes json
-        return make_response(jsonify(data), data['code'])
-    data = read_json_file('model/trees.1.json') # load ordered by tree id
+    data = read_json_file('model/trees.json')
     return make_response(jsonify(data), data['code'])
 
 @app.route('/api/v1/tree/structure', methods=['GET'])
@@ -99,20 +91,15 @@ def get_tree_structure():
     if not is_user_exists(request):
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
     
-    data = {
-        'code': 200,
-        'userId': request.cookies.get('uuid'),
-        'msg': '',
-        'data': None
-    }
-    tree_id = request.args.get('treeId', type = int)
-    model = get_user_model(request)
-    trees_structure = model.tree_structure(tree_id=tree_id)
-    if not trees_structure:
-        data['code'] = 404
-        data['msg'] = 'TREE ID DOES NOT EXISTS, YOU TRAINING MAY NOT STARTED OR TREE ID IS INVAILD'
-        return make_response(jsonify(data), data['code'])
-    data['data'] = trees_structure
+    data = read_json_file('tree/structure.json')
+    return make_response(jsonify(data), data['code'])
+
+@app.route('/api/v1/tree/confusion-matrix', methods=['GET'])
+def get_tree_confusion_matrix():
+    if not is_user_exists(request):
+        return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
+    
+    data = read_json_file('tree/confusion-matrix.json')
     return make_response(jsonify(data), data['code'])
 
 if __name__ == '__main__':

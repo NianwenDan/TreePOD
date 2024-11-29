@@ -1,3 +1,30 @@
+function createDropdown() {
+    // Dropdown lists in the treemap div
+    const dropdownOptions = ["Accuracy [F1 score]", "Nr. of Leaves", "Nr. of Nodes", "Nr. of Used Attributes", "Depth"];
+    // TODO: add the following: ["Avg. significant digits", "F1 Never married", "F1 Married", "F1 Divorced or Separated", "F1 Widowed"]
+
+    // Ensure dropdowns are appended to the div and not the SVG
+    const dropdownContainer = d3.select("#treemap").append("div").attr("class", "dropdown-container");
+
+    dropdownContainer.append("label").text("X Axis: ")
+        .append("select")
+        .attr("id", "x-axis-select")
+        .selectAll("option")
+        .data(dropdownOptions)
+        .enter()
+        .append("option")
+        .text(d => d);
+        
+    dropdownContainer.append("label").text("Y Axis: ")
+        .append("select")
+        .attr("id", "y-axis-select")
+        .selectAll("option")
+        .data(dropdownOptions)
+        .enter()
+        .append("option")
+        .text(d => d);
+}
+
 function updateTreeMap(paretoCandidates) {
     //paretoCandidates.slice(0, 8).forEach(d => createTreeMap(d));
     const paretoTreemap = paretoCandidates.filter(d => d["number_of_nodes"]>1);

@@ -87,12 +87,14 @@ class decisionTreeTrainer:
             precision = metrics.precision_score(self._y_test, dtree_y_pred, average='weighted', zero_division=0)
             recall = metrics.recall_score(self._y_test, dtree_y_pred, average='weighted')
             f1_score = metrics.f1_score(self._y_test, dtree_y_pred, average='weighted')
+            f1_score_class = metrics.f1_score(self._y_test, dtree_y_pred, average=None)
             # update predition data
             self._predict_data = {
                 'accuracy': accuracy,
                 'precision': precision,
                 'recall': recall,
-                'f1_score': f1_score
+                'f1_score': f1_score,
+                'f1_score_class': f1_score_class.tolist()
             }        
         return self._predict_data
 

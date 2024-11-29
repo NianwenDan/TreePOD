@@ -97,8 +97,8 @@
         },
         "right": {
             "data": {
-                "feature": "age",
-                "threshold": 44.5,
+                "feature": "sex_Female",
+                "threshold": 0.5,
                 "training_samples_reached": 16551,
                 "testing_samples_reached": 7112,
                 "value": [
@@ -119,16 +119,16 @@
             },
             "left": {
                 "data": {
-                    "feature": "age",
-                    "threshold": 35.5,
-                    "training_samples_reached": 9274,
-                    "testing_samples_reached": 4028,
+                    "feature": "income_<=50K",
+                    "threshold": 0.5,
+                    "training_samples_reached": 11594,
+                    "testing_samples_reached": 5013,
                     "value": [
                         [
-                            0.5520810869096399,
-                            0.22967435842139314,
-                            0.20983394436057795,
-                            0.008410610308389044
+                            0.7428842504743833,
+                            0.12937726410212178,
+                            0.11704329825771952,
+                            0.0106951871657754
                         ]
                     ],
                     "labels": [
@@ -137,20 +137,20 @@
                         "Divorced or Separated",
                         "Widowed"
                     ],
-                    "impurity": 1.4912745278798405
+                    "impurity": 1.1325051560424093
                 },
                 "left": {
                     "data": {
                         "feature": null,
                         "threshold": null,
-                        "training_samples_reached": 4220,
-                        "testing_samples_reached": 1807,
+                        "training_samples_reached": 4450,
+                        "testing_samples_reached": 1932,
                         "value": [
                             [
-                                0.5071090047393365,
-                                0.3177725118483412,
-                                0.1703791469194313,
-                                0.004739336492890996
+                                0.9069662921348315,
+                                0.03932584269662921,
+                                0.04764044943820225,
+                                0.006067415730337079
                             ]
                         ],
                         "labels": [
@@ -159,7 +159,7 @@
                             "Divorced or Separated",
                             "Widowed"
                         ],
-                        "impurity": 1.4939563991668432
+                        "impurity": 0.5652663721007343
                     },
                     "left": null,
                     "right": null
@@ -168,14 +168,14 @@
                     "data": {
                         "feature": null,
                         "threshold": null,
-                        "training_samples_reached": 5054,
-                        "testing_samples_reached": 2221,
+                        "training_samples_reached": 7144,
+                        "testing_samples_reached": 3081,
                         "value": [
                             [
-                                0.5896319746735259,
-                                0.1561139691333597,
-                                0.24277799762564306,
-                                0.01147605856747131
+                                0.6406774916013438,
+                                0.18547032474804032,
+                                0.1602743561030235,
+                                0.013577827547592385
                             ]
                         ],
                         "labels": [
@@ -184,7 +184,7 @@
                             "Divorced or Separated",
                             "Widowed"
                         ],
-                        "impurity": 1.437435992695471
+                        "impurity": 1.3699204011573147
                     },
                     "left": null,
                     "right": null
@@ -193,15 +193,15 @@
             "right": {
                 "data": {
                     "feature": "age",
-                    "threshold": 60.5,
-                    "training_samples_reached": 7277,
-                    "testing_samples_reached": 3084,
+                    "threshold": 50.5,
+                    "training_samples_reached": 4957,
+                    "testing_samples_reached": 2099,
                     "value": [
                         [
-                            0.6317163666346022,
-                            0.07324446887453621,
-                            0.20709083413494572,
-                            0.0879483303559159
+                            0.22271535202743595,
+                            0.23461771232600362,
+                            0.4228363929796248,
+                            0.11983054266693564
                         ]
                     ],
                     "labels": [
@@ -210,20 +210,20 @@
                         "Divorced or Separated",
                         "Widowed"
                     ],
-                    "impurity": 1.4737157124949243
+                    "impurity": 1.8651770794972375
                 },
                 "left": {
                     "data": {
                         "feature": null,
                         "threshold": null,
-                        "training_samples_reached": 5638,
-                        "testing_samples_reached": 2391,
+                        "training_samples_reached": 3612,
+                        "testing_samples_reached": 1552,
                         "value": [
                             [
-                                0.6402979780063852,
-                                0.0775097552323519,
-                                0.22986874778290173,
-                                0.05232351897836112
+                                0.24031007751937986,
+                                0.2823920265780731,
+                                0.4393687707641196,
+                                0.037929125138427465
                             ]
                         ],
                         "labels": [
@@ -232,7 +232,7 @@
                             "Divorced or Separated",
                             "Widowed"
                         ],
-                        "impurity": 1.4080887169744987
+                        "impurity": 1.7098284377541504
                     },
                     "left": null,
                     "right": null
@@ -241,14 +241,14 @@
                     "data": {
                         "feature": null,
                         "threshold": null,
-                        "training_samples_reached": 1639,
-                        "testing_samples_reached": 693,
+                        "training_samples_reached": 1345,
+                        "testing_samples_reached": 547,
                         "value": [
                             [
-                                0.602196461256864,
-                                0.05857230018303844,
-                                0.12873703477730322,
-                                0.21049420378279438
+                                0.1754646840148699,
+                                0.10631970260223049,
+                                0.37843866171003715,
+                                0.3397769516728624
                             ]
                         ],
                         "labels": [
@@ -257,7 +257,7 @@
                             "Divorced or Separated",
                             "Widowed"
                         ],
-                        "impurity": 1.5343591677147608
+                        "impurity": 1.844003845754194
                     },
                     "left": null,
                     "right": null

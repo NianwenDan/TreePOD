@@ -5,14 +5,10 @@ class paretoAnalysis:
         self.candidates = candidates
         self.pareto_front = {}
         # TODO: remove hard-coded part
-        self.attribute_pairs = [
-            #("depth", "f1_score"),
-            ("number_of_nodes", "f1_score"),
-            ("f1_score", "number_of_nodes")
-        ]
+        self.attributes = ["depth", "f1_score", "number_of_nodes", "number_of_leaves", "number_of_used_attributes"]
+        self.attribute_pairs = [(a, b) for a in self.attributes for b in self.attributes if a!= b]
         #self.maximize_attributes = set(maximize_attributes) if maximize_attributes else set()
         self.maximize_attributes = set({"f1_score"})
-
 
     def find_pareto_optimal(self, attribute1, attribute2):
         """

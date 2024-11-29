@@ -1,7 +1,7 @@
 // Assuming that you have the JSON data loaded in as "data"
 // and the JSON file is called "tree_candidates.json"
 
-d3.json("trees.4.json").then(function(data) {
+d3.json("trees.5.json").then(function(data) {
     const margin = {top: 20, right: 20, bottom: 40, left: 60};
     const scatterPlotDiv = d3.select("#scatter-plot");
     const scatterPlotWidth = parseInt(scatterPlotDiv.style("width")) - margin.left - margin.right;
@@ -53,15 +53,6 @@ d3.json("trees.4.json").then(function(data) {
         .append("option")
         .text(d => d);
 
-    dropdownContainer.append("label").text("Y Axis: ")
-        .append("select")
-        .attr("id", "y-axis-select")
-        .selectAll("option")
-        .data(dropdownOptions)
-        .enter()
-        .append("option")
-        .text(d => d);
-
     // Initial plot update
     d3.select("#x-axis-select").property("value", "Nr. of Nodes");
     d3.select("#y-axis-select").property("value", "Accuracy [F1 score]");
@@ -80,8 +71,14 @@ d3.json("trees.4.json").then(function(data) {
         updateScatterPlot(xAttribute, yAttribute);
     });
 
-
-
+    dropdownContainer.append("label").text("Y Axis: ")
+        .append("select")
+        .attr("id", "y-axis-select")
+        .selectAll("option")
+        .data(dropdownOptions)
+        .enter()
+        .append("option")
+        .text(d => d);
 
     function updateScatterPlot(xAttr, yAttr) {
         // Clear previous plot
@@ -170,128 +167,42 @@ d3.json("trees.4.json").then(function(data) {
             .attr("stroke-width", 2)
             .attr("d", line);
         
-        //paretoCandidates.slice(0, 8).forEach(d => createTreeMap(d));
-        const paretoTreemap = paretoCandidates.filter(d => d["number_of_nodes"]>1);
-        console.log('paretoCandidates: ', paretoTreemap.slice(0, 8))
-        paretoTreemap.slice(0, 8).forEach(d => {
-            // Create a container <div> for each treemap with margin
-            const treemapContainer = d3.select("#treemap").append("div")
-                .style("margin-right", "10px")  // Add space between treemaps
-                .style("display", "inline-block");  // Optional: to customize alignment
-        
-            // Call createTreeMap and pass the container div as a parameter
-            createTreeMap(d, treemapContainer);
-        });
-        //createTreeMap(candidates, 43);
-
-        function createTreeMap(d, treemapContainer) {
-            //const filteredTree = candidates.find(candidate => candidate.tree_id === idx);
-
-            // Dimensions for the treemap
-            const width = 80;
-            const height = 80;
-
-            // Extract the hierarchy data
-            const rootData = d.hierarchy_data;
-
-            // Create a root hierarchy
-            const root = d3.hierarchy(rootData).sum(d => d.value);
-
-            // Create the treemap layout
-            d3.treemap()
-                .size([width, height])
-                .padding(1)(root);
-
-            // Append an SVG to the treemap div
-            const treemap = treemapContainer//d3.select("#treemap")
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height);
-
-            // Add rectangles for each node
-            const nodes = treemap.selectAll("g")
-                .data(root.leaves())
-                .enter()
-                .append("g")
-                .attr("transform", d => `translate(${d.x0}, ${d.y0})`);
-
-            // Add rectangles
-            nodes.append("rect")
-                .attr("class", "leaf")
-                .attr("width", d => d.x1 - d.x0)
-                .attr("height", d => d.y1 - d.y0)
-                .attr("fill", "white"); // Background color for the leaf
-
-            // Add quasi-random pixel representation for class distribution
-            nodes.append("foreignObject")
-                .attr("width", d => d.x1 - d.x0)
-                .attr("height", d => d.y1 - d.y0)
-                .append("xhtml:div")
-                .style("width", d => `${d.x1 - d.x0}px`)
-                .style("height", d => `${d.y1 - d.y0}px`)
-                .style("display", "grid")
-                .style("grid-template-columns", "repeat(auto-fill, 2px)")
-                .style("grid-auto-rows", "2px")
-                .selectAll("div")
-                .data(d => {
-                    // Get class distribution and scale to pixel count
-                    const pixelCount = Math.floor((d.x1 - d.x0) * (d.y1 - d.y0) / 4); // 2x2 px per pixel
-                    const distribution = d.data.classDistribution || {};
-                    const classPixels = Object.entries(distribution).flatMap(([className, freq]) => {
-                        const count = Math.round(freq * pixelCount);
-                        return Array(count).fill(className);
-                    });
-                    return d3.shuffle(classPixels); // Shuffle for quasi-random placement
-                })
-                .enter()
-                .append("div")
-                .style("width", "2px")
-                .style("height", "2px")
-                .style("background-color", className => {
-                    switch (className) {
-                        case "Married": return "#002f6c";
-                        case "Never married": return "#ebbe4d";
-                        case "Divorced or Separated": return "#cd1c18";
-                        case "Widowed": return "#00965f";
-                        default: return "gray";
-                    }
-                });
-        }        
+        updateTreeMap(paretoCandidates);        
     }
-
-    // Helper function to get the attribute value from the candidate data
-    function getAttributeValue(d, attribute) {
-        switch (attribute) {
-            case "Accuracy [F1 score]":
-                return d["predicted"]["f1_score"];
-            case "Nr. of Leaves":
-                return d.params.max_leaf_nodes || 0; // Assuming "max_leaf_nodes" is available in params
-            case "Nr. of Nodes":
-                return d["number_of_nodes"];
-            case "Nr. of Used Attributes":
-                return Object.keys(d.params.attributes).length;
-            case "Depth":
-                return d.params.max_depth || 0;
-            default:
-                return 0;
-        }
-    }
-
-    // Helper function to get the attribute value from the candidate data
-    function getAttributeName(attribute) {
-        switch (attribute) {
-            case "Accuracy [F1 score]":
-                return "f1_score";
-            //case "Nr. of Leaves":
-            //    return d.params.max_leaf_nodes || 0; // Assuming "max_leaf_nodes" is available in params
-            case "Nr. of Nodes":
-                return "number_of_nodes";
-            //case "Nr. of Used Attributes":
-            //    return Object.keys(d.params.attributes).length;
-            //case "Depth":
-            //    return d.params.max_depth || 0;
-            default:
-                return 0;
-        }
-    }    
 });
+
+// Helper function to get the attribute value from the candidate data
+function getAttributeValue(d, attribute) {
+    switch (attribute) {
+        case "Accuracy [F1 score]":
+            return d["predicted"]["f1_score"];
+        case "Nr. of Leaves":
+            return d.params.max_leaf_nodes || 0; // Assuming "max_leaf_nodes" is available in params
+        case "Nr. of Nodes":
+            return d["number_of_nodes"];
+        case "Nr. of Used Attributes":
+            return Object.keys(d.params.attributes).length;
+        case "Depth":
+            return d.params.max_depth || 0;
+        default:
+            return 0;
+    }
+}
+
+// Helper function to get the attribute value from the candidate data
+function getAttributeName(attribute) {
+    switch (attribute) {
+        case "Accuracy [F1 score]":
+            return "f1_score";
+        //case "Nr. of Leaves":
+        //    return d.params.max_leaf_nodes || 0; // Assuming "max_leaf_nodes" is available in params
+        case "Nr. of Nodes":
+            return "number_of_nodes";
+        //case "Nr. of Used Attributes":
+        //    return Object.keys(d.params.attributes).length;
+        //case "Depth":
+        //    return d.params.max_depth || 0;
+        default:
+            return 0;
+    }
+}    

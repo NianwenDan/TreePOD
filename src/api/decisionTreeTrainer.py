@@ -103,11 +103,29 @@ class decisionTreeTrainer:
         
         @return: int: the number of nodes in the decision tree
         '''
-        # train not started/finished
         if not self._tree:
             return None
         return self._tree.tree_.node_count
 
+    def tree_number_of_leaves(self) -> int:
+        '''
+        Return the number of leaves in the decision tree
+        
+        @return: int: the number of leaves in the decision tree
+        '''
+        if not self._tree:
+            return None
+        return int(self._tree.tree_.n_leaves)
+
+    def tree_depth(self) -> int:
+        '''
+        Return the depth of the decision tree
+        
+        @return: int: the depth of the decision tree
+        '''
+        if not self._tree:
+            return None
+        return int(self._tree.tree_.max_depth)
 
     def tree_structure(self) -> dict:
         '''

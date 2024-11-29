@@ -97,7 +97,8 @@ class decisionTreeCandidateGenerator:
                 'params': tree.train_params(),
                 'predicted': tree.predict(),
                 'number_of_nodes': tree.tree_number_of_nodes(),
-                'hierarchy_data': tree.generate_hierarchy()
+                'hierarchy_data': tree.generate_hierarchy(),
+                'confusion_matrix': tree.confusion_matrix()
             }
             candidate_info.append(tree_info)
 

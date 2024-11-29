@@ -140,6 +140,7 @@ class decisionTreeTrainer:
                     "training_samples_reached": training_samples_reached,
                     "testing_samples_reached": testing_samples_reached,
                     "value": value, # % of each class at this node
+                    'labels': list(key for key, value in self.class_mapping.items() if value in self._tree.classes_),
                     "impurity": impurity
                 },
                 "left": None,
@@ -205,7 +206,7 @@ class decisionTreeTrainer:
         cm = metrics.confusion_matrix(self._y_test, y_pred)
         return {
             'confusion_matrix': cm.tolist(),  # Convert to list for JSON serialization if needed
-            'labels': list(self._tree.classes_)  # Add labels for the matrix /eg-class labels 0(first row 1st col) , 1(for second r and sec col etc)
+            'labels': list(key for key, value in self.class_mapping.items() if value in self._tree.classes_)  # Add labels for the matrix /eg-class labels 0(first row 1st col) , 1(for second r and sec col etc)
         }
 
     def get_node_data(self):

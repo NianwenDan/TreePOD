@@ -16,14 +16,14 @@ class decisionTreeConfig:
         max_depth = random.choice(self.max_depth_range)
         min_samples_split = random.choice(self.min_samples_split_range)
         random_state = random.choice(self.random_state_range)
-        nr_of_nodes = random.randint(1, total_features)
+        nr_of_attributes = random.randint(1, total_features)
         ccp_alpha = random.choice(self.ccp_alpha_range)
         return {
             'criterion': criterion,
             'max_depth': max_depth,
             'min_samples_split': min_samples_split,
             'random_state': random_state,
-            'nr_of_nodes': nr_of_nodes,
+            'nr_of_attributes': nr_of_attributes,
             'ccp_alpha': ccp_alpha, # TODO: add another input to activate/deactivate pruning
             'total_samples' : self.total_samples
         }

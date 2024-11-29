@@ -47,7 +47,7 @@ class decisionTreeCandidateGenerator:
         total_features = len(self._column_mapping)
         for i in range(self._num_candidates):
             params = self._config.sample_parameters(total_features)
-            feature_subset_index = self._sample_feature_subset(params['nr_of_nodes'])
+            feature_subset_index = self._sample_feature_subset(params['nr_of_attributes'])
             feature_subset = [list(self._column_mapping.keys())[ii] for ii in feature_subset_index]
             feature_subset_mapped = []
             for ii in feature_subset:
@@ -97,6 +97,10 @@ class decisionTreeCandidateGenerator:
                 'params': tree.train_params(),
                 'predicted': tree.predict(),
                 'number_of_nodes': tree.tree_number_of_nodes(),
+                'number_of_leaves': tree.tree_number_of_leaves(),
+                'number_of_used_attributes': len(t['feature_subset']),
+                'depth': tree.tree_depth(),
+                'avg_significant_digits': 0,    # Nimesh TODO: put the corresponding number here
                 'hierarchy_data': tree.generate_hierarchy(),
                 'confusion_matrix': tree.confusion_matrix()
             }

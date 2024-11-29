@@ -41,6 +41,7 @@ def dataProcessing_UCI(df, categorical_columns):
 
     # Combine numerical and encoded categorical data
     X = pd.concat([df[numeric_columns], categorical_df], axis=1) 
+    X.columns = [col[:-1] if col.endswith('.') else col for col in X.columns]
 
     # Step 4: Encode the target variable   
     y = df['marital-status'].map({' Never-married': 1, ' Married-civ-spouse': 0, ' Married-spouse-absent': 0, ' Married-AF-spouse': 0, ' Divorced': 2, ' Separated': 2, ' Widowed': 3})
@@ -52,9 +53,12 @@ def mainDataProcessing_UCI(path, dataProcessing_UCI, categorical_columns):
     df_train = pd.read_csv(os.path.join(path, 'uci_adult.data.csv')).drop('relationship', axis=1)
     df_test = pd.read_csv(os.path.join(path, 'uci_adult.test.csv')).drop('relationship', axis=1)
 
+    '''
     X_train, y_train = dataProcessing_UCI(df_train, categorical_columns)
     X_test, y_test = dataProcessing_UCI(df_test, categorical_columns)
-    #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=100)
+    '''
+    X, y = dataProcessing_UCI(df_train, categorical_columns)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=100)
 
     X_train.to_csv(os.path.join(path, "UCI_X_train.csv"), index=False)
     y_train.to_csv(os.path.join(path, "UCI_y_train.csv"), index=False)

@@ -88,12 +88,18 @@ user_config = decisionTreeConfig(max_depth_range=range(1, 7), random_state_range
 generator = decisionTreeCandidateGenerator(X_train, y_train, X_test, y_test, column_mapping, config=user_config)
 generator.train()
 
+# It's ok just override the original file, too many old files make it harder to understand what are they doing.
 # Output to json. Vis will load json data
 output = generator.trees_info()
-with open('example/api/model/trees.5.json', 'w') as json_file:
+with open('example/api/model/trees.json', 'w') as json_file:
     json.dump(output, json_file, indent=4)
 
 # Output the last Pareto-optimal tree
 tree_output = generator.tree_structure(int(output['pareto_front']['f1_score_number_of_nodes'][-1]))
-with open('example/api/tree/structure.2.json', 'w') as json_file:
+with open('example/api/tree/structure.json', 'w') as json_file:
+    json.dump(tree_output, json_file, indent=4)
+
+# Output the last Pareto-optimal tree confusion matrix
+tree_confusion_matrix = generator.get_confusion_matrix(int(output['pareto_front']['f1_score_number_of_nodes'][-1]))
+with open('example/api/tree/confusion-matrix.json', 'w') as json_file:
     json.dump(tree_output, json_file, indent=4)

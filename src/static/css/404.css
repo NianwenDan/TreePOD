@@ -1,0 +1,18 @@
+html, body {
+    height: 100%; /* Ensure the HTML and body occupy 100% of the viewport height */
+    margin: 0; /* Remove any default margin */
+}
+
+.container {
+    max-width: 1200px; /* Optional: Control the container's maximum width */
+}
+
+.main-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 600px); /* Subtract header and footer heights if fixed */
+    text-align: center; /* Center-align text */
+    padding: 20px; /* Add some padding for better spacing */
+}

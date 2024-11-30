@@ -1,15 +1,11 @@
 from flask import Flask, request, jsonify, make_response, send_from_directory
-from decisionTreeCandidateGenerator import decisionTreeCandidateGenerator
-from decisionTreeConfig import decisionTreeConfig
-import threading
 import uuid
-from functools import wraps
 import json
 
 from sklearn.model_selection import train_test_split
 import pandas as pd
 
-app = Flask(__name__, static_folder='../vis/')
+app = Flask(__name__, static_folder='./static')
 
 @app.route('/')
 def index():
@@ -36,7 +32,7 @@ def is_user_exists(request):
 
 def read_json_file(path):
     try:
-        with open(f'../../example/api/{path}', 'r') as file:
+        with open(f'../example/api/{path}', 'r') as file:
             return json.load(file)
     except FileNotFoundError:
         return {'code' : 500, 'msg' : 'JSON file not found'}

@@ -30,11 +30,27 @@ const fetchData = async (endpoint, options = {}) => {
   }
 };
 
+/**
+ * Helper function to make POST API requests with JSON payload
+ * @param {string} endpoint - The API endpoint (relative to BASE_URL)
+ * @param {object} jsonData - The JSON payload to send
+ * @returns {Promise<any>} - The response data
+ */
+const postData = async (endpoint, jsonData) => {
+  return fetchData(endpoint, {
+    method: 'POST',
+    body: JSON.stringify(jsonData),
+  });
+};
+
 // Define global functions for specific endpoints
 window.fetcher = {
   systemStatus: () => fetchData('/system/status'),
   systemSetUserId: () => fetchData('/system/set-userId'),
   systemGetUserId: () => fetchData('/system/get-userId'),
+  userGetConfig: () => fetchData('/user/get-config'),
+  userGetRandomConfig: () => fetchData('/user/get-random-config'),
+  userSetConfigs: (data) => postData('/user/set-configs', data),
   datasetList: () => fetchData('/dataset/list'),
   modelTrainStart: () => fetchData('/model/train-start'),
   modelTrainStatus: () => fetchData('/model/train-status'),

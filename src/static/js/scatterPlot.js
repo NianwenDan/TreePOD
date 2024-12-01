@@ -7,6 +7,8 @@ let xAttribute = "Nr. of Nodes";
 let yAttribute = "Accuracy [F1 score]";
 let all_data = null;
 let data, hierarchy;
+let selectedTreeId = null;
+let previousSelectedPoint = null;
 
 Promise.all([
     d3.json("http://127.0.0.1:5500/api/v1/model/trees"),
@@ -78,6 +80,18 @@ function initializeApplication() {
         updateTreeMap(paretoCandidates);
     });
 
+    // When clicking a treemap, its corresponding scatter point will be highlighted
+    d3.selectAll("svg[tree_id]").on("click", function (event) {
+        const treeId = d3.select(this).attr("tree_id");
+        highlightTreeMap(treeId);
+        selectedTreeId = treeId;
+        highlightScatterPoint(treeId);
+    });
+
+    if (selectedTreeId != previousSelectedPoint) {
+        displayDecisionTree();  // TODO: trigger Kaiyuan's code
+    }
+
     function updateScatterPlot(xAttr, yAttr) {
         // Clear previous plot
         scatterPlotDiv.selectAll("svg").remove();
@@ -133,20 +147,28 @@ function initializeApplication() {
             .style('font-family', 'Arial')
             .text(yAttr);
 
+        drawParetoFront(svg, xAttr, yAttr);  
+
         // Bind data and create scatter plot points
         const points = svg.selectAll("circle").data(candidates);
         points.enter()
             .append("circle")
             .merge(points)
+            .attr("tree_id", d => d.tree_id)
             .attr("cx", d => xScale(getAttributeValue(d, xAttr)))
             .attr("cy", d => yScale(getAttributeValue(d, yAttr)))
-            .attr("r", d => paretoFront.includes(d.tree_id) ? 4 : 2) // Increase point size for Pareto-optimal candidates
-            .style("fill", "black");
-        points.exit().remove();
-        
-        drawParetoFront(svg, xAttr, yAttr);  
+            .attr("r", d => paretoFront.includes(d.tree_id) ? 3 : 1.5) // Increase point size for Pareto-optimal candidates
+            .style("fill", "black")
+            .on("click", function(event, d) {
+                if (!paretoFront.includes(d.tree_id)) {
+                    return; // Ignore clicks on non-Pareto front points
+                }
+                selectedTreeId = d.tree_id;
+                highlightScatterPoint(selectedTreeId);
+            });
+        points.exit().remove();        
         enableFilter(); 
-        
+
         // Draw line connecting Pareto-optimal points
         function drawParetoFront(svg, xAttr, yAttr) {
             const line = d3.line()
@@ -297,4 +319,59 @@ function getAttributeName(attribute) {
         default:
             return 0;
     }
-}    
+}
+/*
+function highlightScatterPoint(id, element) {
+    if (previousSelectedPoint) {
+        d3.select(previousSelectedPoint).attr("r", 3); // Reset to default radius
+    }
+    d3.selectAll(".highlight-circle").remove();
+    previousSelectedPoint = element;
+    
+    d3.select(element.parentNode)
+        .append("circle")
+        .attr("class", "highlight-circle")
+        .attr("cx", d3.select(element).attr("cx"))
+        .attr("cy", d3.select(element).attr("cy"))
+        .attr("r", 6)
+        .style("fill", "none")
+        .style("stroke", "black")
+        .style("stroke-width", 1);
+    d3.select(element).attr("r", 4);
+    console.log('Selected tree_id: ', id);
+    // Highlight the corresponding treemap
+    highlightTreeMap(id);
+}
+*/
+function highlightScatterPoint(id) {
+    if (previousSelectedPoint) {
+        d3.select(`circle[tree_id='${previousSelectedPoint}']`).attr("r", 3); // Reset to default radius
+    }
+
+    const element = d3.select(`circle[tree_id='${id}']`).node(); // Get the DOM node
+    if (!element) {
+        console.error("No element found with tree_id:", id);
+        return;
+    }
+
+    d3.selectAll(".highlight-circle").remove();
+    previousSelectedPoint = id;
+    
+    d3.select(element.parentNode)
+        .append("circle")
+        .attr("class", "highlight-circle")
+        .attr("cx", d3.select(element).attr("cx"))
+        .attr("cy", d3.select(element).attr("cy"))
+        .attr("r", 6)
+        .style("fill", "none")
+        .style("stroke", "black")
+        .style("stroke-width", 1);
+    d3.select(element).attr("r", 4);
+    console.log('Selected tree_id: ', id);
+    // Highlight the corresponding treemap
+    highlightTreeMap(id);
+}
+
+function displayDecisionTree() {
+    // display the decision tree with tree_id = selectedTreeId
+}

@@ -9,8 +9,10 @@ let all_data = null;
 let data, hierarchy;
 
 Promise.all([
-    d3.json("http://127.0.0.1:5500/example/api/model/trees.json"),
-    d3.json("http://127.0.0.1:5500/example/api/tree/hierarchy_data.json")
+    d3.json("http://127.0.0.1:5500/api/v1/model/trees"),
+    d3.json("http://127.0.0.1:5500/api/v1/tree/hierarchy")
+    //d3.json("http://127.0.0.1:5500/example/api/model/trees.json"),
+    //d3.json("http://127.0.0.1:5500/example/api/tree/hierarchy_data.json")
 ])
 .then(([json1, json2]) => {
     data = json1.data;
@@ -38,11 +40,11 @@ function initializeApplication() {
     // Dropdown list for x and y axis of the scatter plot will be placed next to the treemaps. See treeMaps.js
     createDropdown();
 
-    const margin = {top: 20, right: 20, bottom: 40, left: 60};
+    const margin = {top: 60, right: 20, bottom: 40, left: 80};//{top: 20, right: 20, bottom: 40, left: 60};
     const scatterPlotDiv = d3.select("#scatter-plot-svg");
     const scatterPlotWidth = parseInt(scatterPlotDiv.style("width")) - margin.left - margin.right;
     const scatterPlotHeight = parseInt(scatterPlotDiv.style("height")) - margin.top - margin.bottom;
-
+    console.log(scatterPlotWidth, scatterPlotHeight)
     // Create SVG for the Scatter Plot in the scatter-plot div
     scatterPlotDiv.selectAll("svg").remove(); // Clear previous plot if it exists
     const svg = scatterPlotDiv.append("svg")

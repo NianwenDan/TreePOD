@@ -28,17 +28,17 @@ function createDropdown() {
 
 function updateTreeMap(paretoCandidates) {
     // Clear all existing treemaps
-    d3.select("#treemap").selectAll(".single-treemap").remove();
+    d3.select("#treemap").selectAll(".tree-map-svg").remove();
 
     const paretoTreemap = paretoCandidates.filter(d => d["number_of_nodes"]>1);
     console.log('paretoTreemap: ', paretoTreemap);
     paretoTreemap.forEach(d => {
     //paretoTreemap.slice(0, 8).forEach(d => {
         // Create a container <div> for each treemap with margin
-        const treemapContainer = d3.select("#treemap").append("div").attr("class", "single-treemap")
-            .style("margin-top", "15px")
-            .style("margin-right", "10px")  // Add space between treemaps
-            .style("display", "inline-block");
+        const treemapContainer = d3.select("#treemap").append("div").attr("class", "tree-map-svg")
+            //.style("margin-top", "10px")
+            .style("margin-right", "10px");  // Add space between treemaps
+            //.style("display", "inline-block");
     
         // Call createTreeMap and pass the container div as a parameter
         createTreeMap(d.tree_id, treemapContainer);
@@ -47,8 +47,9 @@ function updateTreeMap(paretoCandidates) {
 
 function createTreeMap(id, treemapContainer) {
     // Dimensions for the treemap
-    const width = 80;
-    const height = 80;
+    const element = treemapContainer.node().getBoundingClientRect();
+    const width = element.width * 0.9;
+    const height = element.height * 0.9;
 
     // Extract the hierarchy data
     const rootData = hierarchy.find(entry => entry.tree_id === id)['hierarchy_data'];
@@ -62,8 +63,8 @@ function createTreeMap(id, treemapContainer) {
         .padding(1)(root);
 
     // Append an SVG to the treemap div
-    const treemap = treemapContainer//d3.select("#treemap")
-        .append("svg")
+    const treemap = treemapContainer
+        .append("svg").attr("tree_id", id)
         .attr("width", width)
         .attr("height", height);
 

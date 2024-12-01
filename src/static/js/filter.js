@@ -83,3 +83,10 @@ function applyFilterConditions(data, filterConditions) {
         });
     });
 }
+
+function updatePointsOpacity() {
+    d3.selectAll("circle[tree_id]")
+        .style("opacity", d => 
+            data.candidates.some(candidate => candidate.tree_id === d.tree_id) ? 1 : 0.2
+        );
+}

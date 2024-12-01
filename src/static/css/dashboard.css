@@ -1,0 +1,33 @@
+#decision-tree-svg {
+    width: 1210px;
+    height: 500px;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    transform-origin: top left; /* Scaling starts from the top left corner */
+    transition: transform 0.3s ease-in-out; /* Smooth zoom transition */
+}
+
+.tree-map-svg {
+    width: 100px;
+    height:100px;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+}
+
+#scatter-plot-svg {
+    width: 500px;
+    height:500px;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+}
+
+#confusion-matrix-svg {
+    width: 200px;
+    height:200px;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+}

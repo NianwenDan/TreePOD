@@ -17,6 +17,18 @@ def dashboard():
     # Serve dashboard.html when accessing /dashboard
     return send_from_directory(app.static_folder, 'dashboard.html')
 
+@app.route('/get-started')
+def get_started():
+    return send_from_directory(app.static_folder, 'get-started.html')
+
+@app.route('/settings')
+def settings():
+    return send_from_directory(app.static_folder, 'settings.html')
+
+@app.route('/train-status')
+def train_status():
+    return send_from_directory(app.static_folder, 'train-status.html')
+
 @app.route('/<path:filename>')
 def serve_static_file(filename):
     # Serve any file in the static folder or its subdirectories
@@ -41,7 +53,8 @@ def read_json_file(path):
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return make_response(jsonify({'code' : 404, 'msg' : 'API NOT FOUND'}), 404)
+    # return make_response(jsonify({'code' : 404, 'msg' : 'API NOT FOUND'}), 404)
+    return send_from_directory(app.static_folder, '404.html')
 
 @app.route('/api/v1/system/status', methods=['GET'])
 def get_system_status():
@@ -73,7 +86,7 @@ def get_userId():
     
 @app.route('/api/v1/dataset/list', methods=['GET'])
 def get_dataset_list():
-    return make_response(jsonify({'code' : 200, 'msg' : 'OK', 'data': ['UCI Dataset']}), 200)
+    return make_response(jsonify({'code' : 200, 'msg' : 'OK', 'data': ['UCI Census Income 1994', 'Online Payment Fraud']}), 200)
 
 @app.route('/api/v1/model/train-status', methods=['GET'])
 def get_model_status():

@@ -1,0 +1,9 @@
+.main-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px; /* Subtract header and footer heights if fixed */
+    text-align: center; /* Center-align text */
+    padding: 20px; /* Add some padding for better spacing */
+}

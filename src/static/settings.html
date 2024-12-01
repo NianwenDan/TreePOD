@@ -56,6 +56,9 @@
         <div class="container">
             <form>
                 <div class="row g-3">
+                    <div class="col-md-2">
+                        <button class="w-100 btn btn-dark" id="generate-random-config-btn">Generate Random</button>
+                    </div>
                     <div class="col-12">
                         <label for="classification-target" class="form-label">
                             Classification Target
@@ -77,7 +80,12 @@
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Tooltip Text Placehoder"></i>
                         </label>
-                        <input type="text" class="form-control" id="feature-set" placeholder="" required="" disabled>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="feature-set" placeholder="" required="" disabled>
+                            <div class="input-group-append">
+                                <span class="input-group-text">features</span>
+                            </div>
+                        </div>
                         <div class="invalid-feedback">
                             Please enter a valid email address for shipping updates.
                         </div>
@@ -89,7 +97,13 @@
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Tooltip Text Placehoder"></i>
                         </label>
-                        <input type="text" class="form-control" id="additional-features" placeholder="" required="" disabled>
+                        <!-- <input type="text" class="form-control" id="additional-features" placeholder="" required=""> -->
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="additional-features" placeholder="" required="">
+                            <div class="input-group-append">
+                                <span class="input-group-text">features</span>
+                            </div>
+                        </div>
                         <div class="invalid-feedback">
                             Please enter your shipping address.
                         </div>
@@ -101,7 +115,7 @@
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Tooltip Text Placehoder"></i>
                         </label>
-                        <input type="text" class="form-control" id="selection-criterion" placeholder="" required="" disabled>
+                        <input type="text" class="form-control" id="selection-criterion" placeholder="" required="">
                         <div class="invalid-feedback">
                             Pleace Holder Invaid Feedback
                         </div>
@@ -113,7 +127,7 @@
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Tooltip Text Placeholder"></i>
                         </label>
-                        <input type="text" class="form-control" id="max-depth" placeholder="" required="" disabled>
+                        <input type="text" class="form-control" id="max-depth" placeholder="" required="">
                         <div class="invalid-feedback">
                             Placeholder Invalid Feedback
                         </div>
@@ -137,7 +151,7 @@
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Tooltip Text Placeholder"></i>
                         </label>
-                        <input type="text" class="form-control" id="training-data" placeholder="" required="" disabled>
+                        <input type="text" class="form-control" id="training-data" placeholder="" required >
                         <div class="invalid-feedback">
                             Placeholder Invalid Feedback
                         </div>
@@ -149,7 +163,7 @@
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Tooltip Text Placeholder"></i>
                         </label>
-                        <input type="text" class="form-control" id="pruning" placeholder="" required="" disabled>
+                        <input type="text" class="form-control" id="pruning" placeholder="" required >
                         <div class="invalid-feedback">
                             Placeholder Invalid Feedback
                         </div>
@@ -186,7 +200,8 @@
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Tooltip Text Placeholder"></i>
                         </label>
-                        <input type="text" class="form-control" id="evaluation-data" placeholder="" required="" disabled>
+                        <input type="text" class="form-control" id="evaluation-data" placeholder="" required=""
+                            disabled>
                         <div class="invalid-feedback">
                             Placeholder Invalid Feedback
                         </div>
@@ -198,14 +213,15 @@
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Tooltip Text Placeholder"></i>
                         </label>
-                        <input type="text" class="form-control" id="stochastic-samples" placeholder="" required="" disabled>
+                        <input type="text" class="form-control" id="stochastic-samples" placeholder="" required="">
                         <div class="invalid-feedback">
                             Placeholder Invalid Feedback
                         </div>
                     </div>
 
-                <hr class="my-4">
-                <button class="w-100 btn btn-dark btn-lg" type="submit" id="start-training-btn">Staring Training</button>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-dark btn-lg" type="submit" id="start-training-btn">Staring
+                        Training</button>
             </form>
         </div>
     </main>
@@ -227,6 +243,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="js/alert.js"></script>
+    <script src="js/fetcher.js"></script>
     <script src="js/settings.js"></script>
 </body>
 

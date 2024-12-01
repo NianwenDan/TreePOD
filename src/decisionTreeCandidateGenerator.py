@@ -1,15 +1,16 @@
 from decisionTreeTrainer import decisionTreeTrainer
+from decisionTreeConfig import decisionTreeConfig
 from paretoAnalysis import paretoAnalysis
 import random
 
 class decisionTreeCandidateGenerator:
-    def __init__(self, X_train, y_train, X_test, y_test, column_mapping, config):
+    def __init__(self, X_train, y_train, X_test, y_test, column_mapping, config: decisionTreeConfig):
         self._X_train = X_train
         self._y_train = y_train
         self._X_test = X_test
         self._y_test = y_test
         self._config = config
-        self._num_candidates = self._config.total_samples
+        self._num_candidates = self._config._total_samples
         self._candidates = None
         self._column_mapping = column_mapping
         self._pareto_front = None
@@ -46,7 +47,7 @@ class decisionTreeCandidateGenerator:
         candidates = {}
         total_features = len(self._column_mapping)
         for i in range(self._num_candidates):
-            params = self._config.sample_parameters(total_features)
+            params = self._config.get_all_parameter(total_features=total_features)
             feature_subset_index = self._sample_feature_subset(params['nr_of_attributes'])
             feature_subset = [list(self._column_mapping.keys())[ii] for ii in feature_subset_index]
             feature_subset_mapped = []

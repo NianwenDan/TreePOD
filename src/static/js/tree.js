@@ -1,6 +1,7 @@
 // 树形决策树数据
 let total_samples = 0
-d3.json("../../../example/api/tree/structure.json").then(function(data) {
+//d3.json("../../../example/api/tree/structure.json").then(function(data) {
+d3.json("http://127.0.0.1:5500/api/v1/tree/structure").then(function(data) {
     total_samples = data.data.data.training_samples_reached
     console.log(data.data.data.training_samples_reached)
     const treeData  = process_treeData(data.data, "All sample", 1, 1)
@@ -24,7 +25,7 @@ d3.json("../../../example/api/tree/structure.json").then(function(data) {
     treeLayout(root);
 
     // 创建 SVG 元素
-    const svg = d3.select("body")
+    const svg = d3.select("#decision-tree-svg")
         .append("svg")
         .attr("width", width)
         .attr("height", height)

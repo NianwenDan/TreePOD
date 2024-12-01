@@ -69,6 +69,7 @@ function initializeApplication() {
         updateParetoFront(data, xAttribute, yAttribute);
         updateSummaryPanel();
         updateScatterPlot(xAttribute, yAttribute);
+        updatePointsOpacity();
         updateTreeMap(paretoCandidates);
     });
 
@@ -77,6 +78,7 @@ function initializeApplication() {
         updateParetoFront(data, xAttribute, yAttribute);
         updateSummaryPanel();
         updateScatterPlot(xAttribute, yAttribute);
+        updatePointsOpacity();
         updateTreeMap(paretoCandidates);
     });
 
@@ -102,7 +104,7 @@ function initializeApplication() {
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
         // Prepare data
-        const candidates = data.candidates;
+        const candidates = all_data.candidates;
         const xValues = candidates.map(d => getAttributeValue(d, xAttr));
         const yValues = candidates.map(d => getAttributeValue(d, yAttr));
 
@@ -166,7 +168,7 @@ function initializeApplication() {
                 selectedTreeId = d.tree_id;
                 highlightScatterPoint(selectedTreeId);
             });
-        points.exit().remove();        
+        points.exit().remove();
         enableFilter(); 
 
         // Draw line connecting Pareto-optimal points
@@ -211,6 +213,7 @@ function initializeApplication() {
                     updateXFilter(xAttr, xScale.invert(x), xScale.domain()[1]);
                     data.candidates = [...applyFilterConditions(all_data.candidates, filterConditions)];
                     console.log("Filtered Trees:", data.candidates.length, all_data.candidates.length);
+                    updatePointsOpacity();
                 });
 
             // Add X-axis filter rectangle
@@ -252,6 +255,7 @@ function initializeApplication() {
                 updateYFilter(yAttr, yScale.invert(y), yScale.domain()[0]);
                 data.candidates = [...applyFilterConditions(all_data.candidates, filterConditions)];
                 console.log("Filtered Trees:", data.candidates.length, all_data.candidates.length);
+                updatePointsOpacity();
             });        
 
             // Add Y-axis filter rectangle

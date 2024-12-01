@@ -6,11 +6,30 @@ let paretoFrontTreeNum = 0;
 let xAttribute = "Nr. of Nodes";
 let yAttribute = "Accuracy [F1 score]";
 let all_data = null;
+let data, hierarchy;
 
-d3.json("../../../example/api/model/trees.json").then(function(data) {
-    // Store the original data before applying any filter
-    all_data = JSON.parse(JSON.stringify(data));
+Promise.all([
+    d3.json("http://127.0.0.1:5500/example/api/model/trees.json"),
+    d3.json("http://127.0.0.1:5500/example/api/tree/hierarchy_data.json")
+])
+.then(([json1, json2]) => {
+    data = json1.data;
+    hierarchy = json2.data;
+    all_data = JSON.parse(JSON.stringify(json1.data));
+    //console.log("Data 1:", data);
+    //console.log("Data 2:", hierarchy);
+    initializeApplication();
+})
+.catch(error => {
+    console.error("Error loading JSON files:", error);
+});
 
+//d3.json("http://127.0.0.1:5500/example/api/model/trees.json").then(function(response) {
+// Store the original data before applying any filter
+//const data = response.data;
+//all_data = JSON.parse(JSON.stringify(response.data));
+
+function initializeApplication() {
     // Execute this step to get the initial pareto optimal tree number and display in the summary panel
     updateParetoFront(data, "Nr. of Nodes", "Accuracy [F1 score]");
 
@@ -220,12 +239,13 @@ d3.json("../../../example/api/model/trees.json").then(function(data) {
                 .call(yDrag);
         }
     }
-});
+}
 
 // Each time the x and y attributes are selected from the dropdown list, retrieve the pareto front tree ids from json
 function updateParetoFront(data, xAttr, yAttr) {
         // Pareto-front
         const sortedParetoKey = [getAttributeName(xAttr), getAttributeName(yAttr)].sort().join('__');
+        console.log('data: ', data);
         paretoFront = data.pareto_front[sortedParetoKey];
         paretoFrontTreeNum = paretoFront.length;
         console.log('key: ', sortedParetoKey);

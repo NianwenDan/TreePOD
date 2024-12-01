@@ -157,3 +157,21 @@ class decisionTreeCandidateGenerator:
         if not self._candidates or tree_id not in self._candidates:
             return None
         return self._candidates[tree_id]['tree_object'].confusion_matrix()
+
+    def get_pareto_hierarchy_data(self) -> dict:
+        '''
+        Return the hierarchy data structure of all pareto-optimal trees
+        
+        @return: dict: the hierarchy data structure for all trees. TODO: only keep pareto-optimal trees
+        '''
+        if not self._candidates:
+            return None
+        hierarchy_data = []
+        for t in self._candidates.values():
+            tree = t['tree_object']
+            tree_info = {
+                'tree_id': tree.id(),
+                'hierarchy_data': tree.generate_hierarchy()
+            }
+            hierarchy_data.append(tree_info)
+        return hierarchy_data

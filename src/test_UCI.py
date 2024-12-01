@@ -13,7 +13,7 @@ def check_and_load_data(path):
     If any file is missing, call the data processing function.
     """
     # File names
-    file_names = ["X_train.csv", "y_train.csv", "X_test.csv", "y_test.csv"]
+    file_names = ["UCI_X_train.csv", "UCI_y_train.csv", "UCI_X_test.csv", "UCI_y_test.csv"]
 
     # Check if all files exist
     all_files_exist = all(os.path.exists(os.path.join(path, file)) for file in file_names)
@@ -21,9 +21,9 @@ def check_and_load_data(path):
     if all_files_exist:
         # Load the CSV files as DataFrames
         X_train = pd.read_csv(os.path.join(path, "UCI_X_train.csv"))
-        y_train = pd.read_csv(os.path.join(path, "UCI_y_train.csv"))
+        y_train = pd.read_csv(os.path.join(path, "UCI_y_train.csv"))['marital-status']
         X_test = pd.read_csv(os.path.join(path, "UCI_X_test.csv"))
-        y_test = pd.read_csv(os.path.join(path, "UCI_y_test.csv"))
+        y_test = pd.read_csv(os.path.join(path, "UCI_y_test.csv"))['marital-status']
         return X_train, y_train, X_test, y_test
 
 def dataProcessing_UCI(df, categorical_columns):
@@ -45,7 +45,6 @@ def dataProcessing_UCI(df, categorical_columns):
 
     # Step 4: Encode the target variable   
     y = df['marital-status'].map({' Never-married': 1, ' Married-civ-spouse': 0, ' Married-spouse-absent': 0, ' Married-AF-spouse': 0, ' Divorced': 2, ' Separated': 2, ' Widowed': 3})
-    
     return X, y
 
 def mainDataProcessing_UCI(path, dataProcessing_UCI, categorical_columns):
@@ -69,7 +68,7 @@ def mainDataProcessing_UCI(path, dataProcessing_UCI, categorical_columns):
 
 # Check and load data
 categorical_columns = ['workclass', 'education', 'occupation', 'race', 'sex', 'native-country', 'income']
-path = 'src/api/datasets/'
+path = 'datasets/'
 
 result = check_and_load_data(path)
 if result:
@@ -97,27 +96,42 @@ output = {
     "msg": "OK",
     "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
 }
-with open('example/api/model/trees.json', 'w') as json_file:
+with open('../example/api/model/trees.json', 'w') as json_file:
     json.dump(output, json_file, indent=4)
 
+# with open('../example/api/model/trees.json', 'r') as json_file:
+#     output =  json.load(json_file)
+# # Output all Pareto-optimal trees' hierarchy data for creating treemaps
+# pareto_tree_id = list(set(value for value_list in output["data"]['pareto_front'].values() for value in value_list))
+# print (pareto_tree_id)
+hierarchy_data = generator.get_pareto_hierarchy_data()
+hierarchy_data = {
+    "code": 200,
+    "data": hierarchy_data,
+    "msg": "OK",
+    "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
+}
+with open('../example/api/tree/hierarchy_data.json', 'w') as json_file:
+    json.dump(hierarchy_data, json_file, indent=4)
+
 # Output the last Pareto-optimal tree
-tree_output = generator.tree_structure(int(output['data']['pareto_front']['f1_score_number_of_nodes'][-1]))
+tree_output = generator.tree_structure(int(output['data']['pareto_front']['f1_score__number_of_nodes'][-1]))
 tree_output = {
     "code": 200,
     "data": tree_output,
     "msg": "OK",
     "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
 }
-with open('example/api/tree/structure.json', 'w') as json_file:
+with open('../example/api/tree/structure.json', 'w') as json_file:
     json.dump(tree_output, json_file, indent=4)
 
 # Output the last Pareto-optimal tree confusion matrix
-tree_confusion_matrix = generator.get_confusion_matrix(int(output['data']['pareto_front']['f1_score_number_of_nodes'][-1]))
+tree_confusion_matrix = generator.get_confusion_matrix(int(output['data']['pareto_front']['f1_score__number_of_nodes'][-1]))
 tree_confusion_matrix = {
     "code": 200,
     "data": tree_confusion_matrix,
     "msg": "OK",
     "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
 }
-with open('example/api/tree/confusion-matrix.json', 'w') as json_file:
+with open('../example/api/tree/confusion-matrix.json', 'w') as json_file:
     json.dump(tree_confusion_matrix, json_file, indent=4)

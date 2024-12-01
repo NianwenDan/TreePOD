@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         const userIdResponse = await window.fetcher.systemSetUserId();
         if (userIdResponse.code === 200) {
-          // Redirect to the dashboard
-          window.location.href = '/dashboard';
+          // Redirect to the settings
+          window.location.href = '/settings';
         } else {
           console.error('Failed to set user ID:', userIdResponse.msg);
           alert('Failed to proceed. Please try again.');

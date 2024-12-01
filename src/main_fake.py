@@ -21,6 +21,14 @@ def dashboard():
 def get_started():
     return send_from_directory(app.static_folder, 'get-started.html')
 
+@app.route('/settings')
+def settings():
+    return send_from_directory(app.static_folder, 'settings.html')
+
+@app.route('/train-status')
+def train_status():
+    return send_from_directory(app.static_folder, 'train-status.html')
+
 @app.route('/<path:filename>')
 def serve_static_file(filename):
     # Serve any file in the static folder or its subdirectories

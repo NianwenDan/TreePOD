@@ -70,7 +70,7 @@ class paretoAnalysis:
         normalized_pairs = set(tuple(sorted(pair)) for pair in self.attribute_pairs)
 
         for attribute1, attribute2 in normalized_pairs:
-            key = f"{attribute1}_{attribute2}"
+            key = f"{attribute1}__{attribute2}"
 
             if key not in self.pareto_front:
                 self.pareto_front[key] = self.find_pareto_optimal(attribute1, attribute2)

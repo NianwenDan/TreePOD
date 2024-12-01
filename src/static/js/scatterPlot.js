@@ -2,8 +2,17 @@
 // and the JSON file is called "tree_candidates.json"
 let paretoFront = null;
 let paretoCandidates = null;
+let paretoFrontTreeNum = 0;
+let xAttribute = "Nr. of Nodes";
+let yAttribute = "Accuracy [F1 score]";
+let all_data = null;
 
-d3.json("trees.5.json").then(function(data) {
+d3.json("../../../example/api/model/trees.json").then(function(data) {
+    // Store the original data before applying any filter
+    all_data = JSON.parse(JSON.stringify(data));
+
+    // Execute this step to get the initial pareto optimal tree number and display in the summary panel
+    updateParetoFront(data, "Nr. of Nodes", "Accuracy [F1 score]");
 
     createSummaryPanel(data);
 
@@ -26,22 +35,24 @@ d3.json("trees.5.json").then(function(data) {
     // Initial plot update
     d3.select("#x-axis-select").property("value", "Nr. of Nodes");
     d3.select("#y-axis-select").property("value", "Accuracy [F1 score]");
-    updateParetoFront(data, "Nr. of Nodes", "Accuracy [F1 score]");
     updateScatterPlot("Nr. of Nodes", "Accuracy [F1 score]");
+    updateTreeMap(paretoCandidates);
 
     // Add event listeners to dropdowns
     d3.select("#x-axis-select").on("change", function() {
-        const xAttribute = d3.select("#x-axis-select").property("value");
-        const yAttribute = d3.select("#y-axis-select").property("value");
+        xAttribute = d3.select("#x-axis-select").property("value");
         updateParetoFront(data, xAttribute, yAttribute);
+        updateSummaryPanel();
         updateScatterPlot(xAttribute, yAttribute);
+        updateTreeMap(paretoCandidates);
     });
 
     d3.select("#y-axis-select").on("change", function() {
-        const xAttribute = d3.select("#x-axis-select").property("value");
-        const yAttribute = d3.select("#y-axis-select").property("value");
+        yAttribute = d3.select("#y-axis-select").property("value");
         updateParetoFront(data, xAttribute, yAttribute);
+        updateSummaryPanel();
         updateScatterPlot(xAttribute, yAttribute);
+        updateTreeMap(paretoCandidates);
     });
 
     function updateScatterPlot(xAttr, yAttr) {
@@ -60,11 +71,11 @@ d3.json("trees.5.json").then(function(data) {
 
         // Define the scales
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(xValues)])
+            .domain([0, d3.max(xValues) * 1.05])
             .range([0, scatterPlotWidth * 0.9]); // Downsize the plot to fit within the svg
 
         const yScale = d3.scaleLinear()
-            .domain([d3.min(yValues), d3.max(yValues)])
+            .domain([d3.min(yValues), d3.max(yValues) + (d3.max(yValues) - d3.min(yValues)) * 0.05])
             .range([scatterPlotHeight * 0.9, 0]); // Downsize the plot to fit within the svg
 
         // Axes
@@ -110,8 +121,8 @@ d3.json("trees.5.json").then(function(data) {
             .style("fill", "black");
         points.exit().remove();
         
-        drawParetoFront(svg, xAttr, yAttr);
-        updateTreeMap(paretoCandidates);       
+        drawParetoFront(svg, xAttr, yAttr);  
+        enableFilter(); 
         
         // Draw line connecting Pareto-optimal points
         function drawParetoFront(svg, xAttr, yAttr) {
@@ -127,14 +138,96 @@ d3.json("trees.5.json").then(function(data) {
                 .attr("stroke-width", 2)
                 .attr("d", line);
         }
+
+        function enableFilter() {
+            // Add a grey area to indicate the filter range
+            const xFilterArea = svg.append("rect")
+                .attr("x", scatterPlotWidth - margin.right * 2.5) // Initial position
+                .attr("y", 0) // Align with the draggable rectangle
+                .attr("width", 0) // Initially no area is highlighted
+                .attr("height", scatterPlotHeight - margin.bottom) // Same height as the filter rectangle
+                .attr("fill", "grey")
+                .attr("opacity", 0.5); // Semi-transparent
+
+            // Add drag behavior for X-axis filter rectangle
+            const xDrag = d3.drag()
+                .on("drag", function (event) {
+                    const x = Math.min(scatterPlotWidth * 0.9, Math.max(0, event.x));
+                    d3.select(this).attr("x", x);
+                    
+                    // Update the grey filter area based on the current position of the rectangle
+                    const rectX = parseFloat(d3.select(this).attr("x")); // Current x position of the rectangle
+                    const initialX = scatterPlotWidth * 0.9; // Initial x position of the rectangle
+                    const greyWidth = rectX - initialX; // Calculate the grey area width
+                    xFilterArea.attr("x", greyWidth >= 0 ? initialX : rectX) // Ensure it covers left-to-right motion
+                        .attr("width", Math.abs(greyWidth)); // Use absolute value for width
+                    
+                    // Call the update function with the new filter value
+                    updateXFilter(xAttr, xScale.invert(x), xScale.domain()[1]);
+                    data.candidates = [...applyFilterConditions(all_data.candidates, filterConditions)];
+                    console.log("Filtered Trees:", data.candidates.length, all_data.candidates.length);
+                });
+
+            // Add X-axis filter rectangle
+            const xFilterRect = svg.append("rect")
+                .attr("x", scatterPlotWidth * 0.9)
+                .attr("y", scatterPlotHeight/2-margin.bottom)
+                .attr("width", 10)
+                .attr("height", 40)
+                .attr("stroke", "black")
+                //.attr("stroke-width", 1.5)
+                .attr("fill", "white")
+                .call(xDrag);
+
+            // Add a grey area to indicate the filter range for the y-axis
+            const yFilterArea = svg.append("rect")
+                .attr("x", 0) // Align with the y-axis
+                .attr("y", scatterPlotHeight - margin.bottom - 8) // Initial position
+                .attr("width", scatterPlotWidth * 0.9) // Full width
+                .attr("height", 0) // Initially no area is highlighted
+                .attr("fill", "grey")
+                .attr("opacity", 0.5); // Semi-transparent
+
+            // Add drag behavior for Y-axis filter rectangle
+            const yDrag = d3.drag()
+            .on("drag", function (event) {
+                // Constrain the rectangle to only move upwards
+                const initialY = scatterPlotHeight - margin.bottom; // Initial position of the rectangle
+                const y = Math.min(initialY, Math.max(0, event.y)); // Ensure `y` does not exceed `initialY`
+        
+                // Update the position of the rectangle
+                d3.select(this).attr("y", y);
+        
+                // Update the grey filter area based on the current position of the rectangle
+                const rectY = parseFloat(d3.select(this).attr("y")); // Current y position of the rectangle
+                const greyHeight = initialY - rectY; // Calculate the grey area height
+                yFilterArea.attr("y", rectY).attr("height", greyHeight); // Update the height of the grey area
+        
+                // Call the update function with the new filter value
+                updateYFilter(yAttr, yScale.invert(y), yScale.domain()[0]);
+                data.candidates = [...applyFilterConditions(all_data.candidates, filterConditions)];
+                console.log("Filtered Trees:", data.candidates.length, all_data.candidates.length);
+            });        
+
+            // Add Y-axis filter rectangle
+            const yFilterRect = svg.append("rect")
+                .attr("x", (scatterPlotWidth - margin.left) / 2)
+                .attr("y", scatterPlotHeight - margin.bottom-8) // Initial position
+                .attr("width", 40) // Rectangle width
+                .attr("height", 10) // Rectangle height
+                .attr("stroke", "black")
+                .attr("fill", "white")
+                .call(yDrag);
+        }
     }
 });
 
 // Each time the x and y attributes are selected from the dropdown list, retrieve the pareto front tree ids from json
 function updateParetoFront(data, xAttr, yAttr) {
         // Pareto-front
-        const sortedParetoKey = [getAttributeName(xAttr), getAttributeName(yAttr)].sort().join('_');
+        const sortedParetoKey = [getAttributeName(xAttr), getAttributeName(yAttr)].sort().join('__');
         paretoFront = data.pareto_front[sortedParetoKey];
+        paretoFrontTreeNum = paretoFront.length;
         console.log('key: ', sortedParetoKey);
         console.log('pareto_front: ', paretoFront);
 
@@ -142,6 +235,9 @@ function updateParetoFront(data, xAttr, yAttr) {
         paretoCandidates = data.candidates.filter(d => paretoFront.includes(d.tree_id));
         paretoCandidates.sort((a, b) => getAttributeValue(a, xAttr) - getAttributeValue(b, xAttr));  
 }
+
+
+
 
 // Helper function to get the attribute value from the candidate data
 function getAttributeValue(d, attribute) {

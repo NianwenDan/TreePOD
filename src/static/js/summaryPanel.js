@@ -41,7 +41,7 @@ function displayFilterSummary(summaryDiv) {
     if (filters.length > 0) {
         summaryDiv.append("div").attr("class", "row filter-summary-row").style("padding", "10px").style("border-top", "1px solid black").html(`<strong>Result Metric Filters (after filtering)</strong>`);
         filters.forEach((key) => {
-            summaryDiv.append("div").attr("class", "row filter-summary-row").style("padding-bottom", "5px").html(`&nbsp;&nbsp;&nbsp;&nbsp;${key} >= ${filterConditions[key].value}`);
+            summaryDiv.append("div").attr("class", "row filter-summary-row").style("padding-bottom", "5px").html(`&nbsp;&nbsp;&nbsp;&nbsp;${key}&nbsp;${filterConditions[key].sign}&nbsp;${filterConditions[key].value}`);
         }
     );
     }

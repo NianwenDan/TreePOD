@@ -39,7 +39,7 @@ function initializeApplication() {
     createDropdown();
 
     const margin = {top: 20, right: 20, bottom: 40, left: 60};
-    const scatterPlotDiv = d3.select("#scatter-plot");
+    const scatterPlotDiv = d3.select("#scatter-plot-svg");
     const scatterPlotWidth = parseInt(scatterPlotDiv.style("width")) - margin.left - margin.right;
     const scatterPlotHeight = parseInt(scatterPlotDiv.style("height")) - margin.top - margin.bottom;
 

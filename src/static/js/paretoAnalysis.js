@@ -92,7 +92,7 @@ class ParetoAnalysis {
         }
     }
 }
-
+/*
 let currentParetoOptimalDict = {};
 
 d3.json("trees.5.json").then(function(data) {
@@ -107,3 +107,4 @@ d3.json("trees.5.json").then(function(data) {
 function recomputeFilteredParetoFront(data) {
     
 }
+*/

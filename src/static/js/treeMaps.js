@@ -31,6 +31,7 @@ function updateTreeMap(paretoCandidates) {
     d3.select("#treemap").selectAll(".single-treemap").remove();
 
     const paretoTreemap = paretoCandidates.filter(d => d["number_of_nodes"]>1);
+    console.log('paretoTreemap: ', paretoTreemap);
     paretoTreemap.forEach(d => {
     //paretoTreemap.slice(0, 8).forEach(d => {
         // Create a container <div> for each treemap with margin
@@ -40,17 +41,17 @@ function updateTreeMap(paretoCandidates) {
             .style("display", "inline-block");
     
         // Call createTreeMap and pass the container div as a parameter
-        createTreeMap(d, treemapContainer);
+        createTreeMap(d.tree_id, treemapContainer);
     });
 }
 
-function createTreeMap(d, treemapContainer) {
+function createTreeMap(id, treemapContainer) {
     // Dimensions for the treemap
     const width = 80;
     const height = 80;
 
     // Extract the hierarchy data
-    const rootData = d.hierarchy_data;
+    const rootData = hierarchy.find(entry => entry.tree_id === id)['hierarchy_data'];
 
     // Create a root hierarchy
     const root = d3.hierarchy(rootData).sum(d => d.value);

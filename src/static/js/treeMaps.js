@@ -4,7 +4,8 @@ function createDropdown() {
     // TODO: add the following: ["Avg. significant digits", "F1 Never married", "F1 Married", "F1 Divorced or Separated", "F1 Widowed"]
 
     // Ensure dropdowns are appended to the div and not the SVG
-    const dropdownContainer = d3.select("#treemap").append("div").attr("class", "dropdown-container");
+    const dropdownContainer = d3.select("#treemap").append("div").attr("class", "dropdown-container")
+        .style("display", "flex").style("justify-content", "space-between").style("align-items", "center");
 
     dropdownContainer.append("label").text("X Axis: ")
         .append("select")
@@ -26,14 +27,17 @@ function createDropdown() {
 }
 
 function updateTreeMap(paretoCandidates) {
-    //paretoCandidates.slice(0, 8).forEach(d => createTreeMap(d));
+    // Clear all existing treemaps
+    d3.select("#treemap").selectAll(".single-treemap").remove();
+
     const paretoTreemap = paretoCandidates.filter(d => d["number_of_nodes"]>1);
-    //console.log('paretoCandidates: ', paretoTreemap.slice(0, 8))
-    paretoTreemap.slice(0, 8).forEach(d => {
+    paretoTreemap.forEach(d => {
+    //paretoTreemap.slice(0, 8).forEach(d => {
         // Create a container <div> for each treemap with margin
-        const treemapContainer = d3.select("#treemap").append("div")
+        const treemapContainer = d3.select("#treemap").append("div").attr("class", "single-treemap")
+            .style("margin-top", "15px")
             .style("margin-right", "10px")  // Add space between treemaps
-            .style("display", "inline-block");  // Optional: to customize alignment
+            .style("display", "inline-block");
     
         // Call createTreeMap and pass the container div as a parameter
         createTreeMap(d, treemapContainer);
@@ -41,8 +45,6 @@ function updateTreeMap(paretoCandidates) {
 }
 
 function createTreeMap(d, treemapContainer) {
-    //const filteredTree = candidates.find(candidate => candidate.tree_id === idx);
-
     // Dimensions for the treemap
     const width = 80;
     const height = 80;

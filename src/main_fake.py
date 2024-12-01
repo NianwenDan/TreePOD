@@ -110,6 +110,14 @@ def get_candidate_trees():
     data = read_json_file('model/trees.json')
     return make_response(jsonify(data), data['code'])
 
+@app.route('/api/v1/tree/hierarchy', methods=['GET'])
+def get_tree_hierarchy():
+    if not is_user_exists(request):
+        return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
+    
+    data = read_json_file('tree/hierarchy_data.json')
+    return make_response(jsonify(data), data['code'])
+
 @app.route('/api/v1/tree/structure', methods=['GET'])
 def get_tree_structure():
     if not is_user_exists(request):

@@ -35,6 +35,8 @@ def dataProcessing_UCI(df, categorical_columns):
     for col in categorical_columns:
         df[col] = df[col].str.strip()
         df[col] = df[col].fillna(df[col].mode()[0])
+    if "income" in df.columns:
+        df["income"] = df["income"].str.rstrip(".")
 
     # Apply one-hot encoding to categorical columns
     categorical_df = pd.get_dummies(df[[col for col in categorical_columns if col != 'marital-status']])  # Exclude the target column
@@ -51,13 +53,18 @@ def mainDataProcessing_UCI(path, dataProcessing_UCI, categorical_columns):
     # Drop the high correlated column "relationship"
     df_train = pd.read_csv(os.path.join(path, 'uci_adult.data.csv')).drop('relationship', axis=1)
     df_test = pd.read_csv(os.path.join(path, 'uci_adult.test.csv')).drop('relationship', axis=1)
+    
+    df_train['is_train'] = True
+    df_test['is_train'] = False
+    combined_df = pd.concat([df_train, df_test], axis=0)
 
-    '''
-    X_train, y_train = dataProcessing_UCI(df_train, categorical_columns)
-    X_test, y_test = dataProcessing_UCI(df_test, categorical_columns)
-    '''
-    X, y = dataProcessing_UCI(df_train, categorical_columns)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=100)
+    X_combined, y_combined = dataProcessing_UCI(combined_df, categorical_columns)
+
+    # Split back into training and testing sets
+    X_train = X_combined[combined_df['is_train']]
+    y_train = y_combined[combined_df['is_train']]
+    X_test = X_combined[~combined_df['is_train']]
+    y_test = y_combined[~combined_df['is_train']]
 
     X_train.to_csv(os.path.join(path, "UCI_X_train.csv"), index=False)
     y_train.to_csv(os.path.join(path, "UCI_y_train.csv"), index=False)
@@ -77,7 +84,7 @@ else:
     X_train, y_train, X_test, y_test = mainDataProcessing_UCI(path, dataProcessing_UCI, categorical_columns)
 
 # key: column names in df; value: corresponding column names in X_train and X_test
-column_mapping = {original: [col for col in X_train.columns if col.startswith(original)]
+column_mapping = {original: [col for col in X_train.columns if col.startswith(original) and col != 'education-num']
         for original in categorical_columns} | {original: [original] for original in X_train.select_dtypes(include=[np.number]).columns}
 
 # User-defined config

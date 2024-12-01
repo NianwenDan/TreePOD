@@ -117,3 +117,11 @@ function createTreeMap(id, treemapContainer) {
             }
         });
 }
+
+// When a Pareto-optimal tree is selected in the scatter plot, the corresponding treemap will be highlighted.
+function highlightTreeMap(treeId) {
+    d3.selectAll("svg[tree_id]").style("border", "none");
+    if (treeId) {
+        d3.select(`svg[tree_id='${treeId}']`).style("border", "4px solid black");
+    }
+}

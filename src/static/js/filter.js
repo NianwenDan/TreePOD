@@ -23,6 +23,7 @@ function updateYFilter(yAttr, yValue, yMin) {
                 return data[attributeName] >= yValue;
             },
             attribute: getAttributeName(yAttr),
+            sign: '>=',
             value: yValue // Store the raw value
         };
     } else {
@@ -55,6 +56,7 @@ function updateXFilter(xAttr, xValue, xMax) {
                 return data[attributeName] <= xValue;
             },
             attribute: getAttributeName(xAttr),
+            sign: '<=',
             value: xValue
         };    
     } else {

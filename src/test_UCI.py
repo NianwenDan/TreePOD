@@ -81,7 +81,13 @@ column_mapping = {original: [col for col in X_train.columns if col.startswith(or
         for original in categorical_columns} | {original: [original] for original in X_train.select_dtypes(include=[np.number]).columns}
 
 # User-defined config
-user_config = decisionTreeConfig(max_depth_range=range(1, 7), random_state_range=range(50, 51), total_samples=1000)
+# user_config = decisionTreeConfig(max_depth_range=range(1, 7), random_state_range=range(50, 51), total_samples=1000)
+user_config = decisionTreeConfig()
+user_config.set_parameters(
+    total_samples=1000
+)
+user_config.fill_undefined_parameters_randomly()
+print(user_config.get_all_parameter())
 
 # Generate decision tree candidates
 generator = decisionTreeCandidateGenerator(X_train, y_train, X_test, y_test, column_mapping, config=user_config)

@@ -54,6 +54,6 @@ window.fetcher = {
   modelTrainStart: () => fetchData('/model/train-start'),
   modelTrainStatus: () => fetchData('/model/train-status'),
   modelTrees: () => fetchData('/model/trees'),
-  treeStructure: () => fetchData('/tree/structure?treeId=1'),
-  treeConfusionMatrix: () => fetchData('/tree/confusion-matrix?treeId=1'),
+  treeStructure: (treeId) => fetchData(`/tree/structure?treeId=${treeId}`),
+  treeConfusionMatrix: (treeId) => fetchData(`/tree/confusion-matrix?treeId=${treeId}`),
 };

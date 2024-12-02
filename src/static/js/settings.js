@@ -131,7 +131,7 @@ function validateForm() {
     // Check max-depth-range
     const maxDepthMin = document.getElementById("max-depth-range-min");
     const maxDepthMax = document.getElementById("max-depth-range-max");
-    if (!maxDepthMin.value || !maxDepthMax.value || Number(maxDepthMin.value) >= Number(maxDepthMax.value)) {
+    if (!maxDepthMin.value || !maxDepthMax.value || Number(maxDepthMin.value) >= Number(maxDepthMax.value) || Number(maxDepthMin.value) <= 0) {
         maxDepthMin.classList.add("is-invalid");
         maxDepthMax.classList.add("is-invalid");
         isValid = false;
@@ -168,6 +168,27 @@ function validateForm() {
     }
 
     return isValid;
+}
+
+function applyDefault() {
+    // TODO: To be Implemented
+    // const featureSet = document.getElementById("feature-set").value;
+    // formValues["feature-set"] = featureSet ? featureSet.split(",").map((item) => item.trim()) : [];
+
+    document.getElementById("max-depth-range-min").value = 1;
+    document.getElementById("max-depth-range-max").value = 8;
+
+    document.getElementById("min-leaf-size").value = 20;
+
+    document.getElementById("pruning").checked = true;
+
+    document.getElementById("round-to-significant-digit").value = 2;
+
+    document.getElementById("stochastic-samples").value = 100;
+
+    document.querySelectorAll('input[type="checkbox"][id^="selection-criterion"]').forEach((checkbox) => {
+        checkbox.checked = true;
+    });
 }
 
 
@@ -225,4 +246,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             },
         });
     });
+
+    const applyDefaultBtn = document.querySelector("#apply-default-btn");
+    applyDefaultBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        applyDefault();
+    })
 });

@@ -103,5 +103,5 @@ function renderConfusionMatrix(dataUrl, containerId) {
 }
 
 // Call the function
-renderConfusionMatrix('http://127.0.0.1:5500/api/v1/tree/confusion-matrix', "#confusion-matrix-svg");
+renderConfusionMatrix('http://127.0.0.1:5500/api/v1/tree/confusion-matrix?treeId=1', "#confusion-matrix-svg");
 // renderConfusionMatrix('/example/api/tree/confusion-matrix.json', "#confusion-matrix-svg");

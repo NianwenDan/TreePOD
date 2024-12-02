@@ -28,7 +28,8 @@ function updateTreeMap(paretoCandidates) {
     paretoTreemap.forEach(d => {
     //paretoTreemap.slice(0, 8).forEach(d => {
         // Create a container <div> for each treemap with margin
-        const treemapContainer = d3.select("#treemap").append("div").attr("class", "tree-map-svg");
+        const treemapContainer = d3.select("#treemap").append("div")
+                                    .attr("class", "col col-md-auto me-2 tree-map-svg"); // bootstrap grid
             //.style("margin-top", "10px")
             //.style("margin-right", "10px");  // Add space between treemaps
             //.style("display", "inline-block");
@@ -115,7 +116,7 @@ function createTreeMap(id, treemapContainer) {
 function highlightTreeMap(treeId) {
     d3.selectAll("svg[tree_id]").style("border", "none");
     if (treeId) {
-        d3.select(`svg[tree_id='${treeId}']`).style("border", "4px solid black");
+        d3.select(`svg[tree_id='${treeId}']`).style("border", "3px solid black").style('padding', '2px');
     }
 }
 

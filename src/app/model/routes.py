@@ -23,6 +23,8 @@ def train_start():
 
     # Create decision tree candidate generator
     X_train, y_train, X_test, y_test, column_mapping = get_decision_tree_candidate_generator_params()
+    if db[uuid4]['decisionTreeCandiateGenerator']:
+        del db[uuid4]['decisionTreeCandiateGenerator']  # Manual Memory Recycle
     db[uuid4]['decisionTreeCandiateGenerator'] = decisionTreeCandidateGenerator(
         X_train=X_train, 
         y_train=y_train, 

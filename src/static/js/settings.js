@@ -3,7 +3,7 @@ function populateFormFromConfig(configData) {
 
     Object.entries(configData).forEach(([key, value]) => {
         const element = document.getElementById(key);
-        
+
         if (Array.isArray(value)) {
             console.log(key, value)
             if (key === "selection-criterion") {
@@ -12,7 +12,7 @@ function populateFormFromConfig(configData) {
                 allCheckBoxes.forEach((checkbox) => {
                     checkbox.checked = false; // Uncheck all checkboxes initially
                 });
-                
+
                 // Handle multiple checkboxes for selection criteria
                 value.forEach((criterion) => {
                     const checkbox = document.querySelector(`input[type="checkbox"][value="${criterion}"]`);
@@ -199,14 +199,25 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log("Configurations to save:", userConfigs);
 
                 try {
+                    // Save user configurations
                     const response = await window.fetcher.userSetConfigs(userConfigs);
                     if (response.code === 200) {
-                        window.location.href = "/train-status"; // Redirect to train-status page
+                        console.log("User configurations saved successfully.");
+
+                        // Start the training process
+                        const trainResponse = await window.fetcher.modelTrainStart();
+                        if (trainResponse.code === 200) {
+                            console.log("Training started successfully.");
+                            // Redirect to train-status page
+                            window.location.href = "/train-status";
+                        } else {
+                            console.error("Failed to start training:", trainResponse);
+                        }
                     } else {
                         console.error("Failed to save user configuration:", response);
                     }
                 } catch (error) {
-                    console.error("Error saving user configuration:", error);
+                    console.error("Error during training process:", error);
                 }
             },
             onCancel: () => {

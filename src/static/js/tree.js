@@ -1,7 +1,7 @@
 // 树形决策树数据
 let total_samples = 0
-//d3.json("../../../example/api/tree/structure.json").then(function(data) {
-d3.json("http://127.0.0.1:5500/api/v1/tree/structure").then(function(data) {
+d3.json("../../../example/api/tree/structure.json").then(function(data) {
+// d3.json("http://127.0.0.1:5500/api/v1/tree/structure").then(function(data) {
     total_samples = data.data.data.training_samples_reached
     console.log(data.data.data.training_samples_reached)
     const treeData  = process_treeData(data.data, "All sample", 1, 1)
@@ -13,7 +13,8 @@ d3.json("http://127.0.0.1:5500/api/v1/tree/structure").then(function(data) {
     // 创建层次结构数据
     const root = d3.hierarchy(treeData);
 
-    color = d3.scaleOrdinal(d3.schemeSet3)
+    // color = d3.scaleOrdinal(d3.schemeSet3)
+    color = ["#002F6C", "#EBBE4D", "#CD1C18", "#00965F"]
     // console.log(treeData)
     // console.log(treeData.data)
     // console.log(treeData.data.left)
@@ -46,7 +47,7 @@ d3.json("http://127.0.0.1:5500/api/v1/tree/structure").then(function(data) {
                 .attr("y1", link.source.x + v*link_width) // 起点 y 坐标，偏移用于分段
                 .attr("x2", link.target.y) // 终点 x 坐标
                 .attr("y2", link.target.x + v*link_width) // 终点 y 坐标
-                .attr("stroke", color(i)) // 动态颜色
+                .attr("stroke", color[i]) // 动态颜色
                 .attr("stroke-width", v*link_width); // 动态宽度
             // xOffset += v*link_width
             });
@@ -84,7 +85,7 @@ d3.json("http://127.0.0.1:5500/api/v1/tree/structure").then(function(data) {
                 .attr("y", -10)
                 .attr("width", v*rect_width)
                 .attr("height", rect_height)
-                .attr("fill", color(i))
+                .attr("fill", color[i])
             xOffset += v*rect_width;
         });
     })

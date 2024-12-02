@@ -85,10 +85,6 @@ function initializeApplication() {
         attachTreeMapClickListener();
     });
 
-    if (selectedTreeId != previousSelectedPoint) {
-        displayDecisionTree();  // TODO: trigger Kaiyuan's code
-    }
-
     function updateScatterPlot(xAttr, yAttr) {
         // Clear previous plot
         scatterPlotDiv.selectAll("svg").remove();
@@ -162,6 +158,7 @@ function initializeApplication() {
                 }
                 selectedTreeId = d.tree_id;
                 highlightScatterPoint(selectedTreeId);
+                displayDecisionTree();
             });
         points.exit().remove();
         enableFilter(); 
@@ -373,5 +370,7 @@ function highlightScatterPoint(id) {
 }
 
 function displayDecisionTree() {
-    // display the decision tree with tree_id = selectedTreeId
+    if (selectedTreeId) {
+        renderConfusionMatrix(`http://127.0.0.1:5500/api/v1/tree/confusion-matrix?treeId=${selectedTreeId}`, "#confusion-matrix-svg");
+    }
 }

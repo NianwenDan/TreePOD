@@ -35,9 +35,9 @@ function updateTreeMap(paretoCandidates) {
     paretoTreemap.forEach(d => {
     //paretoTreemap.slice(0, 8).forEach(d => {
         // Create a container <div> for each treemap with margin
-        const treemapContainer = d3.select("#treemap").append("div").attr("class", "tree-map-svg")
+        const treemapContainer = d3.select("#treemap").append("div").attr("class", "tree-map-svg");
             //.style("margin-top", "10px")
-            .style("margin-right", "10px");  // Add space between treemaps
+            //.style("margin-right", "10px");  // Add space between treemaps
             //.style("display", "inline-block");
     
         // Call createTreeMap and pass the container div as a parameter
@@ -124,4 +124,14 @@ function highlightTreeMap(treeId) {
     if (treeId) {
         d3.select(`svg[tree_id='${treeId}']`).style("border", "4px solid black");
     }
+}
+
+function attachTreeMapClickListener() {
+    d3.selectAll("svg[tree_id]").on("click", function (event) {
+        //console.log('Click this treemap: ', this);
+        const treeId = d3.select(this).attr("tree_id");
+        highlightTreeMap(treeId);
+        selectedTreeId = treeId;
+        highlightScatterPoint(treeId);
+    });
 }

@@ -3,7 +3,7 @@ function populateFormFromConfig(configData) {
 
     Object.entries(configData).forEach(([key, value]) => {
         const element = document.getElementById(key);
-        
+
         if (Array.isArray(value)) {
             console.log(key, value)
             if (key === "selection-criterion") {
@@ -12,7 +12,7 @@ function populateFormFromConfig(configData) {
                 allCheckBoxes.forEach((checkbox) => {
                     checkbox.checked = false; // Uncheck all checkboxes initially
                 });
-                
+
                 // Handle multiple checkboxes for selection criteria
                 value.forEach((criterion) => {
                     const checkbox = document.querySelector(`input[type="checkbox"][value="${criterion}"]`);
@@ -131,7 +131,7 @@ function validateForm() {
     // Check max-depth-range
     const maxDepthMin = document.getElementById("max-depth-range-min");
     const maxDepthMax = document.getElementById("max-depth-range-max");
-    if (!maxDepthMin.value || !maxDepthMax.value || Number(maxDepthMin.value) >= Number(maxDepthMax.value)) {
+    if (!maxDepthMin.value || !maxDepthMax.value || Number(maxDepthMin.value) >= Number(maxDepthMax.value) || Number(maxDepthMin.value) <= 0) {
         maxDepthMin.classList.add("is-invalid");
         maxDepthMax.classList.add("is-invalid");
         isValid = false;
@@ -170,6 +170,27 @@ function validateForm() {
     return isValid;
 }
 
+function applyDefault() {
+    // TODO: To be Implemented
+    // const featureSet = document.getElementById("feature-set").value;
+    // formValues["feature-set"] = featureSet ? featureSet.split(",").map((item) => item.trim()) : [];
+
+    document.getElementById("max-depth-range-min").value = 1;
+    document.getElementById("max-depth-range-max").value = 8;
+
+    document.getElementById("min-leaf-size").value = 20;
+
+    document.getElementById("pruning").checked = true;
+
+    document.getElementById("round-to-significant-digit").value = 2;
+
+    document.getElementById("stochastic-samples").value = 100;
+
+    document.querySelectorAll('input[type="checkbox"][id^="selection-criterion"]').forEach((checkbox) => {
+        checkbox.checked = true;
+    });
+}
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -199,14 +220,25 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log("Configurations to save:", userConfigs);
 
                 try {
+                    // Save user configurations
                     const response = await window.fetcher.userSetConfigs(userConfigs);
                     if (response.code === 200) {
-                        window.location.href = "/train-status"; // Redirect to train-status page
+                        console.log("User configurations saved successfully.");
+
+                        // Start the training process
+                        const trainResponse = await window.fetcher.modelTrainStart();
+                        if (trainResponse.code === 200) {
+                            console.log("Training started successfully.");
+                            // Redirect to train-status page
+                            window.location.href = "/train-status";
+                        } else {
+                            console.error("Failed to start training:", trainResponse);
+                        }
                     } else {
                         console.error("Failed to save user configuration:", response);
                     }
                 } catch (error) {
-                    console.error("Error saving user configuration:", error);
+                    console.error("Error during training process:", error);
                 }
             },
             onCancel: () => {
@@ -214,4 +246,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             },
         });
     });
+
+    const applyDefaultBtn = document.querySelector("#apply-default-btn");
+    applyDefaultBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        applyDefault();
+    })
 });

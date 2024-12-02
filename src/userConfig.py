@@ -40,6 +40,18 @@ class userConfig:
             'stochastic-samples' : self._stochastic_samples
         }
     
+    def is_config_valid(self):
+        for attribute, value in self.__dict__.items():
+            # TODO: skip _feature_set check, not implemented
+            if attribute == '_feature_set':
+                continue
+            # TODO: skip _round_to_significant_digit, not implemented
+            if attribute == '_round_to_significant_digit':
+                continue
+            if value is None:  # Check if any value is None
+                return False
+        return True
+    
         # Example User Config
         # {
         #     "feature-set": ['1', '2', '3'],

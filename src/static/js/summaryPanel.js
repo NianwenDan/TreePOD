@@ -25,7 +25,7 @@ function createSummaryPanel(data) {
 function updateSummaryPanel() {
     // Update the Pareto optimal tree number
     d3.select(".pareto-optimal").html(`<strong>Pareto optimal: ${paretoFrontTreeNum} trees</strong>`);
-    d3.select(".pareto-attributes").html(`(for ${xAttribute}, ${yAttribute})`);
+    d3.select(".pareto-attributes").html(`&nbsp;&nbsp;&nbsp;&nbsp;(for ${xAttribute}, ${yAttribute})`);
 }
 
 // Function to display all current filters

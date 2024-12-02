@@ -62,6 +62,7 @@ function initializeApplication() {
     d3.select("#y-axis-select").property("value", "Accuracy [F1 score]");
     updateScatterPlot("Nr. of Nodes", "Accuracy [F1 score]");
     updateTreeMap(paretoCandidates);
+    attachTreeMapClickListener();
 
     // Add event listeners to dropdowns
     d3.select("#x-axis-select").on("change", function() {
@@ -71,6 +72,7 @@ function initializeApplication() {
         updateScatterPlot(xAttribute, yAttribute);
         updatePointsOpacity();
         updateTreeMap(paretoCandidates);
+        attachTreeMapClickListener();
     });
 
     d3.select("#y-axis-select").on("change", function() {
@@ -80,14 +82,7 @@ function initializeApplication() {
         updateScatterPlot(xAttribute, yAttribute);
         updatePointsOpacity();
         updateTreeMap(paretoCandidates);
-    });
-
-    // When clicking a treemap, its corresponding scatter point will be highlighted
-    d3.selectAll("svg[tree_id]").on("click", function (event) {
-        const treeId = d3.select(this).attr("tree_id");
-        highlightTreeMap(treeId);
-        selectedTreeId = treeId;
-        highlightScatterPoint(treeId);
+        attachTreeMapClickListener();
     });
 
     if (selectedTreeId != previousSelectedPoint) {
@@ -170,7 +165,7 @@ function initializeApplication() {
             });
         points.exit().remove();
         enableFilter(); 
-
+                
         // Draw line connecting Pareto-optimal points
         function drawParetoFront(svg, xAttr, yAttr) {
             const line = d3.line()
@@ -210,7 +205,7 @@ function initializeApplication() {
                         .attr("width", Math.abs(greyWidth)); // Use absolute value for width
                     
                     // Call the update function with the new filter value
-                    updateXFilter(xAttr, xScale.invert(x), xScale.domain()[1]);
+                    updateXFilter(xAttr, xScale.invert(x), d3.max(xValues));
                     data.candidates = [...applyFilterConditions(all_data.candidates, filterConditions)];
                     console.log("Filtered Trees:", data.candidates.length, all_data.candidates.length);
                     recomputeFilteredParetoFront();

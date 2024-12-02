@@ -97,6 +97,6 @@ function recomputeFilteredParetoFront() {
     const paretoAnalysis = new ParetoAnalysis(data.candidates);
     paretoAnalysis.paretoAnalysis();
     data.pareto_front = paretoAnalysis.paretoFront;
-    console.log('data.paretoFront: ', data.pareto_front);
-    console.log('all_data.paretoFront: ', all_data.pareto_front);
+    //console.log('data.paretoFront: ', data.pareto_front);
+    //console.log('all_data.paretoFront: ', all_data.pareto_front);
 }

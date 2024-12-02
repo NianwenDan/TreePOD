@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
+
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -94,22 +95,32 @@
                                 </ul>
                             </li>
                         </ul>
-                     -->
+                     --></div>
                 </div>
             </div>
 
             <div class="col col-md-auto">
                 <!-- Scatter Plot -->
                 <svg id="scatter-plot-svg">
-                    <!-- <text x="20" y="35" class="small">Scatter Plot</text> -->
+                    <text x="20" y="35" class="small">Scatter Plot</text>
                 </svg>
             </div>
-
             <div class="col col-md-auto">
                 <!-- Confusion Matrix -->
-                <svg id="confusion-matrix-svg">
+                <div id="confusion-matrix" class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Confusion Matrix</h5>
+                    </div>
+                    <div class="card-body">
+                        <svg id="confusion-matrix-svg"></svg>
+                    </div>
+                </div>
+                
+                <!-- <svg id="confusion-matrix-svg">
                     <text x="20" y="35" class="small">Confusion Matrix</text>
-                </svg>
+                </svg> -->
+
+
             </div>
         </div>
     </div>
@@ -135,7 +146,7 @@
     <script src="js/filter.js"></script>
     <script src="js/treeMaps.js"></script>
     <script src="js/paretoAnalysis.js"></script>
-    <script src="js/tree.js"></script>
+    <script src="js/confusionMatrix.js"></script>
 </body>
 
 </html>

@@ -160,7 +160,7 @@ function validateForm() {
 
     // Check stochastic-samples
     const stochasticSamples = document.getElementById("stochastic-samples");
-    if (!stochasticSamples.value || Number(stochasticSamples.value) < 100) {
+    if (!stochasticSamples.value || Number(stochasticSamples.value) < 50 || Number(stochasticSamples.value) > 1000) {
         stochasticSamples.classList.add("is-invalid");
         isValid = false;
     } else {

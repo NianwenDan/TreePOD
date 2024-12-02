@@ -3,27 +3,20 @@ function createDropdown() {
     const dropdownOptions = ["Accuracy [F1 score]", "Nr. of Leaves", "Nr. of Nodes", "Nr. of Used Attributes", "Depth"];
     // TODO: add the following: ["Avg. significant digits", "F1 Never married", "F1 Married", "F1 Divorced or Separated", "F1 Widowed"]
 
-    // Ensure dropdowns are appended to the div and not the SVG
-    const dropdownContainer = d3.select("#treemap").append("div").attr("class", "dropdown-container")
-        .style("display", "flex").style("justify-content", "space-between").style("align-items", "center");
+    // select dropdown and add options
+    const xAxisDropdown = d3.select('#x-axis-select');
+    const yAxisDropdown = d3.select('#y-axis-select')
 
-    dropdownContainer.append("label").text("X Axis: ")
-        .append("select")
-        .attr("id", "x-axis-select")
-        .selectAll("option")
-        .data(dropdownOptions)
-        .enter()
-        .append("option")
-        .text(d => d);
-        
-    dropdownContainer.append("label").text("Y Axis: ")
-        .append("select")
-        .attr("id", "y-axis-select")
-        .selectAll("option")
-        .data(dropdownOptions)
-        .enter()
-        .append("option")
-        .text(d => d);
+    xAxisDropdown.selectAll("option")
+                    .data(dropdownOptions)
+                    .enter()
+                    .append("option")
+                    .text(d => d);
+    yAxisDropdown.selectAll("option")
+                    .data(dropdownOptions)
+                    .enter()
+                    .append("option")
+                    .text(d => d);
 }
 
 function updateTreeMap(paretoCandidates) {
@@ -35,7 +28,8 @@ function updateTreeMap(paretoCandidates) {
     paretoTreemap.forEach(d => {
     //paretoTreemap.slice(0, 8).forEach(d => {
         // Create a container <div> for each treemap with margin
-        const treemapContainer = d3.select("#treemap").append("div").attr("class", "tree-map-svg");
+        const treemapContainer = d3.select("#treemap").append("div")
+                                    .attr("class", "col col-md-auto me-2 tree-map-svg"); // bootstrap grid
             //.style("margin-top", "10px")
             //.style("margin-right", "10px");  // Add space between treemaps
             //.style("display", "inline-block");
@@ -122,7 +116,7 @@ function createTreeMap(id, treemapContainer) {
 function highlightTreeMap(treeId) {
     d3.selectAll("svg[tree_id]").style("border", "none");
     if (treeId) {
-        d3.select(`svg[tree_id='${treeId}']`).style("border", "4px solid black");
+        d3.select(`svg[tree_id='${treeId}']`).style("border", "3px solid black").style('padding', '2px');
     }
 }
 

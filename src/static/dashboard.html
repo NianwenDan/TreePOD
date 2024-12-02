@@ -32,12 +32,11 @@
         <nav class="nav border-bottom mb-4" aria-label="Secondary navigation">
             <a class="nav-link" href="/get-started"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> Get
                 Started</a>
-            <a class="nav-link active" aria-current="page" href="#"><i class="fa fa-tachometer" aria-hidden="true"></i>
-                Dashboard</a>
-            <a class="nav-link" href="/dataset-preview"><i class="fa fa-table" aria-hidden="true"></i> Dataset
-                Preview</a>
             <a class="nav-link" href="/settings"><i class="fa fa-cog" aria-hidden="true"></i>
                 Settings</a>
+            <a class="nav-link active" aria-current="page" href="#"><i class="fa fa-tachometer" aria-hidden="true"></i>
+                Dashboard</a>
+
         </nav>
     </div>
 
@@ -50,27 +49,36 @@
                 </svg>
             </div>
         </div>
+        <!-- X Axis and Y Axis Dropdown -->
+        <div class="row">
+            <!-- <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">@</span>
+                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            </div> -->
+            <div class="col-md-3">
+                <!-- X Axis Dropdown -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">X Axis</span>
+                    <label for="x-axis-select" class="col-form-label" hidden>X Axis</label>
+                    <select class="form-select" id="x-axis-select" aria-label="x-axis-select">
+                        <!-- Should be dynamically added by d3 -->
+                    </select>
+                </div>
+            </div>
+            <div class="col"></div>
+            <div class="col-md-3">
+                <!-- Y Axis Dropdown -->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Y Axis</span>
+                    <label for="y-axis-select" class="col-form-label" hidden>Y Axis</label>
+                    <select class="form-select" id="y-axis-select" aria-label="y-axis-select">
+                        <!-- Should be dynamically added by d3 -->
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- TreeMap -->
         <div class="row justify-content-md-center mb-2" id="treemap">
-            <div class="col col-md-auto">
-                <svg class="tree-map-svg">
-                    <text x="20" y="35" class="small">TreeMap</text>
-                </svg>
-            </div>
-            <div class="col col-md-auto">
-                <svg class="tree-map-svg">
-                    <text x="20" y="35" class="small">TreeMap</text>
-                </svg>
-            </div>
-            <div class="col col-md-auto">
-                <svg class="tree-map-svg">
-                    <text x="20" y="35" class="small">TreeMap</text>
-                </svg>
-            </div>
-            <div class="col col-md-auto">
-                <svg class="tree-map-svg">
-                    <text x="20" y="35" class="small">TreeMap</text>
-                </svg>
-            </div>
         </div>
 
         <div class="row justify-content-md-center mb-2">
@@ -102,10 +110,67 @@
     <footer class="footer py-5 bg-body-tertiary">
         <div class="container">
             <div class="row">
-                <!-- TODO: To be Added once being edited -->
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Navigation</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="/" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="/get-started" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> Get Started</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="/settings" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="/dashboard" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>About Us</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="https://www.linkedin.com/in/yihe-zhuo-a0b139153/"
+                                class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Yihe Zhuo</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="https://www.linkedin.com/in/nianwen/"
+                                class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Nianwen Dan</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="https://www.linkedin.com/in/nimeshyadav1602/"
+                                class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Nimesh Yadav</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Kaiyuan Tan</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Others</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="https://nwdan.net/" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-rss" aria-hidden="true"></i> DBLOG</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Special Thanks</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="https://fontawesome.com/"
+                                class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-font-awesome" aria-hidden="true"></i> FontAwesome</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
                 <p>© 2024 TreePOD. All rights reserved.</p>
+                <p>Contact: hello <i class="fa fa-at" aria-hidden="true"></i> nwdan.net</p>
             </div>
         </div>
     </footer>

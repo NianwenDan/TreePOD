@@ -1,12 +1,12 @@
 function renderConfusionMatrix(dataUrl, containerId) {
     const width = 400;
     const height = 400;
-    const margin = { top: 100, right: 50, bottom: 50, left: 100 };
+    const margin = { top: 50, right: 50, bottom: 50, left: 50 };
     const cellSize = 50;
     const colors = ['yellow', 'blue', 'red', 'green'];
 
     const svg = d3.select(containerId)
-        .append("svg")
+        // .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -103,4 +103,5 @@ function renderConfusionMatrix(dataUrl, containerId) {
 }
 
 // Call the function
-renderConfusionMatrix('/example/api/tree/confusion-matrix.json', "#confusion-matrix-svg");
+renderConfusionMatrix('http://127.0.0.1:5500/api/v1/tree/confusion-matrix', "#confusion-matrix-svg");
+// renderConfusionMatrix('/example/api/tree/confusion-matrix.json', "#confusion-matrix-svg");

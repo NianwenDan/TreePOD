@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
-
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -81,46 +80,20 @@
                     <div class="card-header">
                         <h5 class="card-title mb-0">Summary</h5>
                     </div>
-                    <!-- <div class="card-body">
-                        <ul class="list-unstyled">
-                            <li>Tree candidates generated: <strong>300</strong></li>
-                            <li>Pareto-optimal trees: <strong>10</strong> (for Nr. of Nodes, Accuracy [F1 score])</li>
-                            <li>Accuracy (F1 score): <strong>0.677</strong></li>
-                            <li>F1 Scores:
-                                <ul>
-                                    <li>Never Married: 0.683</li>
-                                    <li>Married: 0.791</li>
-                                    <li>Divorced/Separated: 0.479</li>
-                                    <li>Widowed: 0.469</li>
-                                </ul>
-                            </li>
-                        </ul>
-                     --></div>
                 </div>
             </div>
 
             <div class="col col-md-auto">
                 <!-- Scatter Plot -->
                 <svg id="scatter-plot-svg">
-                    <text x="20" y="35" class="small">Scatter Plot</text>
+                    <!-- <text x="20" y="35" class="small">Scatter Plot</text> -->
                 </svg>
             </div>
+
             <div class="col col-md-auto">
                 <!-- Confusion Matrix -->
-                <div id="confusion-matrix" class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Confusion Matrix</h5>
-                    </div>
-                    <div class="card-body">
-                        <svg id="confusion-matrix-svg"></svg>
-                    </div>
-                </div>
-                
-                <!-- <svg id="confusion-matrix-svg">
-                    <text x="20" y="35" class="small">Confusion Matrix</text>
-                </svg> -->
-
-
+                <svg id="confusion-matrix-svg">
+                </svg>
             </div>
         </div>
     </div>
@@ -146,6 +119,7 @@
     <script src="js/filter.js"></script>
     <script src="js/treeMaps.js"></script>
     <script src="js/paretoAnalysis.js"></script>
+    <script src="js/tree.js"></script>
     <script src="js/confusionMatrix.js"></script>
 </body>
 

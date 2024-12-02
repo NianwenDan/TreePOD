@@ -30,11 +30,10 @@
         <nav class="nav border-bottom" aria-label="Secondary navigation">
             <a class="nav-link" href="/get-started"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> Get
                 Started</a>
-            <a class="nav-link" href="/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
-            <a class="nav-link" href="/dataset-preview"><i class="fa fa-table" aria-hidden="true"></i> Dataset
-                Preview</a>
             <a class="nav-link active" aria-current="page" href="#"><i class="fa fa-cog" aria-hidden="true"></i>
                 Settings</a>
+            <a class="nav-link" href="/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
+
         </nav>
     </div>
 
@@ -45,15 +44,13 @@
             <div class="container py-5">
                 <h1 class="text-body-emphasis">TreePOD Settings</h1>
                 <p class="col-lg-8 mx-auto lead">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis, non! Ullam itaque
-                    consequuntur quam adipisci culpa eligendi, tempora saepe perferendis expedita possimus
-                    cupiditate commodi eius voluptatibus. Tenetur totam aut fugiat.
+                    The TreePOD Settings allow you to customize how decision trees are created by adjusting parameters like depth, split criteria, and pruning options, ensuring the generated trees are tailored to your data and goals.
                 </p>
             </div>
         </div>
 
         <!-- Settings -->
-        <div class="container">
+        <div class="container py-3">
             <form class="row g-3 needs-validation" novalidate>
                 <div class="row g-3">
                     <div class="col-12">
@@ -64,7 +61,8 @@
                                 title="(Multi-choice) Select all features that you would like to include in training"></i>
                         </label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="feature-set" placeholder="" required="" disabled>
+                            <input type="text" class="form-control" id="feature-set" placeholder="" required=""
+                                disabled>
                             <div class="input-group-append">
                                 <span class="input-group-text">features</span>
                             </div>
@@ -85,7 +83,7 @@
                                 id="selection-criterion-gini" value="gini">
                             <label class="form-check-label" for="selection-criterion-gini">gini</label>
                             <div class="invalid-feedback">
-                                Pleace Holder Invaid Feedback
+                                Please choose at least one criterion.
                             </div>
                         </div>
                         <div class="form-check">
@@ -93,7 +91,7 @@
                                 id="selection-criterion-entropy" value="entropy">
                             <label class="form-check-label" for="selection-criterion-entropy">entropy</label>
                             <div class="invalid-feedback">
-                                Pleace Holder Invaid Feedback
+                                Please choose at least one criterion.
                             </div>
                         </div>
                         <div class="form-check">
@@ -101,7 +99,7 @@
                                 id="selection-criterion-log_loss" value="log_loss">
                             <label class="form-check-label" for="selection-criterion-log_loss">log_loss</label>
                             <div class="invalid-feedback">
-                                Pleace Holder Invaid Feedback
+                                Please choose at least one criterion.
                             </div>
                         </div>
                     </div>
@@ -120,7 +118,12 @@
                             <input type="number" class="form-control" id="max-depth-range-max"
                                 placeholder="Max Possible Value of Max Depth" aria-label="max-depth-range-max" min="1">
                             <div class="invalid-feedback">
-                                Placeholder Invalid Feedback
+                                <p>Please ensure the following:</p>
+                                <ul>
+                                    <li>The <strong>Lower Bound</strong> value is greater than 1.</li>
+                                    <li>The <strong>Lower Bound</strong> value is less than the <strong>Upper
+                                            Bound</strong> value.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -134,7 +137,7 @@
                         </label>
                         <input type="number" class="form-control" id="min-leaf-size" placeholder="" required="">
                         <div class="invalid-feedback">
-                            Placeholder Invalid Feedback
+                            The <strong>Min. Leaf Size</strong> value should be greater than 1.
                         </div>
                     </div>
                     <div class="col-12">
@@ -147,9 +150,6 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="pruning" checked>
                         </div>
-                        <div class="invalid-feedback">
-                            Placeholder Invalid Feedback
-                        </div>
                     </div>
                     <div class="col-12">
                         <label for="round-to-significant-digit" class="form-label">
@@ -161,7 +161,7 @@
                         <input type="number" class="form-control" id="round-to-significant-digit" placeholder=""
                             required="" min="1">
                         <div class="invalid-feedback">
-                            Placeholder Invalid Feedback
+                            The <strong>Round To Significant Digit</strong> value should be greater than 0.
                         </div>
                     </div>
                     <div class="col-12">
@@ -174,7 +174,7 @@
                         <input type="number" class="form-control" id="stochastic-samples" placeholder="" required
                             min="100">
                         <div class="invalid-feedback">
-                            Placeholder Invalid Feedback
+                            The <strong>Stochastic Samples</strong> value should be within range 50 - 1000.
                         </div>
                     </div>
 
@@ -190,10 +190,67 @@
     <footer class="footer py-5 bg-body-tertiary">
         <div class="container">
             <div class="row">
-                <!-- TODO: To be Added once being edited -->
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Navigation</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="/" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="/get-started" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> Get Started</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="/settings" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="/dashboard" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>About Us</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="https://www.linkedin.com/in/yihe-zhuo-a0b139153/"
+                                class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Yihe Zhuo</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="https://www.linkedin.com/in/nianwen/"
+                                class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Nianwen Dan</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="https://www.linkedin.com/in/nimeshyadav1602/"
+                                class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Nimesh Yadav</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Kaiyuan Tan</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Others</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="https://nwdan.net/" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-rss" aria-hidden="true"></i> DBLOG</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Special Thanks</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="https://fontawesome.com/"
+                                class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-font-awesome" aria-hidden="true"></i> FontAwesome</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
                 <p>© 2024 TreePOD. All rights reserved.</p>
+                <p>Contact: hello <i class="fa fa-at" aria-hidden="true"></i> nwdan.net</p>
             </div>
         </div>
     </footer>

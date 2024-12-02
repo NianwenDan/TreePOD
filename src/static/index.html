@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TreePOD</title>
+    <title>TreePOD: Smarter Decision Tree Selection</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
@@ -37,11 +37,11 @@
         <div class="container my-5">
             <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
                 <h1 class="text-body-emphasis">TreePOD</h1>
+                <h3>Smarter Decision Tree Selection</h3>
                 <p class="col-lg-6 mx-auto mb-4">
-                    This faded back jumbotron is useful for placeholder content. It's also a great way to add a bit of
-                    context
-                    to a page or section when no content is available and to encourage visitors to take a specific
-                    action.
+                    TreePOD helps you efficiently explore and select decision trees that balance accuracy and 
+                    interpretability. With intuitive visualizations and sensitivity-aware insights, 
+                    TreePOD empowers confident, data-driven decisions for experts and beginners alike.
                 </p>
                 <a href="/get-started" class="btn btn-dark px-5 mb-5" type="button">
                     Give a Try <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -54,42 +54,41 @@
             <h2 class="pb-2 border-bottom" id="features-title">Features</h2>
             <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
                 <div class="col d-flex align-items-start">
-                    <div
-                        class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                        <svg class="bi" width="1em" height="1em">
-                            <use xlink:href="#toggles2"></use>
-                        </svg>
-                    </div>
                     <div>
-                        <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-                        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another
-                            sentence and probably just keep going until we run out of words.</p>
+                        <h4 class="fs-4 text-body-emphasis">Explore Decision Trees Easily</h4>
+                        <p>Use an interactive scatter plot to see and compare different decision trees based on their performance (like accuracy) and size. It helps you find the best trees quickly.</p>
                     </div>
                 </div>
                 <div class="col d-flex align-items-start">
-                    <div
-                        class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                        <svg class="bi" width="1em" height="1em">
-                            <use xlink:href="#cpu-fill"></use>
-                        </svg>
-                    </div>
                     <div>
-                        <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-                        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another
-                            sentence and probably just keep going until we run out of words.</p>
+                        <h4 class="fs-4 text-body-emphasis">See Tree Details with Treemaps</h4>
+                        <p>Visual treemaps make it easy to compare trees and understand how accurate or simple they are. Each tree's parts are shown in a clear and colorful way.</p>
                     </div>
                 </div>
                 <div class="col d-flex align-items-start">
-                    <div
-                        class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                        <svg class="bi" width="1em" height="1em">
-                            <use xlink:href="#tools"></use>
-                        </svg>
-                    </div>
                     <div>
-                        <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-                        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another
-                            sentence and probably just keep going until we run out of words.</p>
+                        <h4 class="fs-4 text-body-emphasis">Interactive Tree Viewer</h4>
+                        <p>View decision trees as diagrams where you can see the rules at each step. Hover over parts of the tree to get more details about how it works.</p>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <div>
+                        <h4 class="fs-4 text-body-emphasis">Understand Mistakes with a Heatmap</h4>
+                        <p>A heatmap shows where the tree might make mistakes, helping you understand which predictions are working well and which aren't.</p>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <div>
+                        <h4 class="fs-4 text-body-emphasis">Test "What-If" Scenarios</h4>
+                        <span class="badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill">Comming Soon</span>
+                        <p>See how changing settings, like tree size or rules, affects accuracy using simple line charts. This helps you find the right balance for your needs.</p>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <div>
+                        <h4 class="fs-4 text-body-emphasis">Test New Data</h4>
+                        <span class="badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill">Comming Soon</span>
+                        <p>Upload your data to see how it flows through a selected decision tree and check how well the tree works with new information.</p>
                     </div>
                 </div>
             </div>
@@ -204,7 +203,7 @@
                         <title>Placeholder</title>
                         <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
                     </svg>
-                    <h2 class="fw-normal">[Name]</h2>
+                    <h2 class="fw-normal">Yihe Zhuo</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam neque dolorem eaque quidem
                         debitis ex eveniet consequuntur doloremque. Incidunt ut quas temporibus quisquam quasi inventore
                         voluptas provident natus excepturi enim.</p>
@@ -217,7 +216,7 @@
                         <title>Placeholder</title>
                         <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
                     </svg>
-                    <h2 class="fw-normal">[Name]</h2>
+                    <h2 class="fw-normal">Nianwen Dan</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil non necessitatibus, nam quod
                         dolore corporis eligendi eius magni accusantium laboriosam maiores odit? Necessitatibus nesciunt
                         rerum eos! Minima suscipit dolores obcaecati.</p>
@@ -230,7 +229,7 @@
                         <title>Placeholder</title>
                         <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
                     </svg>
-                    <h2 class="fw-normal">[Name]</h2>
+                    <h2 class="fw-normal">Nimesh Yadav</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio illum officia ut, dolorum quo modi,
                         eveniet voluptatem vitae esse quos aperiam voluptatibus sint delectus iste, labore cupiditate
                         molestiae reprehenderit assumenda?</p>
@@ -243,7 +242,7 @@
                         <title>Placeholder</title>
                         <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
                     </svg>
-                    <h2 class="fw-normal">[Name]</h2>
+                    <h2 class="fw-normal">Kaiyuan Tan</h2>
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore aliquam voluptate quod sequi,
                         iure dolorem eveniet unde ea. Fuga laboriosam, voluptatum ab ad veniam explicabo eius expedita
                         quia ipsa nostrum?</p>
@@ -258,7 +257,60 @@
     <footer class="footer py-5 bg-body-tertiary">
         <div class="container">
             <div class="row">
-                <!-- TODO: To be Added once being edited -->
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Navigation</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="/" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="/get-started" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> Get Started</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="/settings" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="/dashboard" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>About Us</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="https://www.linkedin.com/in/yihe-zhuo-a0b139153/" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-linkedin-square" aria-hidden="true"></i> Yihe Zhuo</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="https://www.linkedin.com/in/nianwen/" class="nav-link p-0 text-body-secondary">
+                            <i class="fa fa-linkedin-square" aria-hidden="true"></i> Nianwen Dan</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="https://www.linkedin.com/in/nimeshyadav1602/" class="nav-link p-0 text-body-secondary">
+                            <i class="fa fa-linkedin-square" aria-hidden="true"></i> Nimesh Yadav</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">
+                            <i class="fa fa-linkedin-square" aria-hidden="true"></i> Kaiyuan Tan</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Others</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="https://nwdan.net/" class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-rss" aria-hidden="true"></i> DBLOG</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Special Thanks</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="https://fontawesome.com/"
+                                class="nav-link p-0 text-body-secondary">
+                                <i class="fa fa-font-awesome" aria-hidden="true"></i> FontAwesome</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
                 <p>© 2024 TreePOD. All rights reserved.</p>

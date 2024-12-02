@@ -35,7 +35,7 @@ Promise.all([
 
 function initializeApplication() {
     // Execute this step to get the initial pareto optimal tree number and display in the summary panel
-    updateParetoFront(data, "Nr. of Nodes", "Accuracy [F1 score]");
+    updateParetoFront("Nr. of Nodes", "Accuracy [F1 score]");
 
     createSummaryPanel(data);
 
@@ -66,7 +66,7 @@ function initializeApplication() {
     // Add event listeners to dropdowns
     d3.select("#x-axis-select").on("change", function() {
         xAttribute = d3.select("#x-axis-select").property("value");
-        updateParetoFront(data, xAttribute, yAttribute);
+        updateParetoFront(xAttribute, yAttribute);
         updateSummaryPanel();
         updateScatterPlot(xAttribute, yAttribute);
         updatePointsOpacity();
@@ -75,7 +75,7 @@ function initializeApplication() {
 
     d3.select("#y-axis-select").on("change", function() {
         yAttribute = d3.select("#y-axis-select").property("value");
-        updateParetoFront(data, xAttribute, yAttribute);
+        updateParetoFront(xAttribute, yAttribute);
         updateSummaryPanel();
         updateScatterPlot(xAttribute, yAttribute);
         updatePointsOpacity();
@@ -213,6 +213,7 @@ function initializeApplication() {
                     updateXFilter(xAttr, xScale.invert(x), xScale.domain()[1]);
                     data.candidates = [...applyFilterConditions(all_data.candidates, filterConditions)];
                     console.log("Filtered Trees:", data.candidates.length, all_data.candidates.length);
+                    recomputeFilteredParetoFront();
                     updatePointsOpacity();
                 });
 
@@ -255,6 +256,7 @@ function initializeApplication() {
                 updateYFilter(yAttr, yScale.invert(y), yScale.domain()[0]);
                 data.candidates = [...applyFilterConditions(all_data.candidates, filterConditions)];
                 console.log("Filtered Trees:", data.candidates.length, all_data.candidates.length);
+                recomputeFilteredParetoFront();
                 updatePointsOpacity();
             });        
 
@@ -272,10 +274,9 @@ function initializeApplication() {
 }
 
 // Each time the x and y attributes are selected from the dropdown list, retrieve the pareto front tree ids from json
-function updateParetoFront(data, xAttr, yAttr) {
+function updateParetoFront(xAttr, yAttr) {
         // Pareto-front
         const sortedParetoKey = [getAttributeName(xAttr), getAttributeName(yAttr)].sort().join('__');
-        console.log('data: ', data);
         paretoFront = data.pareto_front[sortedParetoKey];
         paretoFrontTreeNum = paretoFront.length;
         console.log('key: ', sortedParetoKey);

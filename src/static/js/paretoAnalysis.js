@@ -92,19 +92,11 @@ class ParetoAnalysis {
         }
     }
 }
-/*
-let currentParetoOptimalDict = {};
 
-d3.json("trees.5.json").then(function(data) {
-    const candidateInfo = data.candidates;
-    // Create instance of ParetoAnalysis
-    const paretoAnalysis = new ParetoAnalysis(candidateInfo);
+function recomputeFilteredParetoFront() {
+    const paretoAnalysis = new ParetoAnalysis(data.candidates);
     paretoAnalysis.paretoAnalysis();
-    currentParetoOptimalDict = paretoAnalysis.paretoFront;
-    console.log(currentParetoOptimalDict);
-});
-
-function recomputeFilteredParetoFront(data) {
-    
+    data.pareto_front = paretoAnalysis.paretoFront;
+    console.log('data.paretoFront: ', data.pareto_front);
+    console.log('all_data.paretoFront: ', all_data.pareto_front);
 }
-*/

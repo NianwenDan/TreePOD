@@ -101,13 +101,14 @@ class decisionTreeCandidateGenerator:
                 'number_of_nodes': tree.tree_number_of_nodes(),
                 'number_of_leaves': tree.tree_number_of_leaves(),
                 'number_of_used_attributes': len(t['feature_subset']),
+                'feature_subset':t['feature_subset'],
                 'depth': tree.tree_depth(),
                 'avg_significant_digits': 0    # Nimesh TODO: put the corresponding number here
                 # 'hierarchy_data': tree.generate_hierarchy(), # We do not want hierarchy_data for all trees
                 # 'confusion_matrix': tree.confusion_matrix()
             }
             candidate_info.append(tree_info)
-
+        
         pareto_front = paretoAnalysis(candidate_info)
         pareto_front.pareto_analysis()
 

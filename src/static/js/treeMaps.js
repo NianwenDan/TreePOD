@@ -127,5 +127,6 @@ function attachTreeMapClickListener() {
         highlightTreeMap(treeId);
         selectedTreeId = treeId;
         highlightScatterPoint(treeId);
+        displayDecisionTree();
     });
 }

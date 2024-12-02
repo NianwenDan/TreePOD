@@ -85,7 +85,7 @@ user_config.set_parameters(
     total_samples=10
 )
 user_config.fill_undefined_parameters_randomly()
-print(user_config.get_all_parameter())
+print(user_config.get_rand_param_based_on_user_config())
 
 # Generate decision tree candidates
 generator = decisionTreeCandidateGenerator(X_train, y_train, X_test, y_test, column_mapping, config=user_config)

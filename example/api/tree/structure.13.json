@@ -1,0 +1,126 @@
+{
+    "code": 200,
+    "data": {
+        "data": {
+            "feature": "age",
+            "threshold": 27.5,
+            "training_samples_reached": 32561,
+            "testing_samples_reached": 16281,
+            "value": [
+                [
+                    0.47348054420933017,
+                    0.328091889069746,
+                    0.16793096035134056,
+                    0.030496606369583245
+                ]
+            ],
+            "labels": [
+                "Married",
+                "Never married",
+                "Divorced or Separated",
+                "Widowed"
+            ],
+            "impurity": 0.6390410361372971
+        },
+        "left": {
+            "data": {
+                "feature": null,
+                "threshold": null,
+                "training_samples_reached": 8031,
+                "testing_samples_reached": 3981,
+                "value": [
+                    [
+                        0.1555223508903001,
+                        0.7970364836259495,
+                        0.04644502552608642,
+                        0.0009961399576640518
+                    ]
+                ],
+                "labels": [
+                    "Married",
+                    "Never married",
+                    "Divorced or Separated",
+                    "Widowed"
+                ],
+                "impurity": 0.33838750945180196
+            },
+            "left": null,
+            "right": null
+        },
+        "right": {
+            "data": {
+                "feature": "sex_Female",
+                "threshold": 0.5,
+                "training_samples_reached": 24530,
+                "testing_samples_reached": 12300,
+                "value": [
+                    [
+                        0.5775784753363229,
+                        0.1745617611088463,
+                        0.20770485120260904,
+                        0.04015491235222177
+                    ]
+                ],
+                "labels": [
+                    "Married",
+                    "Never married",
+                    "Divorced or Separated",
+                    "Widowed"
+                ],
+                "impurity": 0.5911775741876342
+            },
+            "left": {
+                "data": {
+                    "feature": null,
+                    "threshold": null,
+                    "training_samples_reached": 17164,
+                    "testing_samples_reached": 8610,
+                    "value": [
+                        [
+                            0.7323467723141459,
+                            0.13976928454905616,
+                            0.11821253786996039,
+                            0.009671405266837567
+                        ]
+                    ],
+                    "labels": [
+                        "Married",
+                        "Never married",
+                        "Divorced or Separated",
+                        "Widowed"
+                    ],
+                    "impurity": 0.43006501198820535
+                },
+                "left": null,
+                "right": null
+            },
+            "right": {
+                "data": {
+                    "feature": null,
+                    "threshold": null,
+                    "training_samples_reached": 7366,
+                    "testing_samples_reached": 3690,
+                    "value": [
+                        [
+                            0.21694270974748847,
+                            0.25563399402660875,
+                            0.41623676350800975,
+                            0.11118653271789303
+                        ]
+                    ],
+                    "labels": [
+                        "Married",
+                        "Never married",
+                        "Divorced or Separated",
+                        "Widowed"
+                    ],
+                    "impurity": 0.7019716334319708
+                },
+                "left": null,
+                "right": null
+            }
+        }
+    },
+    "msg": "OK",
+    "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
+}

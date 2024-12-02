@@ -49,7 +49,6 @@ window.fetcher = {
   systemSetUserId: () => fetchData('/system/set-userId'),
   systemGetUserId: () => fetchData('/system/get-userId'),
   userGetConfig: () => fetchData('/user/get-config'),
-  userGetRandomConfig: () => fetchData('/user/get-random-config'),
   userSetConfigs: (data) => postData('/user/set-configs', data),
   datasetList: () => fetchData('/dataset/list'),
   modelTrainStart: () => fetchData('/model/train-start'),

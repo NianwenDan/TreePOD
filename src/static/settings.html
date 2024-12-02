@@ -54,31 +54,14 @@
 
         <!-- Settings -->
         <div class="container">
-            <form>
+            <form class="row g-3 needs-validation" novalidate>
                 <div class="row g-3">
-                    <div class="col-md-2">
-                        <button class="w-100 btn btn-dark" id="generate-random-config-btn">Generate Random</button>
-                    </div>
-                    <!-- <div class="col-12">
-                        <label for="classification-target" class="form-label">
-                            Classification Target
-                            <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Tooltip Text Placehoder"></i>
-                        </label>
-                        <div class="input-group has-validation">
-                            <input type="text" class="form-control" id="classification-target" placeholder=""
-                                required="" disabled>
-                            <div class="invalid-feedback">
-                                Your username is required.
-                            </div>
-                        </div>
-                    </div> -->
-
                     <div class="col-12">
                         <label for="feature-set" class="form-label">
                             Feature Set
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="(Multi-choice) Select all features that you would like to include in training"></i>
+                                data-bs-placement="top"
+                                title="(Multi-choice) Select all features that you would like to include in training"></i>
                         </label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="feature-set" placeholder="" required="" disabled>
@@ -87,49 +70,58 @@
                             </div>
                         </div>
                         <div class="invalid-feedback">
-                            Please enter a valid email address for shipping updates.
+                            Pleace Holder Invaid Feedback
                         </div>
                     </div>
-
-                    <!-- <div class="col-12">
-                        <label for="additional-features" class="form-label">
-                            Additional Features
-                            <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Tooltip Text Placehoder"></i>
-                        </label>
-                        <input type="text" class="form-control" id="additional-features" placeholder="" required="">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="additional-features" placeholder="" required="">
-                            <div class="input-group-append">
-                                <span class="input-group-text">features</span>
-                            </div>
-                        </div>
-                        <div class="invalid-feedback">
-                            Please enter your shipping address.
-                        </div>
-                    </div> -->
-
                     <div class="col-12">
                         <label for="selection-criterion" class="form-label">
                             Selection Criterion
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="(Multi-choice) Select all functions used to measure the quality of a split"></i>
+                                data-bs-placement="top"
+                                title="Select all functions used to measure the quality of a split"></i>
                         </label>
-                        <input type="text" class="form-control" id="selection-criterion" placeholder="" required="">
-                        <div class="invalid-feedback">
-                            Pleace Holder Invaid Feedback
+                        <div class="form-check">
+                            <input class="form-check-input selection-criterion" type="checkbox"
+                                id="selection-criterion-gini" value="gini">
+                            <label class="form-check-label" for="selection-criterion-gini">gini</label>
+                            <div class="invalid-feedback">
+                                Pleace Holder Invaid Feedback
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input selection-criterion" type="checkbox"
+                                id="selection-criterion-entropy" value="entropy">
+                            <label class="form-check-label" for="selection-criterion-entropy">entropy</label>
+                            <div class="invalid-feedback">
+                                Pleace Holder Invaid Feedback
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input selection-criterion" type="checkbox"
+                                id="selection-criterion-log_loss" value="log_loss">
+                            <label class="form-check-label" for="selection-criterion-log_loss">log_loss</label>
+                            <div class="invalid-feedback">
+                                Pleace Holder Invaid Feedback
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-12">
-                        <label for="max-depth" class="form-label">
-                            Max. Depth
+                        <label for="max-depth-range-min" class="form-label">
+                            Max. Depth Range
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Enter the maximum distance between the root and any leaf"></i>
+                                data-bs-placement="top"
+                                title="Enter the maximum distance between the root and any leaf"></i>
                         </label>
-                        <input type="text" class="form-control" id="max-depth" placeholder="" required="">
-                        <div class="invalid-feedback">
-                            Placeholder Invalid Feedback
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" id="max-depth-range-min"
+                                placeholder="Min Possible Value of Max Depth" aria-label="max-depth-range-min" min="1">
+                            <span class="input-group-text">~</span>
+                            <input type="number" class="form-control" id="max-depth-range-max"
+                                placeholder="Max Possible Value of Max Depth" aria-label="max-depth-range-max" min="1">
+                            <div class="invalid-feedback">
+                                Placeholder Invalid Feedback
+                            </div>
                         </div>
                     </div>
 
@@ -137,84 +129,50 @@
                         <label for="min-leaf-size" class="form-label">
                             Min. Leaf Size
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Enter the minimum number of samples required to be at a leaf node"></i>
+                                data-bs-placement="top"
+                                title="Enter the minimum number of samples required to be at a leaf node"></i>
                         </label>
-                        <input type="text" class="form-control" id="min-leaf-size" placeholder="" required="" disabled>
+                        <input type="number" class="form-control" id="min-leaf-size" placeholder="" required="">
                         <div class="invalid-feedback">
                             Placeholder Invalid Feedback
                         </div>
                     </div>
-
-                    <!-- <div class="col-12">
-                        <label for="training-data" class="form-label">
-                            Training Data
-                            <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Tooltip Text Placeholder"></i>
-                        </label>
-                        <input type="text" class="form-control" id="training-data" placeholder="" required >
-                        <div class="invalid-feedback">
-                            Placeholder Invalid Feedback
-                        </div>
-                    </div> -->
-
                     <div class="col-12">
                         <label for="pruning" class="form-label">
                             Pruning
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="(On or Off) Enable tree pruning to prevent overfitting and get simpler trees"></i>
+                                data-bs-placement="top"
+                                title="Enable tree pruning to prevent overfitting and get simpler trees"></i>
                         </label>
-                        <input type="text" class="form-control" id="pruning" placeholder="" required >
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="pruning" checked>
+                        </div>
                         <div class="invalid-feedback">
                             Placeholder Invalid Feedback
                         </div>
                     </div>
-
-                    <!-- <div class="col-12">
-                        <label for="purging-data" class="form-label">
-                            Purging Data
-                            <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Tooltip Text Placeholder"></i>
-                        </label>
-                        <input type="text" class="form-control" id="purging-data" placeholder="" required="" disabled>
-                        <div class="invalid-feedback">
-                            Placeholder Invalid Feedback
-                        </div>
-                    </div> -->
-
                     <div class="col-12">
                         <label for="round-to-significant-digit" class="form-label">
                             Round To Significant Digit
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="(Multi-choice) Select your desired decimal numbers for rounding"></i>
+                                data-bs-placement="top"
+                                title="(Multi-choice) Select your desired decimal numbers for rounding"></i>
                         </label>
-                        <input type="text" class="form-control" id="round-to-significant-digit" placeholder=""
-                            required="" disabled>
+                        <input type="number" class="form-control" id="round-to-significant-digit" placeholder=""
+                            required="" min="1">
                         <div class="invalid-feedback">
                             Placeholder Invalid Feedback
                         </div>
                     </div>
-
-                    <!-- Do not implement this feature for now -->
-                    <!-- <div class="col-12">
-                        <label for="evaluation-data" class="form-label">
-                            Evaluation for Data
-                            <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Tooltip Text Placeholder"></i>
-                        </label>
-                        <input type="text" class="form-control" id="evaluation-data" placeholder="" required=""
-                            disabled>
-                        <div class="invalid-feedback">
-                            Placeholder Invalid Feedback
-                        </div>
-                    </div> -->
-
                     <div class="col-12">
                         <label for="stochastic-samples" class="form-label">
                             Stochastic Samples
                             <i class="fa fa-info-circle" aria-hidden="true" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Enter the total number of decision trees you would like to sample"></i>
+                                data-bs-placement="top"
+                                title="Enter the total number of decision trees you would like to sample"></i>
                         </label>
-                        <input type="text" class="form-control" id="stochastic-samples" placeholder="" required="">
+                        <input type="number" class="form-control" id="stochastic-samples" placeholder="" required
+                            min="100">
                         <div class="invalid-feedback">
                             Placeholder Invalid Feedback
                         </div>

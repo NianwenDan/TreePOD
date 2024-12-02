@@ -92,6 +92,84 @@ async function loadUserSettings() {
     }
 }
 
+function validateForm() {
+    let isValid = true;
+
+    // Check feature set (disabled inputs should not be required)
+    const featureSet = document.getElementById("feature-set");
+    if (!featureSet.disabled && featureSet.value.trim() === "") {
+        featureSet.classList.add("is-invalid");
+        isValid = false;
+    } else {
+        featureSet.classList.remove("is-invalid");
+    }
+
+    // Check selection criterion (at least one checkbox must be checked)
+    const selectionCriteria = document.querySelectorAll(".selection-criterion");
+    const isAnyCriterionChecked = Array.from(selectionCriteria).some((checkbox) => checkbox.checked);
+    if (!isAnyCriterionChecked) {
+        const feedbacks = document.querySelectorAll('.selection-criterion');
+        feedbacks.forEach((feedback) => {
+            feedback.classList.add("is-invalid");
+            const invalidFeedback = feedback.nextElementSibling;
+            if (invalidFeedback && invalidFeedback.classList.contains("invalid-feedback")) {
+                invalidFeedback.style.display = 'block';
+            }
+        });
+        isValid = false;
+    } else {
+        const feedbacks = document.querySelectorAll('.selection-criterion');
+        feedbacks.forEach((feedback) => {
+            feedback.classList.remove("is-invalid");
+            const invalidFeedback = feedback.nextElementSibling;
+            if (invalidFeedback && invalidFeedback.classList.contains("invalid-feedback")) {
+                invalidFeedback.style.display = 'none';
+            }
+        });
+    }
+
+    // Check max-depth-range
+    const maxDepthMin = document.getElementById("max-depth-range-min");
+    const maxDepthMax = document.getElementById("max-depth-range-max");
+    if (!maxDepthMin.value || !maxDepthMax.value || Number(maxDepthMin.value) >= Number(maxDepthMax.value)) {
+        maxDepthMin.classList.add("is-invalid");
+        maxDepthMax.classList.add("is-invalid");
+        isValid = false;
+    } else {
+        maxDepthMin.classList.remove("is-invalid");
+        maxDepthMax.classList.remove("is-invalid");
+    }
+
+    // Check min-leaf-size
+    const minLeafSize = document.getElementById("min-leaf-size");
+    if (!minLeafSize.value || Number(minLeafSize.value) <= 0) {
+        minLeafSize.classList.add("is-invalid");
+        isValid = false;
+    } else {
+        minLeafSize.classList.remove("is-invalid");
+    }
+
+    // Check round-to-significant-digit
+    const roundToSignificantDigit = document.getElementById("round-to-significant-digit");
+    if (!roundToSignificantDigit.value || Number(roundToSignificantDigit.value) <= 0) {
+        roundToSignificantDigit.classList.add("is-invalid");
+        isValid = false;
+    } else {
+        roundToSignificantDigit.classList.remove("is-invalid");
+    }
+
+    // Check stochastic-samples
+    const stochasticSamples = document.getElementById("stochastic-samples");
+    if (!stochasticSamples.value || Number(stochasticSamples.value) < 100) {
+        stochasticSamples.classList.add("is-invalid");
+        isValid = false;
+    } else {
+        stochasticSamples.classList.remove("is-invalid");
+    }
+
+    return isValid;
+}
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -104,6 +182,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const startTrainBtn = document.querySelector("#start-training-btn");
     startTrainBtn.addEventListener("click", (e) => {
         e.preventDefault();
+
+        // Perform validation
+        const isValid = validateForm();
+
+        if (!isValid) {
+            console.error("Validation failed. Please correct the errors.");
+            return;
+        }
 
         showAlert({
             title: "Do you wish to start training?",

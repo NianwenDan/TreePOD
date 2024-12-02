@@ -89,15 +89,19 @@ column_mapping = {original: [col for col in X_train.columns if col.startswith(or
 
 # User-defined config
 # user_config = decisionTreeConfig(max_depth_range=range(1, 7), random_state_range=range(50, 51), total_samples=1000)
-user_config = decisionTreeConfig()
-user_config.set_parameters(
-    total_samples=1000
-)
-user_config.fill_undefined_parameters_randomly()
-print(user_config.get_all_parameter())
+decision_Tree_Config = decisionTreeConfig()
+decision_Tree_Config.set_parameters(user_config_json={
+        # "feature-set": ['1', '2', '3'], # Not Implemented Yet
+        "max-depth-range": [1, 8],
+        "min-leaf-size": 20,
+        "pruning": True,
+        # "round-to-significant-digit": 3, # Not Implemented Yet
+        "selection-criterion": ['gini', 'entropy', 'log_loss'],
+        "stochastic-samples": 100
+})
 
 # Generate decision tree candidates
-generator = decisionTreeCandidateGenerator(X_train, y_train, X_test, y_test, column_mapping, config=user_config)
+generator = decisionTreeCandidateGenerator(X_train, y_train, X_test, y_test, column_mapping, config=decision_Tree_Config)
 generator.train()
 
 # It's ok just override the original file, too many old files make it harder to understand what are they doing.
@@ -128,15 +132,18 @@ with open('../example/api/tree/hierarchy_data.json', 'w') as json_file:
     json.dump(hierarchy_data, json_file, indent=4)
 
 # Output the last Pareto-optimal tree
-tree_output = generator.tree_structure(int(output['data']['pareto_front']['f1_score__number_of_nodes'][-1]))
-tree_output = {
-    "code": 200,
-    "data": tree_output,
-    "msg": "OK",
-    "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
-}
-with open('../example/api/tree/structure.json', 'w') as json_file:
-    json.dump(tree_output, json_file, indent=4)
+for i in range(0, len(output['data']['pareto_front']['f1_score__number_of_nodes'])):
+    id = output['data']['pareto_front']['f1_score__number_of_nodes'][i]
+    tree_structure = generator.tree_structure(int(id))
+    tree_output = {
+        "code": 200,
+        "data": tree_structure,
+        "msg": "OK",
+        "userId": "f6a411d5-988d-4c21-9700-0418482b6fac"
+    }
+    with open(f'../example/api/tree/structure.{id}.json', 'w') as json_file:
+        json.dump(tree_output, json_file, indent=4)
+
 
 # Output the last Pareto-optimal tree confusion matrix
 tree_confusion_matrix = generator.get_confusion_matrix(int(output['data']['pareto_front']['f1_score__number_of_nodes'][-1]))

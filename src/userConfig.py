@@ -40,12 +40,13 @@ class userConfig:
             'stochastic-samples' : self._stochastic_samples
         }
     
-        a = {
-            "feature-set": ['1', '2', '3'],
-            "max-depth-range": [0, 100],
-            "min-leaf-size": 20,
-            "pruning": True,
-            "round-to-significant-digit": 3,
-            "selection-criterion": ['gini', 'entropy', 'log_loss'],
-            "stochastic-samples": 321
-        }
+        # Example User Config
+        # {
+        #     "feature-set": ['1', '2', '3'],
+        #     "max-depth-range": [0, 100],
+        #     "min-leaf-size": 20,
+        #     "pruning": True,
+        #     "round-to-significant-digit": 3,
+        #     "selection-criterion": ['gini', 'entropy', 'log_loss'],
+        #     "stochastic-samples": 321
+        # }

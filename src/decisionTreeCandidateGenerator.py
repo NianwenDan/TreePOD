@@ -10,7 +10,7 @@ class decisionTreeCandidateGenerator:
         self._X_test = X_test
         self._y_test = y_test
         self._config = config
-        self._num_candidates = self._config._total_samples
+        self._num_candidates = config.get_rand_param_based_on_user_config()['total_samples']
         self._candidates = None
         self._column_mapping = column_mapping
         self._pareto_front = None
@@ -47,7 +47,8 @@ class decisionTreeCandidateGenerator:
         candidates = {}
         total_features = len(self._column_mapping)
         for i in range(self._num_candidates):
-            params = self._config.get_all_parameter(total_features=total_features)
+            params = self._config.get_rand_param_based_on_user_config(total_features=total_features)
+            print(params)
             feature_subset_index = self._sample_feature_subset(params['nr_of_attributes'])
             feature_subset = [list(self._column_mapping.keys())[ii] for ii in feature_subset_index]
             feature_subset_mapped = []

@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, make_response, send_from_directory
 import uuid
 import json
-from decisionTreeConfig import decisionTreeConfig
+from userConfig import userConfig
 
 from sklearn.model_selection import train_test_split
 import pandas as pd
@@ -72,7 +72,7 @@ def set_userId():
     uuid4 = str(uuid.uuid4())
     # Generate decision tree candidates for current new user
     db[uuid4] = {'id' : uuid4,
-                 'userConfig' : decisionTreeConfig()
+                 'userConfig' : userConfig()
                 }
     response = make_response(jsonify({'code' : 200, 'userId': uuid4, 'msg' : 'NEW USER CREATED'}), 200) # create a response object
     response.set_cookie('uuid', uuid4, max_age=60*60*2)  # cookie valid for 2 hours
@@ -97,18 +97,7 @@ def get_user_config():
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
     uuid4 = request.cookies.get('uuid')
     return make_response(jsonify({'code' : 200, 
-                                  'data': db[uuid4]['userConfig'].get_all_parameter(), 
-                                  'userId': uuid4, 
-                                  'msg' : 'OK'
-                                }), 200)
-
-@app.route('/api/v1/user/get-random-config', methods=['GET'])
-def get_random_config():
-    if not is_user_exists(request):
-        return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
-    uuid4 = request.cookies.get('uuid')
-    return make_response(jsonify({'code' : 200, 
-                                  'data': db[uuid4]['userConfig'].pick_random_parameters(), 
+                                  'data': db[uuid4]['userConfig'].get_config(), 
                                   'userId': uuid4, 
                                   'msg' : 'OK'
                                 }), 200)
@@ -127,7 +116,7 @@ def set_user_configs():
         user_config = db[uuid4]['userConfig']
 
         # Set the parameters using the parsed JSON data
-        user_config.set_parameters(**data)
+        user_config.set_config(**data)
 
         return jsonify({'code' : 200, 'userId': uuid4, 'msg' : 'USER CONFIG SET'}), 200
     except ValueError as e:

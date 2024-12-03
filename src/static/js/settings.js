@@ -184,7 +184,7 @@ function applyDefault() {
 
     document.getElementById("round-to-significant-digit").value = 2;
 
-    document.getElementById("stochastic-samples").value = 100;
+    document.getElementById("stochastic-samples").value = 300;
 
     document.querySelectorAll('input[type="checkbox"][id^="selection-criterion"]').forEach((checkbox) => {
         checkbox.checked = true;

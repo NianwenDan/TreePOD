@@ -33,5 +33,5 @@ class decisionTreeConfig:
         Retrieves the stored parameters
         """
         randData = self._pick_random_parameters()
-        randData['nr_of_attributes'] = total_features
+        randData['nr_of_attributes'] = self._generate_random_int(1, total_features+1)
         return randData

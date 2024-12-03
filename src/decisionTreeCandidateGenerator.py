@@ -10,7 +10,7 @@ class decisionTreeCandidateGenerator:
         self._X_test = X_test
         self._y_test = y_test
         self._config = config
-        self._num_candidates = config.get_rand_param_based_on_user_config()['total_samples']
+        self._num_candidates = config._user_config['stochastic-samples']
         self._candidates = None
         self._column_mapping = column_mapping
         self._pareto_front = None

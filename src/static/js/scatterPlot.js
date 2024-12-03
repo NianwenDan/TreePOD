@@ -34,6 +34,8 @@ Promise.all([
 //all_data = JSON.parse(JSON.stringify(response.data));
 
 function initializeApplication() {
+    // Remove Loading overlay
+    d3.select('#loading-msg-overlay').remove();
     // Execute this step to get the initial pareto optimal tree number and display in the summary panel
     updateParetoFront("Nr. of Nodes", "Accuracy [F1 score]");
 

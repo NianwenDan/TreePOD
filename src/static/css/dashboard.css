@@ -1,22 +1,43 @@
+#summary-panel {
+    max-width: 400px;
+}
+
+#summary-panel .placeholder {
+    width: 350px;
+    height: 350px;
+}
+
+#scatter-plot .placeholder {
+    width: 350px;
+    height: 350px;
+}
+
+#treemap .placeholder {
+    width: 100px;
+    height: 100px;
+}
+
 #decision-tree-svg {
     width: 1210px;
     height: 500px;
     background-color: white;
     border: 1px solid lightgray;
     border-radius: 3px;
-    transform-origin: top left; /* Scaling starts from the top left corner */
-    transition: transform 0.3s ease-in-out; /* Smooth zoom transition */
+    transform-origin: top left;
+    /* Scaling starts from the top left corner */
+    transition: transform 0.3s ease-in-out;
+    /* Smooth zoom transition */
 }
 
 .tree-map-svg {
     width: 100px;
-    height:100px;
+    height: 100px;
     background-color: white;
 }
 
 #scatter-plot-svg {
     width: 500px;
-    height:500px;
+    height: 500px;
     background-color: white;
     /* border: 1px solid lightgray; */
     /* border-radius: 3px; */
@@ -24,7 +45,7 @@
 
 #confusion-matrix-svg {
     width: 300px;
-    height:300px;
+    height: 300px;
     background-color: white;
     /* border: 1px solid lightgray; */
     /* border-radius: 3px; */
@@ -33,3 +54,11 @@
 /* .dropdown-container {
     margin: 20px;
 } */
+
+.roboto-mono-applier {
+    font-family: "Roboto Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+

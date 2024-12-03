@@ -9,6 +9,9 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&display=swap" rel="stylesheet">
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
@@ -42,6 +45,60 @@
 
     <!-- Main Content -->
     <div class="container">
+        <!-- Summary Panel & Scatter Plot & Confusion Matrix -->
+        <div class="row-container position-relative">
+            <div class="row mb-2">
+                <div id="loading-msg-overlay" class="overlay position-absolute w-100 h-100 d-flex align-items-center justify-content-center" style="background: rgba(0, 0, 0, 0.5); z-index: 10;">
+                    <h3 class="text-white">Loading ... This may take up to 30 seconds.</h3>
+                </div>
+                <!-- Summary Panel -->
+                <div class="col col-md-auto">
+                    <div id="summary-panel" class="roboto-mono-applier">
+                        <h4>Summary</h4>
+                    </div>
+                </div>
+    
+                <div class="col col-md-auto">
+                    <!-- Scatter Plot -->
+                    <svg id="scatter-plot-svg"></svg>
+                </div>
+    
+                <div class="col col-md-auto">
+                    <!-- Confusion Matrix -->
+                    <svg id="confusion-matrix-svg">
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TreeMap -->
+        <div class="row justify-content-md-center mb-2" id="treemap">
+            <span class="col col-md-auto me-2 placeholder-glow">
+                <span class="placeholder"></span>
+            </span>
+            <span class="col col-md-auto me-2 placeholder-glow">
+                <span class="placeholder"></span>
+            </span>
+            <span class="col col-md-auto me-2 placeholder-glow">
+                <span class="placeholder"></span>
+            </span>
+            <span class="col col-md-auto me-2 placeholder-glow">
+                <span class="placeholder"></span>
+            </span>
+            <span class="col col-md-auto me-2 placeholder-glow">
+                <span class="placeholder"></span>
+            </span>
+            <span class="col col-md-auto me-2 placeholder-glow">
+                <span class="placeholder"></span>
+            </span>
+            <span class="col col-md-auto me-2 placeholder-glow">
+                <span class="placeholder"></span>
+            </span>
+            <span class="col col-md-auto me-2 placeholder-glow">
+                <span class="placeholder"></span>
+            </span>
+        </div>
+        <!-- Decision Tree svg -->
         <div class="row justify-content-md-center mb-2">
             <div class="col col-md-auto">
                 <svg id="decision-tree-svg">
@@ -51,10 +108,6 @@
         </div>
         <!-- X Axis and Y Axis Dropdown -->
         <div class="row">
-            <!-- <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">@</span>
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-            </div> -->
             <div class="col-md-3">
                 <!-- X Axis Dropdown -->
                 <div class="input-group mb-3">
@@ -77,33 +130,9 @@
                 </div>
             </div>
         </div>
-        <!-- TreeMap -->
-        <div class="row justify-content-md-center mb-2" id="treemap">
-        </div>
+        
 
-        <div class="row justify-content-md-center mb-2">
-            <!-- Summary Panel -->
-            <div class="col col-md-auto">
-                <div id="summary-panel" class="card mb-3">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Summary</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col col-md-auto">
-                <!-- Scatter Plot -->
-                <svg id="scatter-plot-svg">
-                    <!-- <text x="20" y="35" class="small">Scatter Plot</text> -->
-                </svg>
-            </div>
-
-            <div class="col col-md-auto">
-                <!-- Confusion Matrix -->
-                <svg id="confusion-matrix-svg">
-                </svg>
-            </div>
-        </div>
+        
     </div>
 
     <!-- Footer -->

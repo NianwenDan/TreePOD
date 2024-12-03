@@ -18,7 +18,7 @@ function createSummaryPanel(data) {
 
     // Last row without bottom border
     innerSummaryPanel.append("div").attr("class", "row pareto-optimal").style("padding", "10px").html(`<strong>Pareto optimal: ${paretoFrontTreeNum} trees</strong>`);
-    innerSummaryPanel.append("div").attr("class", "row pareto-attributes").style("padding-bottom", "10px").html(`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(for ${xAttribute}, ${yAttribute})`);
+    innerSummaryPanel.append("div").attr("class", "row pareto-attributes").style("padding-bottom", "10px").html(`(for ${xAttribute}, ${yAttribute})`);
     //innerSummaryPanel.append("br");
 }
 

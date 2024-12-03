@@ -20,8 +20,9 @@ function createDropdown() {
 }
 
 function updateTreeMap(paretoCandidates) {
-    // Clear all existing treemaps
+    // Clear all existing treemaps and placeholder
     d3.select("#treemap").selectAll(".tree-map-svg").remove();
+    d3.select("#treemap").selectAll(".placeholder-glow").remove();
 
     const paretoTreemap = paretoCandidates.filter(d => d["number_of_nodes"]>1);
     console.log('paretoTreemap: ', paretoTreemap);

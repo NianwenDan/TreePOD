@@ -10,7 +10,7 @@ model_bp = Blueprint('model', __name__)
 @model_bp.route('/train-start', methods=['GET'])
 def train_start():
     uuid4 = request.cookies.get('uuid')
-    if uuid4 and uuid4 not in db: # cannot find user
+    if not uuid4 or uuid4 not in db: # cannot find user
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
     user_config = db[uuid4]['userConfig']
     if not user_config.is_config_valid(): # user config either not set or not pass check
@@ -52,7 +52,7 @@ def start_train_thread(uuid4):
 def train_status():
     uuid4 = request.cookies.get('uuid')
     # cannot find user
-    if uuid4 and uuid4 not in db:
+    if not uuid4 or uuid4 not in db:
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
     user_config = db[uuid4]['userConfig']
     # user config either not set or not pass check
@@ -84,7 +84,7 @@ def train_status():
 def trained_trees():
     uuid4 = request.cookies.get('uuid')
     # cannot find user
-    if uuid4 and uuid4 not in db:
+    if not uuid4 or uuid4 not in db:
         return make_response(jsonify({'code' : 404, 'userId': None, 'msg' : 'NO USER FOUND, CREATE A USER FIRST'}), 404)
     user_config = db[uuid4]['userConfig']
     # user config either not set or not pass check
@@ -105,9 +105,16 @@ def trained_trees():
         return jsonify(data)
     data = {
         'code' : 200,
-        'data': generator.trees_info(),
+        'data': None,
         'userId': uuid4,
         'msg' : 'OK'
     }
-
+    # determine if return all trees or filtered trees
+    filter = request.args.get('filter', type = str)
+    user_config_settings = user_config.get_config()
+    if filter == 'selected-features':
+        data['data'] = generator.trees_info_with_filter(included_features=user_config_settings.get('feature-set'))
+        return jsonify(data)
+    
+    data['data'] = generator.trees_info()
     return jsonify(data)

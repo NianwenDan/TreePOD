@@ -180,8 +180,6 @@ function applyDefault() {
 
     document.getElementById("min-leaf-size").value = 20;
 
-    document.getElementById("pruning").checked = true;
-
     document.getElementById("round-to-significant-digit").value = 2;
 
     document.getElementById("stochastic-samples").value = 300;
@@ -247,7 +245,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    const applyDefaultBtn = document.querySelector("#apply-default-btn");
+    const applyDefaultBtn = document.querySelector("#apply-training-default-btn");
     applyDefaultBtn.addEventListener("click", (e) => {
         e.preventDefault();
         applyDefault();

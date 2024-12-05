@@ -1,7 +1,7 @@
 from decisionTreeTrainer import decisionTreeTrainer
 from decisionTreeConfig import decisionTreeConfig
 from paretoAnalysis import paretoAnalysis
-import random
+import random, copy
 
 class decisionTreeCandidateGenerator:
     def __init__(self, X_train, y_train, X_test, y_test, column_mapping, config: decisionTreeConfig):
@@ -13,7 +13,7 @@ class decisionTreeCandidateGenerator:
         self._num_candidates = config._user_config['stochastic-samples']
         self._candidates = None
         self._column_mapping = column_mapping
-        self._pareto_front = None
+        self._all_trees = None
 
         self._status = {
             'code' : -1,
@@ -91,6 +91,9 @@ class decisionTreeCandidateGenerator:
         '''
         if not self._candidates:
             return None
+        # If already been calculated before
+        if self._all_trees:
+            return self._all_trees
         candidate_info = []
         for t in self._candidates.values():
             tree = t['tree_object']
@@ -115,11 +118,34 @@ class decisionTreeCandidateGenerator:
 
         output = {
             'total_candidates_before_pruning': len(candidate_info),
-            'total_candidates_after_pruning': len([info for info in candidate_info if info['number_of_nodes'] > 1]),    # TODO: correct the pruning logic
+            # 'total_candidates_after_pruning': len([info for info in candidate_info if info['number_of_nodes'] > 1]),    # Do Not Output total_candidates_after_pruning when return all trees
             'pareto_front': pareto_front.pareto_front,
             'candidates': candidate_info
         }
+        self._all_trees = output  # store the output to _all_trees prevent calculate mutiple times
         return output
+    
+
+    def trees_info_with_filter(self, included_features: list):
+        """
+        Filters trees to include only those with specific features in their feature subset.
+        """
+        # Firt get all trees
+        trees = self.trees_info()
+        # Create a deep copy of the original tree to avoid altering it
+        trees_copy = copy.deepcopy(trees)
+        # Filter trees that include at least one of the specified features
+        included_candidates = [
+            candidate for candidate in trees_copy["candidates"]
+            if any(feature in included_features for feature in candidate["feature_subset"])
+        ]
+
+        # Update the JSON structure
+        trees_copy["candidates"] = included_candidates
+        trees_copy["total_candidates_after_pruning"] = len(included_candidates)
+        trees_copy["included_features"] = included_features
+
+        return trees_copy
 
 
     def tree_structure(self, tree_id: int) -> dict:

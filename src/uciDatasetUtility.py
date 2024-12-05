@@ -70,6 +70,10 @@ def mainDataProcessing_UCI(path, dataProcessing_UCI, categorical_columns):
     return X_train, y_train, X_test, y_test
 
 
+def features_in_dataset():
+    return ["age", "workclass", "fnlwgt", "education", "education-num", "marital-status", "occupation", "relationship", "race", "sex", "capital-gain", "capital-loss", "hours-per-week", "native-country", "income"]
+
+
 def get_decision_tree_candidate_generator_params():
     # Check and load data
     categorical_columns = ['workclass', 'education', 'occupation', 'race', 'sex', 'native-country', 'income']

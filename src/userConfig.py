@@ -1,6 +1,7 @@
 
 class userConfig:
     def __init__(self):
+        # Training Settings
         self._feature_set = None
         self._selection_criterion = None # This should be an array list all possible criterions
         self._max_depth_range = None # This should be an array [0, 100]
@@ -8,6 +9,8 @@ class userConfig:
         self._is_enable_puring = None
         self._round_to_significant_digit = None
         self._stochastic_samples = None
+        # Filtering Settings
+        self._included_attributes_for_filter = None # This should be an array list all possible included attributes
 
     def set_config(self, **kwargs):
         name_mapping = {
@@ -17,7 +20,8 @@ class userConfig:
             'min-leaf-size': '_min_leaf_size',
             'pruning': '_is_enable_puring',
             'round-to-significant-digit' : '_round_to_significant_digit',
-            'stochastic-samples' : '_stochastic_samples'
+            'stochastic-samples' : '_stochastic_samples',
+            'included-attributes-for-filter' : '_included_attributes_for_filter'
         }
         for key, value in kwargs.items():
             print(key, value)
@@ -37,7 +41,8 @@ class userConfig:
             'min-leaf-size': self._min_leaf_size,
             'pruning': self._is_enable_puring,
             'round-to-significant-digit' : self._round_to_significant_digit,
-            'stochastic-samples' : self._stochastic_samples
+            'stochastic-samples' : self._stochastic_samples,
+            'included-attributes-for-filter' : self._included_attributes_for_filter
         }
     
     def is_config_valid(self):

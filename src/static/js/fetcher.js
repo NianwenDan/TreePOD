@@ -51,6 +51,7 @@ window.fetcher = {
   userGetConfig: () => fetchData('/user/get-config'),
   userSetConfigs: (data) => postData('/user/set-configs', data),
   datasetList: () => fetchData('/dataset/list'),
+  datasetAttributes: (datasetName) => fetchData(`/dataset/attributes?dataset=${datasetName}`),
   modelTrainStart: () => fetchData('/model/train-start'),
   modelTrainStatus: () => fetchData('/model/train-status'),
   modelTrees: () => fetchData('/model/trees'),

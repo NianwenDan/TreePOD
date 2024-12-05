@@ -18,7 +18,7 @@ def list_attributes():
         return jsonify(
         {'code' : 200, 
          'msg' : 'OK', 
-         'data': features_in_UCI_dataset()
+         'data': ['capital-loss', 'income']
         })
     elif dataset == 'Online_Payment_Fraud':
         return jsonify(

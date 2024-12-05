@@ -205,7 +205,7 @@ function validateForm() {
         seletedFilterIncludeAttirbute.classList.add("is-invalid");
         isValid = false;
     } else {
-        seletedFilterIncludeAttirbute.remove("is-invalid");
+        seletedFilterIncludeAttirbute.classList.remove("is-invalid");
     }
 
     return isValid;

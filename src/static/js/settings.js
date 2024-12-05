@@ -5,7 +5,7 @@ function populateFormFromConfig(configData) {
         const element = document.getElementById(key);
 
         if (Array.isArray(value)) {
-            console.log(key, value)
+            // console.log(key, value)
             if (key === "selection-criterion") {
                 // Uncheck all first
                 const allCheckBoxes = document.querySelectorAll('.selection-criterion');
@@ -16,7 +16,7 @@ function populateFormFromConfig(configData) {
                 // Handle multiple checkboxes for selection criteria
                 value.forEach((criterion) => {
                     const checkbox = document.querySelector(`input[type="checkbox"][value="${criterion}"]`);
-                    console.log(checkbox);
+                    // console.log(checkbox);
                     if (checkbox) {
                         checkbox.checked = true;
                     }
@@ -30,6 +30,14 @@ function populateFormFromConfig(configData) {
                     minElement.value = min;
                     maxElement.value = max;
                 }
+            } else if (key === "included-attributes-for-filter") {
+                const seletedFilterIncludeAttirbute = document.getElementById('filter-include-attirbute');
+                // Iterate through all <option> elements
+                Array.from(seletedFilterIncludeAttirbute.options).forEach(option => {
+                    if (value.includes(option.value)) {
+                        option.selected = true; // Mark the option as selected
+                    }
+                });
             } else {
                 // Handle generic multi-value fields
                 element.value = value.join(", ");
@@ -47,8 +55,8 @@ function populateFormFromConfig(configData) {
 function gatherFormValues() {
     const formValues = {};
 
-    const featureSet = document.getElementById("feature-set").value;
-    formValues["feature-set"] = featureSet ? featureSet.split(",").map((item) => item.trim()) : [];
+    // const featureSet = document.getElementById("feature-set").value;
+    // formValues["feature-set"] = featureSet ? featureSet.split(",").map((item) => item.trim()) : [];
 
     const maxDepthMin = document.getElementById("max-depth-range-min").value;
     const maxDepthMax = document.getElementById("max-depth-range-max").value;
@@ -75,7 +83,30 @@ function gatherFormValues() {
     });
     formValues["selection-criterion"] = selectedCriteria;
 
+    const seletedFilterIncludeAttirbute = document.getElementById('filter-include-attirbute');
+    formValues["included-attributes-for-filter"] = Array.from(seletedFilterIncludeAttirbute.selectedOptions).map(option => option.value);
+
     return formValues;
+}
+
+async function loadAttributes() {
+    try {
+        const response = await window.fetcher.datasetAttributes('UCI_Census_Income_1994');
+        if (response.code === 200) {
+            const seletedFilterIncludeAttirbute = document.getElementById('filter-include-attirbute');
+            const includeAttributesOptions = response.data;
+            includeAttributesOptions.forEach(attr => {
+                const option = document.createElement('option');
+                option.value = attr; // Set the value
+                option.textContent = attr; // Set the display text
+                seletedFilterIncludeAttirbute.appendChild(option); // Add the option to the select
+            });
+        } else {
+            console.error("Failed to fetch user configuration:", response);
+        }
+    } catch (error) {
+        console.error("Error fetching user configuration:", error);
+    }
 }
 
 async function loadUserSettings() {
@@ -167,6 +198,16 @@ function validateForm() {
         stochasticSamples.classList.remove("is-invalid");
     }
 
+    // Check filter-include-attirbute
+    const seletedFilterIncludeAttirbute = document.getElementById('filter-include-attirbute');
+    const userSelected = Array.from(seletedFilterIncludeAttirbute.selectedOptions).map(option => option.value);
+    if (userSelected.length === 0) {
+        seletedFilterIncludeAttirbute.classList.add("is-invalid");
+        isValid = false;
+    } else {
+        seletedFilterIncludeAttirbute.remove("is-invalid");
+    }
+
     return isValid;
 }
 
@@ -196,6 +237,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
+    await loadAttributes();
     await loadUserSettings();
 
     const startTrainBtn = document.querySelector("#start-training-btn");
@@ -245,7 +287,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    const applyDefaultBtn = document.querySelector("#apply-training-default-btn");
+    const applyDefaultBtn = document.querySelector("#apply-default-btn");
     applyDefaultBtn.addEventListener("click", (e) => {
         e.preventDefault();
         applyDefault();

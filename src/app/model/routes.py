@@ -113,7 +113,7 @@ def trained_trees():
     filter = request.args.get('filter', type = str)
     user_config_settings = user_config.get_config()
     if filter == 'selected-features':
-        data['data'] = generator.trees_info_with_filter(included_features=user_config_settings.get('feature-set'))
+        data['data'] = generator.trees_info_with_filter(included_features=user_config_settings.get('included-attributes-for-filter'))
         return jsonify(data)
     
     data['data'] = generator.trees_info()

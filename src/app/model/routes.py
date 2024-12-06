@@ -23,7 +23,7 @@ def train_start():
     decision_tree_config.set_parameters(user_config.get_config())
 
     # Create decision tree candidate generator based on user selected dataset
-    user_selected_dataset = db[uuid4]['userConfig'].get_config()['dataset']
+    user_selected_dataset = db[uuid4]['userConfig'].get_selected_dataset()
     print(f'train start, trained used dataset {user_selected_dataset}')
     if user_selected_dataset == 'UCI_Census_Income_1994':
         X_train, y_train, X_test, y_test, column_mapping = get_uci_dataset_decision_tree_candidate_generator_params()

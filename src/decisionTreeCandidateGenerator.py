@@ -156,9 +156,19 @@ class decisionTreeCandidateGenerator:
         
         @return: dict: the structure of the decision tree
         '''
-        if not tree_id or tree_id not in self._candidates:
+        if not tree_id:
             return None
-        return self._candidates[tree_id]['tree_object'].tree_structure()
+    
+        # Find the correct tree_object
+        tree_candidate = next(
+            (t for t in self._candidates.values() if t['tree_object'].id() == tree_id), 
+            None
+        )
+        
+        if not tree_candidate:
+            return None
+
+        return tree_candidate['tree_object'].tree_structure()
     
     
     def tree_image(self, tree_id: int, length: int, width: int, dpi: int) -> bytes:
@@ -174,7 +184,15 @@ class decisionTreeCandidateGenerator:
         '''
         if not self._candidates:
             return None
-        return self._candidates[tree_id]['tree_object'].tree_img(length, width, dpi)
+        # Find the correct tree_object
+        tree_candidate = next(
+            (t for t in self._candidates.values() if t['tree_object'].id() == tree_id), 
+            None
+        )
+        
+        if not tree_candidate:
+            return None
+        return tree_candidate['tree_object'].tree_img(length, width, dpi)
 
     def get_confusion_matrix(self, tree_id: int) -> dict:
         '''
@@ -184,9 +202,17 @@ class decisionTreeCandidateGenerator:
         
         @return: dict: the confusion matrix of the decision tree
         '''
-        if not self._candidates or tree_id not in self._candidates:
+        if not self._candidates:
             return None
-        return self._candidates[tree_id]['tree_object'].confusion_matrix()
+        # Find the correct tree_object
+        tree_candidate = next(
+            (t for t in self._candidates.values() if t['tree_object'].id() == tree_id), 
+            None
+        )
+        
+        if not tree_candidate:
+            return None
+        return tree_candidate['tree_object'].confusion_matrix()
 
     def get_pareto_hierarchy_data(self) -> dict:
         '''

@@ -1,6 +1,6 @@
 // 树形决策树数据
 let total_samples = 0
-
+let g
 function tree_diagram(id){
     //d3.json("../../../example/api/tree/structure.json").then(function(data) {
     url = `http://127.0.0.1:5500/api/v1/tree/structure?treeId=${id}`
@@ -49,7 +49,7 @@ function tree_diagram(id){
             })
 
     //Tree Diagram本体
-        const g = svg.append("g")
+        g = svg.append("g")
             .attr("transform", "rotate(90, 200, 200) translate(100, -200)")
     //Link部分
         const link = g.selectAll(".link")
@@ -83,6 +83,11 @@ function tree_diagram(id){
                     .attr("stroke", color[i])
                     .attr("stroke-width", v*link_width); // 动态宽度
                 last = v*link_width
+                // 生成粒子
+                sample_num = Math.floor(v*1000*(d.target.data.samples / total_samples))
+                for (let j = 1; j <= sample_num; j++) {
+                    createParticle(d.source.y+sumOffset*sinValue, d.source.x+sumOffset*cosValue, d.target.y+sumOffset*sinValue, d.target.x+sumOffset*cosValue, color[i], d.source.depth)
+                }
             });
         })
         const node = g.selectAll(".node")
@@ -183,19 +188,6 @@ function tree_diagram(id){
             .attr("font-size", "14px")
             .attr("fill", "#000");
     // Notes        
-        const placeholder = svg.append("g")
-            .attr("class", "placeholder")
-            .attr("transform", "translate(1000, 20)");
-        placeholder.append("rect")
-            .attr("width", 200)
-            .attr("height", 300)
-            .attr("fill","grey")
-        placeholder.append("text")
-            .attr("x", 30)
-            .attr("y", 15)
-            .text("Placeholder")
-            .attr("font-size", "14px")
-            .attr("fill", "black");
     })
     .catch(error => {
         console.error("Error loading data:", error);
@@ -279,5 +271,25 @@ function highlightNodes(node) {
         currentNode = currentNode.parent;
     }
 }
-
+function createParticle(x1, y1, x2, y2, color, depth){
+    init = Math.random()
+    speed = 1 + Math.random() * 0.3
+    // radius = 2 + Math.random() * 3 
+    const particle = g.append("circle")
+        .attr("cx", x1+ Math.random() * 20-10)
+        .attr("cy", y1+ Math.random() * 20-10)
+        .attr("r", 3)
+        .attr("fill", color)
+        .attr("stroke", "black") // 边框颜色
+        .attr("stroke-width", 1); // 边框宽度
+    particle.transition()
+        .duration(speed*8000)
+        .delay(init*20000 + depth*10000)
+        .ease(d3.easeLinear)
+        .attr("cx",  x2+ Math.random() * 20-10)
+        .attr("cy", y2+ Math.random() * 20-10)        
+        .on("end", function() {
+            d3.select(this).remove();
+        });
+}
 tree_diagram(2)

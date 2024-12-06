@@ -21,7 +21,7 @@
     width: 1210px;
     height: 500px;
     background-color: white;
-    border: 1px solid lightgray;
+    /* border: 1px solid lightgray; */
     border-radius: 3px;
     transform-origin: top left;
     /* Scaling starts from the top left corner */

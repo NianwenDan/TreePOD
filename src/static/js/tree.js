@@ -132,20 +132,20 @@ function tree_diagram(id){
     // 显示节点名称
         text_y = -15
         node.append("text")
-            .attr("dy", text_y)
-            .attr("text-anchor", "middle")
-            .text(d => d.data.name);
+        .attr("dy", text_y)
+        .attr("text-anchor", "middle")
+        .text(d => d.data.name);
         node.append("text")
-            .attr("dy", text_y+20)
-            .attr("text-anchor", "middle")
-            .text(d => {
-                if(d.data.position == "right"){
-                    return ">"+d.data.threshold
-                }
-                if(d.data.position == "left"){
-                    return "<="+d.data.threshold
-                }
-            });
+        .attr("dy", text_y+20)
+        .attr("text-anchor", "middle")
+        .text(d => {
+            if(d.data.position == "right"){
+                return ">"+d.data.threshold
+            }
+            if(d.data.position == "left"){
+                return "<="+d.data.threshold
+            }
+        });
         node.each(function(d) {
             let currentNode = d3.select(this);
             d.element = this;

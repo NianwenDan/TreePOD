@@ -35,9 +35,11 @@ class userConfig:
             else:
                 raise ValueError(f"'{key}' is not a valid parameter name.")
             
+    def get_selected_dataset(self):
+        return self._selected_dataset
+            
     def get_config(self):
         return {
-            'dataset': self._selected_dataset,
             'feature-set': self._feature_set,
             'selection-criterion': self._selection_criterion,
             'max-depth-range': self._max_depth_range,

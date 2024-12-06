@@ -1,6 +1,8 @@
 
 class userConfig:
-    def __init__(self):
+    def __init__(self, selected_dataset):
+        # User Selected Dataset
+        self._selected_dataset = selected_dataset
         # Training Settings
         self._feature_set = None
         self._selection_criterion = None # This should be an array list all possible criterions
@@ -35,6 +37,7 @@ class userConfig:
             
     def get_config(self):
         return {
+            'dataset': self._selected_dataset,
             'feature-set': self._feature_set,
             'selection-criterion': self._selection_criterion,
             'max-depth-range': self._max_depth_range,

@@ -60,7 +60,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     radioForm.addEventListener('submit', async (event) => {
       event.preventDefault(); // Prevent default form submission
       try {
-        const userIdResponse = await window.fetcher.systemSetUserId();
+        // Find which dataset being selected and then pass through to systemSetUserId()
+        const selectedRadio = document.querySelector('input[name="vbtn-radio"]:checked');
+        const selectedDataset = selectedRadio.value.replace(/ /g, '_');
+        
+        const userIdResponse = await window.fetcher.systemSetUserId(selectedDataset);
         if (userIdResponse.code === 200) {
           // Redirect to the settings
           window.location.href = '/settings';

@@ -16,11 +16,15 @@ def status():
 
 @system_bp.route('/set-userId', methods=['GET'])
 def set_user_id():
+    # require selected dataset str
+    selected_dataset = request.args.get('dataset')
+    if not selected_dataset:
+        return make_response(jsonify({'code' : 400, 'userId': None, 'msg' : 'NEW USER REQUIRED TO SELECT A DATASET'}), 200)
     # Set a cookie in the response object
     uuid4 = str(uuid.uuid4())
     # Generate decision tree candidates for current new user
     db[uuid4] = {'id' : uuid4,
-                 'userConfig' : userConfig(),
+                 'userConfig' : userConfig(selected_dataset=selected_dataset),
                  'decisionTreeConfig' : None,
                  'decisionTreeCandiateGenerator' : None
                 }

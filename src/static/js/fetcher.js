@@ -46,7 +46,7 @@ const postData = async (endpoint, jsonData) => {
 // Define global functions for specific endpoints
 window.fetcher = {
   systemStatus: () => fetchData('/system/status'),
-  systemSetUserId: () => fetchData('/system/set-userId'),
+  systemSetUserId: (datasetName) => fetchData(`/system/set-userId?dataset=${datasetName}`),
   systemGetUserId: () => fetchData('/system/get-userId'),
   userGetConfig: () => fetchData('/user/get-config'),
   userSetConfigs: (data) => postData('/user/set-configs', data),

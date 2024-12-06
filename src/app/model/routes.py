@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify, request, make_response
 from app.db import db
 from decisionTreeConfig import decisionTreeConfig
 from decisionTreeCandidateGenerator import decisionTreeCandidateGenerator
-from uciDatasetUtility import get_decision_tree_candidate_generator_params
+from uciDatasetUtility import get_decision_tree_candidate_generator_params as get_uci_dataset_decision_tree_candidate_generator_params
+from fraudDatasetUtility import get_decision_tree_candidate_generator_params as get_fraud_dataset_decision_tree_candidate_generator_params
 import _thread
 
 model_bp = Blueprint('model', __name__)
@@ -21,8 +22,14 @@ def train_start():
     decision_tree_config = db[uuid4]['decisionTreeConfig']
     decision_tree_config.set_parameters(user_config.get_config())
 
-    # Create decision tree candidate generator
-    X_train, y_train, X_test, y_test, column_mapping = get_decision_tree_candidate_generator_params()
+    # Create decision tree candidate generator based on user selected dataset
+    user_selected_dataset = db[uuid4]['userConfig'].get_config()['dataset']
+    print(f'train start, trained used dataset {user_selected_dataset}')
+    if user_selected_dataset == 'UCI_Census_Income_1994':
+        X_train, y_train, X_test, y_test, column_mapping = get_uci_dataset_decision_tree_candidate_generator_params()
+    else:
+        X_train, y_train, X_test, y_test, column_mapping = get_fraud_dataset_decision_tree_candidate_generator_params()
+
     if db[uuid4]['decisionTreeCandiateGenerator']:
         del db[uuid4]['decisionTreeCandiateGenerator']  # Manual Memory Recycle
     db[uuid4]['decisionTreeCandiateGenerator'] = decisionTreeCandidateGenerator(

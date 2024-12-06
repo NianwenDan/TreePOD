@@ -25,7 +25,11 @@ class decisionTreeTrainer:
 
         self._predict_data = None
         # TODO: remove hard-coded class_mapping
-        self.class_mapping = {"Married": 0, "Never married": 1, "Divorced or Separated": 2, "Widowed": 3}
+        print ('len(self._y_train):', len(np.unique(self._y_train)))
+        if len(np.unique(self._y_train)) > 2:
+            self.class_mapping = {"Married": 0, "Never married": 1, "Divorced or Separated": 2, "Widowed": 3}
+        else:
+            self.class_mapping = {"Not Fraud": 0, "Fraud": 1}
 
 
 

@@ -45,7 +45,7 @@ def dataProcessing_Fraud(df, categorical_columns):
     categorical_df = pd.get_dummies(df[[col for col in categorical_columns]])  # Exclude the target column
 
     # Combine numerical and encoded categorical data
-    X = pd.concat([df[numeric_columns], categorical_df], axis=1) 
+    X = pd.concat([df[numeric_columns], categorical_df], axis=1).drop(['FraudFound_P'], axis=1)
     #X.columns = [col[:-1] if col.endswith('.') else col for col in X.columns]
 
     # Step 4: Encode the target variable   
@@ -59,7 +59,7 @@ def mainDataProcessing_Fraud(path, dataProcessing_fraud, categorical_columns):
     X, y = dataProcessing_Fraud(df, categorical_columns)
 
     # Split back into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=50)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=50)
 
     X_train.to_csv(os.path.join(path, "Fraud_X_train.csv"), index=False)
     y_train.to_csv(os.path.join(path, "Fraud_y_train.csv"), index=False)
@@ -76,7 +76,7 @@ path = 'datasets/'
 
 result = check_and_load_data(path)
 if result:
-    X_train, y_train, X_test, y_test = result
+    X_train, y_train, X_test, y_test = mainDataProcessing_Fraud(path, dataProcessing_Fraud, categorical_columns)
 else:
     X_train, y_train, X_test, y_test = mainDataProcessing_Fraud(path, dataProcessing_Fraud, categorical_columns)
 

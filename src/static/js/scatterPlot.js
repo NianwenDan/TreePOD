@@ -289,6 +289,10 @@ function getAttributeValue(d, attribute) {
     switch (attribute) {
         case "Accuracy [F1 score]":
             return d["predicted"]["f1_score"];
+        case "Precision":
+            return d["predicted"]["precision"];
+        case "Recall":
+            return d["predicted"]["recall"];
         case "Nr. of Leaves":
             return d["number_of_leaves"] || 0; // Assuming "max_leaf_nodes" is available in params
         case "Nr. of Nodes":
@@ -315,6 +319,10 @@ function getAttributeName(attribute) {
             return "number_of_used_attributes"; //Object.keys(d.params.attributes).length;
         case "Depth":
             return "depth";
+        case "Precision":
+            return "precision";
+        case "Recall":
+            return "recall";
         default:
             return 0;
     }

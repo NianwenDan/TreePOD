@@ -108,6 +108,8 @@ function createTreeMap(id, treemapContainer) {
                 case "Never married": return "#ebbe4d";
                 case "Divorced or Separated": return "#cd1c18";
                 case "Widowed": return "#00965f";
+                case "Not Fraud": return "#002f6c";
+                case "Fraud": return "#ebbe4d";
                 default: return "gray";
             }
         });

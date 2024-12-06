@@ -117,7 +117,9 @@ function renderConfusionMatrix(dataUrl, containerId) {
         "Married": "#002F6C",
         "Never married": "#EBBE4D",
         "Divorced or Separated": "#CD1C18",
-        "Widowed": "#00965F"
+        "Widowed": "#00965F",
+        "Not Fraud":"#002F6C",
+        "Fraud":"#EBBE4D"
     };
 
     const defaultColor = "gray"; // Fallback color if a label doesn't match

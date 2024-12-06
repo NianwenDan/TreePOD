@@ -2,6 +2,7 @@
 let total_samples = 0
 let g
 function tree_diagram(id){
+    d3.select("#decision-tree-svg").selectAll("*").remove();
     //d3.json("../../../example/api/tree/structure.json").then(function(data) {
     url = `http://127.0.0.1:5500/api/v1/tree/structure?treeId=${id}`
     d3.json(url)
@@ -258,7 +259,7 @@ function highlightNodes(node) {
 
     d3.selectAll(".link")
         .attr("opacity",0.3)
-    console.log(node)
+    // console.log(node)
     while (currentNode) {
         d3.select(currentNode.element)
             .attr("fill", "black")
@@ -292,4 +293,4 @@ function createParticle(x1, y1, x2, y2, color, depth){
             d3.select(this).remove();
         });
 }
-tree_diagram(2)
+// tree_diagram(2)

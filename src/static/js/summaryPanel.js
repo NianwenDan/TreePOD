@@ -12,7 +12,7 @@ function createSummaryPanel(data) {
     //innerSummaryPanel.append("br");
 
     // Placeholder Rows 2 - 3 with bottom border
-    innerSummaryPanel.append("div").attr("class", "row").style("padding", "10px").style("border-bottom", "1px solid black").html(`<strong>Generation Parameter Filters (${data.total_candidates_before_pruning} trees)</strong>`);
+    // innerSummaryPanel.append("div").attr("class", "row").style("padding", "10px").style("border-bottom", "1px solid black").html(`<strong>Generation Parameter Filters (${data.total_candidates_before_pruning} trees)</strong>`);
     //innerSummaryPanel.append("br");
     displayFilterSummary(innerSummaryPanel);
 

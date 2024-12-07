@@ -76,7 +76,7 @@ path = 'datasets/'
 
 result = check_and_load_data(path)
 if result:
-    X_train, y_train, X_test, y_test = mainDataProcessing_Fraud(path, dataProcessing_Fraud, categorical_columns)
+    X_train, y_train, X_test, y_test = result
 else:
     X_train, y_train, X_test, y_test = mainDataProcessing_Fraud(path, dataProcessing_Fraud, categorical_columns)
 

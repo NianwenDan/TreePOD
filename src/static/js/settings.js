@@ -199,14 +199,15 @@ function validateForm() {
     }
 
     // Check filter-include-attirbute
-    const seletedFilterIncludeAttirbute = document.getElementById('filter-include-attirbute');
-    const userSelected = Array.from(seletedFilterIncludeAttirbute.selectedOptions).map(option => option.value);
-    if (userSelected.length === 0) {
-        seletedFilterIncludeAttirbute.classList.add("is-invalid");
-        isValid = false;
-    } else {
-        seletedFilterIncludeAttirbute.classList.remove("is-invalid");
-    }
+    // TODO: The front-end not implemented yet
+    // const seletedFilterIncludeAttirbute = document.getElementById('filter-include-attirbute');
+    // const userSelected = Array.from(seletedFilterIncludeAttirbute.selectedOptions).map(option => option.value);
+    // if (userSelected.length === 0) {
+    //     seletedFilterIncludeAttirbute.classList.add("is-invalid");
+    //     isValid = false;
+    // } else {
+    //     seletedFilterIncludeAttirbute.classList.remove("is-invalid");
+    // }
 
     return isValid;
 }
